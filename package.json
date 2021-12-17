@@ -1,0 +1,36 @@
+{
+    "name": "@rbxts/zycore",
+    "description": "Utilities I have considered useful for my projects.",
+    "version": "1.0.0",
+    "main": "out/init.lua",
+    "license": "MIT",
+    "scripts": {
+        "build": "rbxtsc",
+        "watch": "rbxtsc -w",
+        "prepublishOnly": "yarn run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zyrakia/zycore"
+    },
+    "bugs": {
+        "url": "https://github.com/zyrakia/zycore/issues"
+    },
+    "types": "out/index.d.ts",
+    "files": [
+        "out/**/!(*.spec|*.server).(lua|d.ts)"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "keywords": [
+        "roblox",
+        "roblox-ts",
+        "rbxts",
+        "utils"
+    ],
+    "devDependencies": {
+        "@rbxts/compiler-types": "^1.2.7-types.0",
+        "@rbxts/types": "^1.0.551"
+    }
+}
