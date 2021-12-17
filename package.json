@@ -7,7 +7,8 @@
     "scripts": {
         "build": "rbxtsc",
         "watch": "rbxtsc -w",
-        "prepublishOnly": "yarn run build"
+        "prepublishOnly": "yarn run build",
+        "test": "rbxtsc --type=game && rojo build -o ./test.rbxlx && run-in-roblox --place ./test.rbxlx --script ./out/test-runner.server.lua"
     },
     "repository": {
         "type": "git",
@@ -17,9 +18,6 @@
         "url": "https://github.com/zyrakia/zycore/issues"
     },
     "types": "out/index.d.ts",
-    "files": [
-        "out/**/!(*.spec|*.server).(lua|d.ts)"
-    ],
     "publishConfig": {
         "access": "public"
     },
@@ -31,6 +29,8 @@
     ],
     "devDependencies": {
         "@rbxts/compiler-types": "^1.2.7-types.0",
+        "@rbxts/services": "^1.2.0",
+        "@rbxts/testez": "^0.3.1-ts.7",
         "@rbxts/types": "^1.0.551"
     }
 }
