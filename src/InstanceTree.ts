@@ -130,7 +130,6 @@ export namespace InstanceTree {
 	 *
 	 * @param instance The instance to start with.
 	 * @param filter The type to filter by.
-	 *
 	 * @returns The first ancestor of the given instance that is not of the given type.
 	 */
 	export function findHighestAncestorNotOfClass<T extends keyof Instances>(
