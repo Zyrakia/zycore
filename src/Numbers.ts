@@ -16,7 +16,7 @@ export namespace Numbers {
 	 * Returns the given list of numbers evenly spread out into a NumberSequence.
 	 *
 	 * @param numbers The list of numbers to spread out.
-	 * @reutrns The spread out list of numbers.
+	 * @returns The spread out list of numbers.
 	 */
 	export function sequence(...numbers: number[]) {
 		const size = numbers.size();
