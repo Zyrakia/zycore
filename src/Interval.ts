@@ -8,6 +8,7 @@ export type Timeout = {
 
 /**
  * Creates an interval that runs the function every `interval` seconds.
+ * Note that the first run will happen after `interval` seconds.
  *
  * @param cb The function to run.
  * @param interval The interval in seconds.
