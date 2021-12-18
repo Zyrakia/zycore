@@ -9,7 +9,7 @@ export = () => {
 				count++;
 			}, 0.1);
 
-			task.wait(0.3);
+			task.wait(0.32);
 			interval.destroy();
 
 			expect(count).to.equal(2);
