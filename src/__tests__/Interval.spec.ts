@@ -7,12 +7,17 @@ export = () => {
 
 			const interval = setInterval(() => {
 				count++;
-			}, 0.1);
+			}, 0.5);
+			task.wait(0.5);
+			expect(count).to.equal(1);
 
-			task.wait(0.32);
-			interval.destroy();
-
+			task.wait(0.5);
 			expect(count).to.equal(2);
+
+			task.wait(0.5);
+			expect(count).to.equal(3);
+
+			interval.destroy();
 		});
 	});
 
