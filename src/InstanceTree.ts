@@ -1,4 +1,5 @@
 import { Arrays } from 'Arrays';
+import { Strings } from 'Strings';
 
 export namespace InstanceTree {
 	/**
@@ -161,5 +162,27 @@ export namespace InstanceTree {
 	 */
 	export function cloneLock(instance: Instance) {
 		walkInclusive(instance, (i) => (i.Archivable = false));
+	}
+
+	/**
+	 * Connects the the AncestryChanged event of the given instance,
+	 * and calls the callback when the parent is undefined and locked.
+	 *
+	 * @param instance The instance to connect to.
+	 * @param callback The callback to call when the parent is undefined.
+	 * @returns The event connection.
+	 */
+	export function onDestroying(instance: Instance, cb: () => void) {
+		return instance.AncestryChanged.Connect((_, parent) => {
+			if (parent) return;
+
+			try {
+				instance.Parent = instance;
+			} catch (e) {
+				if (!typeIs(e, 'string')) return;
+				if (!Strings.includes(e, 'locked')) return;
+				cb();
+			}
+		});
 	}
 }

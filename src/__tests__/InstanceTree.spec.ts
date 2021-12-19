@@ -115,4 +115,31 @@ export = () => {
 			});
 		});
 	});
+
+	describe('onDestroying', () => {
+		it('should invoke the callback for a destroyed instance', () => {
+			const parent = new Instance('Part');
+			const part = new Instance('Part');
+			part.Parent = parent;
+
+			let called = false;
+			InstanceTree.onDestroying(part, () => (called = true));
+
+			part.Destroy();
+			expect(called).to.equal(true);
+		});
+
+		it('should not invoke the callback when parent is unset', () => {
+			const parent = new Instance('Part');
+			const part = new Instance('Part');
+			part.Parent = parent;
+
+			let called = false;
+			const conn = InstanceTree.onDestroying(part, () => (called = true));
+
+			part.Parent = undefined;
+			expect(called).to.equal(false);
+			conn.Disconnect();
+		});
+	});
 };
