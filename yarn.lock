@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@rbxts/bin@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@rbxts/bin/-/bin-1.2.1.tgz#967974d47cce714a480709b445b47f0dcfafb7ee"
+  integrity sha512-XEMaQy/JbSmquqtKhd0qiEA0ysMg7DuWc4CzlPofgj7APaqJ6DZ9eVoEIrYMFQc9SRQciSH/2UY71DF0yVh8xQ==
+
 "@rbxts/compiler-types@^1.2.3-types.1":
   version "1.2.3-types.1"
   resolved "https://registry.yarnpkg.com/@rbxts/compiler-types/-/compiler-types-1.2.3-types.1.tgz#d7945531c917d62bafadd2b5aa6c2f2e88a2036a"

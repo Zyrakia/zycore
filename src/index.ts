@@ -9,3 +9,4 @@ export { setInterval, setTimeout } from './Interval';
 export { Colors, RGB } from './Colors';
 export { Strings } from './Strings';
 export { Character } from './Character';
+export { BinMap } from './BinMap';
