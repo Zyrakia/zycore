@@ -7,3 +7,4 @@ export { DebouncerMap } from './DebouncerMap';
 export type { Interval, Timeout } from './Interval';
 export { setInterval, setTimeout } from './Interval';
 export { Colors, RGB } from './Colors';
+export { Strings } from './Strings';
