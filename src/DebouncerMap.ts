@@ -1,5 +1,9 @@
 import { Debouncer } from 'Debouncer';
 
+/**
+ * A utility class that tracks debouncers attached to keys.
+ * Debouncers are ensured to exist with every operation.
+ */
 export class DebouncerMap<T> {
 	private map = new Map<T, Debouncer>();
 
