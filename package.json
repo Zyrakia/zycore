@@ -28,6 +28,8 @@
         "utils"
     ],
     "dependencies": {
+        "@rbxts/promise-character": "^1.0.3",
+        "@rbxts/promise-child": "^1.2.0",
         "@rbxts/services": "^1.2.0"
     },
     "devDependencies": {
