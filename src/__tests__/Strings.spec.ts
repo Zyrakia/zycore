@@ -117,4 +117,23 @@ export = () => {
 			expect(lastCamel).to.equal('Baz');
 		});
 	});
+
+	describe('extractNumbers', () => {
+		it('should return the numbers in the string', () => {
+			const extractNumbers = Strings.extractNumbers('foo123bar456baz789');
+			expect(extractNumbers).to.equal('123456789');
+		});
+	});
+
+	describe('truncate', () => {
+		it('should return the truncated string', () => {
+			const truncate = Strings.truncate('foo', 2, '');
+			expect(truncate).to.equal('fo');
+		});
+
+		it('should return the truncated string with a suffix', () => {
+			const truncate = Strings.truncate('foo', 2, '...');
+			expect(truncate).to.equal('fo...');
+		});
+	});
 };

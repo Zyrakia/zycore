@@ -120,4 +120,28 @@ export namespace Strings {
 		[last] = last.gsub('%d+$', '');
 		return last;
 	}
+
+	/**
+	 * Returns all numbers in the specified string.
+	 *
+	 * @param str The string to get the numbers from.
+	 * @returns The numbers.
+	 */
+	export function extractNumbers(str: string) {
+		let result = '';
+		str.gsub('%d+', (v) => (result += v));
+		return result;
+	}
+
+	/**
+	 * Truncates a string to the specified length, then adds a suffix.
+	 *
+	 * @param str The string to truncate.
+	 * @param length The length to truncate to.
+	 * @param suffix The suffix to add.
+	 * @returns The truncated string.
+	 */
+	export function truncate(str: string, length: number, suffix = '...') {
+		return str.size() > length ? str.sub(0, length) + suffix : str;
+	}
 }
