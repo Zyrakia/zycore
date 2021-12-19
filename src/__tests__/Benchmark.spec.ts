@@ -7,7 +7,7 @@ export = () => {
 		});
 
 		it('should have an accurate benchmark time', () => {
-			expect(bench.get()).to.be.near(0.1, 0.025);
+			expect(bench.get()).to.be.near(0.1, 0.05);
 		});
 
 		it('should pass arguments properly', () => {
