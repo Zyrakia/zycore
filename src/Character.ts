@@ -13,6 +13,16 @@ export namespace Character {
 	}
 
 	/**
+	 * Returns the character model of the player.
+	 *
+	 * @param player The player to get the character model of.
+	 * @returns The character model of the player.
+	 */
+	export function getSync(player: Player) {
+		return player.Character || player.CharacterAdded.Wait()[0];
+	}
+
+	/**
 	 * Promises for the R15 character rig of the player.
 	 *
 	 * @param player The player to get the R15 character rig of.
