@@ -1,7 +1,7 @@
 {
     "name": "@rbxts/zycore",
     "description": "Utilities I have considered useful for my projects.",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "main": "out/init.lua",
     "license": "MIT",
     "scripts": {
@@ -30,11 +30,11 @@
     "dependencies": {
         "@rbxts/bin": "^1.2.1",
         "@rbxts/promise-character": "^1.0.3",
-        "@rbxts/promise-child": "^1.2.0",
-        "@rbxts/services": "^1.2.0"
+        "@rbxts/promise-child": "^1.2.0"
     },
     "devDependencies": {
         "@rbxts/compiler-types": "^1.2.7-types.0",
+        "@rbxts/services": "^1.2.0",
         "@rbxts/testez": "^0.3.1-ts.7",
         "@rbxts/types": "^1.0.551"
     }

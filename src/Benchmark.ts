@@ -1,6 +1,6 @@
-import { RunService } from '@rbxts/services';
-
 export namespace Benchmark {
+	const RunService = game.GetService('RunService');
+
 	/**
 	 * Runs a benchmark and returns a few utility functions to use the elapsed time.
 	 *
