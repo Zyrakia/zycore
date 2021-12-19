@@ -120,6 +120,24 @@ export class DebouncerMap<T> {
 	}
 
 	/**
+	 * Resets the debouncer.
+	 *
+	 * @param key The key of the debouncer.
+	 */
+	public reset(key: T) {
+		this.getDebouncer(key).reset();
+	}
+
+	/**
+	 * Resets all debouncers.
+	 */
+	public resetAll() {
+		for (const [, debouncer] of this.map) {
+			debouncer.reset();
+		}
+	}
+
+	/**
 	 * Returns the timeout of the debouncer.
 	 *
 	 * @param key The key of the debouncer.

@@ -14,17 +14,20 @@ export = () => {
 			expect(count).to.equal(1);
 		});
 
-		it('should lock', () => {
+		it('should lock/unlock', () => {
 			const debouncer = new Debouncer(0.1);
 			debouncer.lock();
 			expect(debouncer.check()).to.equal(false);
-		});
-
-		it('should unlock', () => {
-			const debouncer = new Debouncer(0.1);
-			debouncer.lock();
 			debouncer.unlock();
 			expect(debouncer.check()).to.equal(true);
+		});
+
+		it('should reset', () => {
+			const debouncer = new Debouncer(0.1);
+			expect(debouncer.try()).to.equal(true);
+			expect(debouncer.try()).to.equal(false);
+			debouncer.reset();
+			expect(debouncer.try()).to.equal(true);
 		});
 	});
 
