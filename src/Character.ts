@@ -44,9 +44,9 @@ export namespace Character {
 	 */
 	export async function getRigEither(player: Player) {
 		const char = await get(player);
-		const type = (await promiseChildOfClass(char, 'Humanoid')).RigType.Name;
-		if (type === 'R6') return promiseR6(char);
-		if (type === 'R15') return promiseR15(char);
-		throw `Unhandled RigType: ${type} on ${char.Name}!`;
+		const rigType = (await promiseChildOfClass(char, 'Humanoid')).RigType.Name;
+		if (rigType === 'R6') return promiseR6(char);
+		if (rigType === 'R15') return promiseR15(char);
+		throw `Unhandled RigType: ${rigType} on ${char.Name}!`;
 	}
 }
