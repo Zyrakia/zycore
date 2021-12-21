@@ -1,3 +1,63 @@
+import { RunService } from '@rbxts/services';
+
+class BenchmarkResult {
+	public constructor(private elapsed: number) {}
+
+	/**
+	 * Writes the benchmark result to the console in the format:
+	 * Benchmark({opName}?): {elapsedTime}
+	 *
+	 * @param opName The name of the operation being benchmarked.
+	 */
+	public write(opName?: string) {
+		print(`Benchmark${opName ? `(${opName})` : ''}: ${this.elapsed}`);
+	}
+
+	/**
+	 * Writes if running as client.
+	 *
+	 * @param opName The name of the operation being benchmarked.
+	 */
+	public writeIfClient(opName?: string) {
+		if (RunService.IsClient()) this.write(opName);
+	}
+
+	/**
+	 * Writes if running as server.
+	 *
+	 * @param opName The name of the operation being benchmarked.
+	 */
+	public writeIfServer(opName?: string) {
+		if (RunService.IsServer()) this.write(opName);
+	}
+
+	/**
+	 * Writes if running in studio.
+	 *
+	 * @param opName The name of the operation being benchmarked.
+	 */
+	public writeIfStudio(opName?: string) {
+		if (RunService.IsStudio()) this.write(opName);
+	}
+
+	/**
+	 * Writes only if the specific condition is true.
+	 *
+	 * @param condition The condition to check.
+	 * @param opName The name of the operation being benchmarked.
+	 */
+	public writeIf(condition: boolean, opName?: string) {
+		if (condition) this.write(opName);
+	}
+
+	/**
+	 * Returns the elapsed time of the benchmark.
+	 */
+	public getTime() {
+		return this.elapsed;
+	}
+}
+
 export namespace Benchmark {
 	const RunService = game.GetService('RunService');
 
@@ -14,19 +74,7 @@ export namespace Benchmark {
 		f(...args);
 		const elapsed = os.clock() - now;
 
-		const result = {
-			print: (opName?: string) =>
-				print(`Benchmark${opName ? `(${opName})` : ''}: ${elapsed}`),
-			printIfClient: (opName?: string): void =>
-				void (RunService.IsClient() && result.print(opName)),
-			printIfServer: (opName?: string): void =>
-				void (RunService.IsServer() && result.print(opName)),
-			printIfStudio: (opName?: string): void =>
-				void (RunService.IsStudio() && result.print(opName)),
-			get: () => elapsed,
-		};
-
-		return result;
+		return new BenchmarkResult(elapsed);
 	}
 
 	/**
