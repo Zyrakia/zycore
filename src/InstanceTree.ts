@@ -211,15 +211,15 @@ export namespace InstanceTree {
 	 *
 	 * @param instance The instance to look in.
 	 * @param className The type to look for.
-	 * @param pointerName The name of the pointer to look for, defaults to className.
 	 * @param preferPointer If true, it will look for the pointer first.
+	 * @param pointerName The name of the pointer to look for, defaults to the className.
 	 * @returns The first child of the given type, or undefined.
 	 */
 	export function findClassInChildren<T extends keyof Instances>(
 		instance: Instance,
 		className: T,
-		pointerName = className,
 		preferPointer = false,
+		pointerName: string = className,
 	) {
 		let found: Instances[T] | undefined;
 
@@ -247,7 +247,7 @@ export namespace InstanceTree {
 	export function findClassInPointerChildren<T extends keyof Instances>(
 		instance: Instance,
 		className: T,
-		pointerName = className,
+		pointerName: string = className,
 	) {
 		const pointer = instance.FindFirstChild(pointerName);
 		if (pointer?.IsA('ObjectValue')) {
