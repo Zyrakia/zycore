@@ -202,4 +202,53 @@ export namespace InstanceTree {
 			if (!parent) cb();
 		});
 	}
+
+	/**
+	 * Runs through the instances children and looks for
+	 * the first child of a given type, if not found
+	 * it searches for an ObjectValue with the name of the given type
+	 * and returns the value if the value is of the given type.
+	 *
+	 * @param instance The instance to look in.
+	 * @param className The type to look for.
+	 * @param preferPointer If true, it will look for the pointer first.
+	 * @returns The first child of the given type, or undefined.
+	 */
+	export function findClassInChildren<T extends keyof Instances>(
+		instance: Instance,
+		className: T,
+		preferPointer = false,
+	) {
+		let found: Instances[T] | undefined;
+
+		if (preferPointer) {
+			found = findClassInPointerChildren(instance, className);
+			if (!found) found = instance.FindFirstChildOfClass(className);
+		} else {
+			found = instance.FindFirstChildOfClass(className);
+			if (!found) found = findClassInPointerChildren(instance, className);
+		}
+
+		return found;
+	}
+
+	/**
+	 * Runs through the instances children and looks for
+	 * the first ObjectValue with the name of the given type,
+	 * and returns the value if the value is of the given type.
+	 *
+	 * @param instance The instance to look in.
+	 * @param className The type to look for.
+	 * @returns The value within the first ObjectValue that meets the criteria, or undefined.
+	 */
+	export function findClassInPointerChildren<T extends keyof Instances>(
+		instance: Instance,
+		className: T,
+	) {
+		const pointer = instance.FindFirstChild(className);
+		if (pointer?.IsA('ObjectValue')) {
+			const target = pointer.Value;
+			if (target?.IsA(className)) return target;
+		}
+	}
 }

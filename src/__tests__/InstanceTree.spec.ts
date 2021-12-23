@@ -169,4 +169,41 @@ export = () => {
 			conn.Disconnect();
 		});
 	});
+
+	describe('findClassInChildren', () => {
+		it('should return the first instance of the given type', () => {
+			const parent = new Instance('Part');
+			const part = new Instance('Part');
+			part.Parent = parent;
+
+			const found = InstanceTree.findClassInChildren(parent, 'Part');
+			expect(found).to.equal(part);
+		});
+
+		it('should return the first instance of the given type in a pointer', () => {
+			const parent = new Instance('Part');
+			const pointer = new Instance('ObjectValue');
+			const part = new Instance('Part');
+			pointer.Value = part;
+			pointer.Name = 'Part';
+			pointer.Parent = parent;
+
+			const found = InstanceTree.findClassInChildren(parent, 'Part');
+			expect(found).to.equal(part);
+		});
+
+		it('should respect the preferPointer option', () => {
+			const parent = new Instance('Part');
+			const part = new Instance('Part');
+			const pointer = new Instance('ObjectValue');
+			const targetPart = new Instance('Part');
+			pointer.Value = targetPart;
+			pointer.Name = 'Part';
+			pointer.Parent = parent;
+			part.Parent = parent;
+
+			const found = InstanceTree.findClassInChildren(parent, 'Part', true);
+			expect(found).to.equal(targetPart);
+		});
+	});
 };
