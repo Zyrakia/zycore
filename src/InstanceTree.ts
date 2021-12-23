@@ -185,4 +185,21 @@ export namespace InstanceTree {
 			}
 		});
 	}
+
+	/**
+	 * Connects to the AncestryChanged event of the given instance,
+	 * and calls tehc allback when the parent no longer has a parent.
+	 * This will not disconnect the connection after the callback is called.
+	 *
+	 * To connect to the destroyed event, use {@link onDestroying}.
+	 *
+	 * @param instance The instance to connect to.
+	 * @param callback The callback to call when the parent is undefined.
+	 * @returns The event connection.
+	 */
+	export function onDeparented(instance: Instance, cb: () => void) {
+		return instance.AncestryChanged.Connect((_, parent) => {
+			if (!parent) cb();
+		});
+	}
 }
