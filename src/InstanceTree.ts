@@ -212,23 +212,25 @@ export namespace InstanceTree {
 	 * @param instance The instance to look in.
 	 * @param className The type to look for.
 	 * @param preferPointer If true, it will look for the pointer first.
+	 * @param instanceName The name that the found instance must have if not found in pointer.
 	 * @param pointerName The name of the pointer to look for, defaults to the className.
 	 * @returns The first child of the given type, or undefined.
 	 */
-	export function findClassInChildren<T extends keyof Instances>(
+	export function findClassInChildrenOrPointerChildren<T extends keyof Instances>(
 		instance: Instance,
 		className: T,
 		preferPointer = false,
 		pointerName: string = className,
+		instanceName: string = className,
 	) {
 		let found: Instances[T] | undefined;
 
 		if (preferPointer) {
-			found = findClassInPointerChildren(instance, className);
-			if (!found) found = instance.FindFirstChildOfClass(className);
+			found = findClassInPointerChildren(instance, className, pointerName);
+			if (!found) found = findClassInChildren(instance, className, instanceName);
 		} else {
-			found = instance.FindFirstChildOfClass(className);
-			if (!found) found = findClassInPointerChildren(instance, className);
+			found = findClassInChildren(instance, className, instanceName);
+			if (!found) found = findClassInPointerChildren(instance, className, pointerName);
 		}
 
 		return found;
@@ -254,5 +256,24 @@ export namespace InstanceTree {
 			const target = pointer.Value;
 			if (target?.IsA(className)) return target;
 		}
+	}
+
+	/**
+	 * Rusn through the instance children and looks for
+	 * the first child of the given type.
+	 *
+	 * @param instance The instance to look in.
+	 * @param className The type to look for.
+	 * @param instanceName The name that the found instance must have, if not specified it will not be checked.
+	 */
+	export function findClassInChildren<T extends keyof Instances>(
+		instance: Instance,
+		className: T,
+		instanceName?: string,
+	) {
+		const found = instance.FindFirstChildOfClass(className);
+		if (instanceName !== undefined) {
+			if (found?.Name === instanceName) return found;
+		} else return found;
 	}
 }
