@@ -212,16 +212,16 @@ export namespace InstanceTree {
 	 * @param instance The instance to look in.
 	 * @param className The type to look for.
 	 * @param preferPointer If true, it will look for the pointer first.
-	 * @param instanceName The name that the found instance must have if not found in pointer.
 	 * @param pointerName The name of the pointer to look for, defaults to the className.
+	 * @param instanceName The name that the found instance must have if not found in pointer, if not specified it will not be checked.
 	 * @returns The first child of the given type, or undefined.
 	 */
-	export function findClassInChildrenOrPointerChildren<T extends keyof Instances>(
+	export function findClassExternal<T extends keyof Instances>(
 		instance: Instance,
 		className: T,
 		preferPointer = false,
 		pointerName: string = className,
-		instanceName: string = className,
+		instanceName?: string,
 	) {
 		let found: Instances[T] | undefined;
 
