@@ -377,7 +377,7 @@ export namespace InstanceTree {
 	 * @param property The property to check for.
 	 * @returns Whether the property exists on the instance.
 	 */
-	export function hasOwnProperty(instance: Instance, property: string) {
+	export function hasProperty(instance: Instance, property: string) {
 		try {
 			// @ts-ignore
 			const value = instance[property];
