@@ -176,7 +176,7 @@ export = () => {
 			const part = new Instance('Part');
 			part.Parent = parent;
 
-			const found = InstanceTree.findClassExternal(parent, 'Part');
+			const found = InstanceTree.findChildOfClassThorough(parent, 'Part');
 			expect(found).to.equal(part);
 		});
 
@@ -188,7 +188,7 @@ export = () => {
 			pointer.Name = 'Part';
 			pointer.Parent = parent;
 
-			const found = InstanceTree.findClassExternal(parent, 'Part');
+			const found = InstanceTree.findChildOfClassThorough(parent, 'Part');
 			expect(found).to.equal(part);
 		});
 
@@ -202,7 +202,7 @@ export = () => {
 			pointer.Parent = parent;
 			part.Parent = parent;
 
-			const found = InstanceTree.findClassExternal(parent, 'Part', true);
+			const found = InstanceTree.findChildOfClassThorough(parent, 'Part', true);
 			expect(found).to.equal(targetPart);
 		});
 	});
