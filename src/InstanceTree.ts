@@ -213,7 +213,7 @@ export namespace InstanceTree {
 	 * @param instance The instance to look in.
 	 * @param className The class to look for.
 	 * @param preferReference If true, will look for a referenced match first.
-	 * @param instanceName If specified, includes the instance name matching in the search criteria.
+	 * @param instanceName If specified, includes the instance name matching in the search criteria (only if not searching for reference).
 	 * @param pointerName If specified, includes the pointer name matching in the search criteria.
 	 * @returns The first child of the given class.
 	 */
@@ -226,13 +226,13 @@ export namespace InstanceTree {
 	) {
 		let found;
 		if (preferReference) {
-			found = findReferencedChildOfClass(instance, className, instanceName, pointerName);
+			found = findReferencedChildOfClass(instance, className, pointerName);
 		} else found = findChildOfClass(instance, className, instanceName);
 
 		if (found) return found;
 
 		if (preferReference) found = findChildOfClass(instance, className, instanceName);
-		else found = findReferencedChildOfClass(instance, className, instanceName, pointerName);
+		else found = findReferencedChildOfClass(instance, className, pointerName);
 
 		return found;
 	}
@@ -271,6 +271,7 @@ export namespace InstanceTree {
 	 * @param instance The instance to look in.
 	 * @param className The class to look for.
 	 * @param pointerName If specified, looks for the first ObjectValue with the given name.
+	 * @param instanceName If specified, checks if the ObjectValue contains an instance with the given name aswell.
 	 * @returns A tuple of the ObjectValue and the instance found, or undefined.
 	 */
 	export function findReferencedChildOfClass<T extends keyof Instances>(
