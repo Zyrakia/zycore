@@ -1,3 +1,4 @@
+import { Bin } from '@rbxts/bin';
 import { Arrays } from 'Arrays';
 import { Strings } from 'Strings';
 
@@ -126,6 +127,83 @@ export namespace InstanceTree {
 		}
 
 		return ancestors;
+	}
+
+	/**
+	 * Gathers all of the ancestors of the given instance that
+	 * are of the given class.
+	 *
+	 * @param instance The instance to start with.
+	 * @param filter The class to filter by.
+	 * @returns The ancestors of the given instance that are of the given class.
+	 */
+	export function gatherAncestorsFilter<T extends keyof Instances>(
+		instance: Instance,
+		filter: T,
+	) {
+		let ancestors = [];
+		let parent = instance.Parent;
+
+		while (parent) {
+			if (parent.IsA(filter)) ancestors.push(parent);
+			parent = parent.Parent;
+		}
+
+		return ancestors;
+	}
+
+	/**
+	 * Runs through the parents of the given instance
+	 * and checks if any of them are set to `visible = false`.
+	 *
+	 * @param instance The instance to start with.
+	 * @returns Whether or not the given UI element is visible.
+	 */
+	export function isUIVisible(instance: GuiObject) {
+		if (!instance.Visible) return false;
+		let parent = instance.Parent;
+
+		while (parent) {
+			if (!parent.IsA('GuiObject')) continue;
+			if (!parent.Visible) return false;
+			parent = parent.Parent;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Connects to visibility changes of all ancestors of the given instance,
+	 * and calls the callback when any of them change. Also watches for ancestry
+	 * changes in case the given instance is moved.
+	 *
+	 * @param instance The instance to watch.
+	 * @param cb The callback to call when visibility changes.
+	 * @returns A bin that can be destroyed to stop all connections.
+	 */
+	export function onUIVisibilityChange(instance: GuiObject, cb: (visible: boolean) => void) {
+		const bin = new Bin();
+		const visibilityBin = new Bin();
+		bin.add(visibilityBin);
+
+		function checkAndConnectAncestors() {
+			visibilityBin.destroy();
+
+			for (const a of gatherAncestorsFilter(instance, 'GuiObject')) {
+				const conn = a
+					.GetPropertyChangedSignal('Visible')
+					.Connect(() => cb(isUIVisible(instance)));
+
+				visibilityBin.add(conn);
+			}
+
+			cb(isUIVisible(instance));
+		}
+
+		checkAndConnectAncestors();
+		bin.add(instance.AncestryChanged.Connect(() => checkAndConnectAncestors()));
+
+		return bin;
 	}
 
 	/**
