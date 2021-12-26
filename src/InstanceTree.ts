@@ -164,7 +164,7 @@ export namespace InstanceTree {
 		let parent = instance.Parent;
 
 		while (parent) {
-			if (!parent.IsA('GuiObject')) continue;
+			if (!parent.IsA('GuiObject')) break;
 			if (!parent.Visible) return false;
 			parent = parent.Parent;
 		}
@@ -182,22 +182,30 @@ export namespace InstanceTree {
 	 * @returns A bin that can be destroyed to stop all connections.
 	 */
 	export function onUIVisibilityChange(instance: GuiObject, cb: (visible: boolean) => void) {
+		let lastVisible = false;
+
 		const bin = new Bin();
 		const visibilityBin = new Bin();
 		bin.add(visibilityBin);
+
+		function updateVisible() {
+			const visible = isUIVisible(instance);
+
+			if (visible === lastVisible) return;
+			lastVisible = visible;
+
+			cb(visible);
+		}
 
 		function checkAndConnectAncestors() {
 			visibilityBin.destroy();
 
 			for (const a of gatherAncestorsFilter(instance, 'GuiObject')) {
-				const conn = a
-					.GetPropertyChangedSignal('Visible')
-					.Connect(() => cb(isUIVisible(instance)));
-
+				const conn = a.GetPropertyChangedSignal('Visible').Connect(() => updateVisible());
 				visibilityBin.add(conn);
 			}
 
-			cb(isUIVisible(instance));
+			updateVisible();
 		}
 
 		checkAndConnectAncestors();
