@@ -11,14 +11,20 @@ export namespace Arrays {
 	}
 
 	/**
-	 * Checks if each of the elements in the first array equals the corresponding element in the second array.
+	 * Checks if both arrays are the same size and contain the same elements.
 	 *
 	 * @param first The first array to compare.
 	 * @param second The second array to compare.
 	 * @returns A boolean indicating whether the arrays are equal.
 	 */
-	export function equals(first: defined[], second: defined[]) {
-		return first.every((v, i) => v === second[i]);
+	export function equals<T extends defined>(first: T[], second: T[]) {
+		if (first.size() !== second.size()) return false;
+
+		for (let i = 0; i < first.size(); i++) {
+			if (first[i] !== second[i]) return false;
+		}
+
+		return true;
 	}
 
 	/**
