@@ -169,6 +169,17 @@ export class DebouncerMap<T> {
 	}
 
 	/**
+	 * Returns whether the map has an
+	 * active debouncer for the key.
+	 *
+	 * @param key The key of the debouncer.
+	 * @returns Whether the map has an active debouncer for the key.
+	 */
+	public has(key: T) {
+		return this.map.has(key);
+	}
+
+	/**
 	 * Gets the debouncer for the key.
 	 *
 	 * @param key The key of the debouncer.

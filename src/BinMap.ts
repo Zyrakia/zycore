@@ -73,6 +73,17 @@ export class BinMap<T> {
 	}
 
 	/**
+	 * Returns whether the map has an active bin
+	 * for the specified key.
+	 *
+	 * @param key The key of the bin.
+	 * @returns Whether the map has an active bin
+	 */
+	public has(key: T) {
+		return this.map.has(key);
+	}
+
+	/**
 	 * Gets the bin for the key.
 	 *
 	 * @param key The key of the bin.
