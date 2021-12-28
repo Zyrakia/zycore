@@ -1,5 +1,5 @@
-import { Debouncer } from 'Debouncer';
-import { DebouncerMap } from 'DebouncerMap';
+import { Debouncer } from 'debouncer/Debouncer';
+import { DebouncerMap } from 'debouncer/DebouncerMap';
 
 export = () => {
 	describe('debouncer', () => {

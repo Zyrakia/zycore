@@ -1,4 +1,4 @@
-import { Debouncer } from 'Debouncer';
+import { Debouncer } from 'debouncer/Debouncer';
 
 /**
  * A utility class that tracks debouncers attached to keys.
