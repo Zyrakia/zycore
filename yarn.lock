@@ -17,6 +17,11 @@
   resolved "https://registry.yarnpkg.com/@rbxts/compiler-types/-/compiler-types-1.2.7-types.1.tgz#35986d7b7d05621612b20ec0c42f63b4a1de8749"
   integrity sha512-zr3QIJDgLN2dyPYSy4QwDRiZDm8BwQeUE8tsglPDgbVLJonaK7+PAqb1hoqZJ3ReQdZUElSKru9yAfI1Z0MOug==
 
+"@rbxts/ping@^2.3.5":
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@rbxts/ping/-/ping-2.3.5.tgz#8b396f03471bd0b987241ebf5f7d44f30da7aa13"
+  integrity sha512-gLV8XR3vlQf5R0WFfErI9SmqTOvxr1oH2MlBexQsei9LzyN0kH4dfPuoo1a6LQlPl7MS3vY2eROVPdJkmrSgPg==
+
 "@rbxts/promise-character@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@rbxts/promise-character/-/promise-character-1.0.3.tgz#0099e7007e936fca1e7ecccbc616a47f01ac7463"

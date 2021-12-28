@@ -29,6 +29,7 @@
     ],
     "dependencies": {
         "@rbxts/bin": "^1.2.1",
+        "@rbxts/ping": "^2.3.5",
         "@rbxts/promise-character": "^1.0.3",
         "@rbxts/promise-child": "^1.2.0"
     },

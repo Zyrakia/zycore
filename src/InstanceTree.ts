@@ -1,8 +1,7 @@
 import { Bin } from '@rbxts/bin';
+import { TweenService } from '@rbxts/services';
 import { Arrays } from 'Arrays';
 import { Strings } from 'Strings';
-
-const TweenService = game.GetService('TweenService');
 
 export namespace InstanceTree {
 	/**
