@@ -12,3 +12,4 @@ export { Character } from './Character';
 export { BinMap } from './BinMap';
 export { GroupRanker } from './GroupRanker';
 export type { RankMapping } from './GroupRanker';
+export { UpdateSquasher } from './UpdateSquasher';
