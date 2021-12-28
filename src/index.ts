@@ -10,3 +10,4 @@ export { Colors, RGB } from './Colors';
 export { Strings } from './Strings';
 export { Character } from './Character';
 export { BinMap } from './BinMap';
+export { GroupRanker, RankMapping } from './GroupRanker';
