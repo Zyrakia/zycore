@@ -15,14 +15,14 @@ class BenchmarkResult {
 	 * operation was ran multiple times.
 	 *
 	 * Format:
-	 * Benchmark({opName}?): {runMicros} μs ({totalMicros?} μs)
+	 * Benchmark({opName}?): {runMicros} μs ({totalMicros?} μs total)
 	 *
 	 * @param opName The name of the operation being benchmarked.
 	 */
 	public write(opName = this.opName) {
 		print(
-			`Benchmark${opName ? `(${opName})` : ''}: ${this.microsPerRun} μs${
-				this.runCount > 1 ? ` (${this.micros} μs)` : ''
+			`Benchmark${opName ? `(${opName})` : ''}: ${this.formatMicros(this.microsPerRun)}${
+				this.runCount > 1 ? ` (${this.formatMicros(this.micros)})` : ''
 			}`,
 		);
 	}
@@ -76,6 +76,10 @@ class BenchmarkResult {
 	 */
 	public getMicrosPerRun() {
 		return this.microsPerRun;
+	}
+
+	private formatMicros(micros: number) {
+		return '%.2f μs'.format(micros);
 	}
 }
 
