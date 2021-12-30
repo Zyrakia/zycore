@@ -1,62 +1,157 @@
-import promiseR15, { promiseR6 } from '@rbxts/promise-character';
-import { promiseChildOfClass } from '@rbxts/promise-child';
-
 export namespace Character {
-	/**
-	 * Returns the character model of the player.
-	 *
-	 * @param player The player to get the character model of.
-	 * @returns A promise that resolves with the character model of the player.
-	 */
-	export async function get(player: Player) {
-		return player.Character || Promise.fromEvent(player.CharacterAdded);
-	}
-
 	/**
 	 * Returns the character model of the player.
 	 *
 	 * @param player The player to get the character model of.
 	 * @returns The character model of the player.
 	 */
-	export function getSync(player: Player) {
+	export function get(player: Player) {
 		return player.Character || player.CharacterAdded.Wait()[0];
 	}
 
 	/**
-	 * Promises for the R15 character rig of the player.
+	 * Returns the character model of the player.
 	 *
-	 * @param player The player to get the R15 character rig of.
-	 * @returns A promise that resolves with the R15 character rig of the player.
+	 * @param player The player to get the character model of.
+	 * @returns A promise that resolves with the character model of the player.
 	 */
-	export async function getRig(player: Player) {
-		const char = await get(player);
-		return promiseR15(char);
+	export function getAsync(player: Player) {
+		return player.Character || Promise.fromEvent(player.CharacterAdded);
 	}
 
 	/**
-	 * Promises for the R6 character rig of the player.
+	 * Returns the humanoid of the specified model,
+	 * this will exist if the model is a character, but
+	 * it is still important to check if this function
+	 * returns undefined.
 	 *
-	 * @param player The player to get the R6 character rig of.
-	 * @returns A promise that resolves with the R6 character rig of the player.
+	 * @param char The character model.
+	 * @returns The humanoid of the character model.
 	 */
-	export async function getRigR6(player: Player) {
-		const char = await get(player);
-		return promiseR6(char);
+	export function getHum(char: Model) {
+		return char.FindFirstChildOfClass('Humanoid');
 	}
 
 	/**
-	 * Promises for either the R15 or the R6 character rig of the player,
-	 * depending on what type their Humanoid specifies.
+	 * Yields for the humanoid of the specified model,
+	 * this will exist if the model is a character, but
+	 * it is still important to check if this function
+	 * returns undefined.
 	 *
-	 * @param player The player to get the character rig of.
-	 * @returns A promise that resolves with the character rig of the player.
-	 * @throws If the specified rig type is not R15 or R6.
+	 * @param char The character model.
+	 * @param timeout The timeout to wait for the humanoid (defualts to 3 seconds).
+	 * @returns A promise that resolves with the humanoid of the character model.
 	 */
-	export async function getRigEither(player: Player) {
-		const char = await get(player);
-		const rigType = (await promiseChildOfClass(char, 'Humanoid')).RigType.Name;
-		if (rigType === 'R6') return promiseR6(char);
-		if (rigType === 'R15') return promiseR15(char);
-		throw `Unhandled RigType: ${rigType} on ${char.Name}!`;
+	export function waitHum(char: Model, timeout = 3) {
+		const humanoid = char.WaitForChild('Humanoid', timeout);
+		if (humanoid?.IsA('Humanoid')) return humanoid;
+	}
+
+	/**
+	 * Returns the HRP of the specified model,
+	 * this will exist if the model is a character, but
+	 * it is still important to check if this function
+	 * returns undefined.
+	 *
+	 * @param char The character model.
+	 * @returns The HumanoidRootPart of the model.
+	 */
+	export function getRoot(char: Model) {
+		const root = char.FindFirstChild('HumanoidRootPart');
+		if (root?.IsA('BasePart')) return root;
+	}
+
+	/**
+	 * Yields for the HRP of the specified model,
+	 * this will exist of the model is a character, but
+	 * it is still important to check if this function
+	 * returns undefined.
+	 *
+	 * @param char The character model.
+	 * @param timeout The timeout to wait for the HRP (defualts to 3 seconds).
+	 * @returns The HumanoidRootPart of the model.
+	 */
+	export function waitRoot(char: Model, timeout = 3) {
+		const root = char.WaitForChild('HumanoidRootPart', timeout);
+		if (root?.IsA('BasePart')) return root;
+	}
+
+	/**
+	 * Returns the animator of the specified model,
+	 * this will exist if the model is a character, but
+	 * it is still important to check if this function
+	 * returns undefined.
+	 *
+	 * @param char The character model.
+	 * @returns The animator of the model.
+	 */
+	export function getAnimator(hum: Humanoid) {
+		return hum.FindFirstAncestorOfClass('Animator');
+	}
+
+	/**
+	 * Yields for the animator of the specified model,
+	 * this will exist if the model is a character, but
+	 * it is still important to check if this function
+	 * returns undefined.
+	 *
+	 * @param char The character model.
+	 * @param timeout The timeout to wait for the animator (defualts to 3 seconds).
+	 * @returns The animator of the model.
+	 */
+	export function waitAnimator(hum: Humanoid, timeout = 3) {
+		const animator = hum.WaitForChild('Animator', timeout);
+		if (animator?.IsA('Animator')) return animator;
+	}
+
+	/**
+	 * Ensures a humanoid is standing.
+	 * Useful when teleporting a player so the seat
+	 * doesn't follow the player.
+	 *
+	 * To prevent any weirdness, this function will
+	 * yield for a maximum of 0.3 seconds, and disable the
+	 * seat for a maximum of one second. This is required
+	 * because there is a delay between the player standing up
+	 * and the game actually updating the seat.
+	 *
+	 * If the humanoid is not sitting, this function will
+	 * do nothing and not yield.
+	 *
+	 * @param humanoid The humanoid to ensure is standing.
+	 */
+	export function stand(humanoid: Humanoid) {
+		if (!humanoid.SeatPart) return;
+
+		const seat = humanoid.SeatPart;
+		if (!seat.IsA('Seat')) return;
+
+		const originalDisabled = seat.Disabled;
+		seat.Disabled = true;
+		humanoid.Sit = false;
+		task.wait(0.3);
+
+		task.delay(1, () => (seat.Disabled = originalDisabled));
+	}
+
+	/**
+	 * Teleports the characters primary part to the given position.
+	 * If the model passed into this function is actually a character model,
+	 * this will be the characters HumanoidRootPart.
+	 *
+	 * This could techniaclly be used with any model, but it is intended to be
+	 * used with a character model.
+	 *
+	 * If the character just spawned, this will not work, you should
+	 * wait for the GetPropertyChangedSignal("Position") signal on
+	 * the HumanoidRootPart first.
+	 *
+	 * @param char The character to teleport.
+	 * @param location The location to teleport to.
+	 */
+	export function teleport(char: Model, location: Vector3 | CFrame | BasePart) {
+		if (typeIs(location, 'Vector3')) char.SetPrimaryPartCFrame(new CFrame(location));
+		else if (typeIs(location, 'CFrame')) char.SetPrimaryPartCFrame(location);
+		else char.SetPrimaryPartCFrame(location.CFrame);
 	}
 }

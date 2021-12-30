@@ -7,11 +7,6 @@
   resolved "https://registry.yarnpkg.com/@rbxts/bin/-/bin-1.2.1.tgz#967974d47cce714a480709b445b47f0dcfafb7ee"
   integrity sha512-XEMaQy/JbSmquqtKhd0qiEA0ysMg7DuWc4CzlPofgj7APaqJ6DZ9eVoEIrYMFQc9SRQciSH/2UY71DF0yVh8xQ==
 
-"@rbxts/compiler-types@^1.2.3-types.1":
-  version "1.2.3-types.1"
-  resolved "https://registry.yarnpkg.com/@rbxts/compiler-types/-/compiler-types-1.2.3-types.1.tgz#d7945531c917d62bafadd2b5aa6c2f2e88a2036a"
-  integrity sha512-SXXIBazyJ7N6d2xcy471/kqZZpCv7EDOWrRJ45jcv3g00VQaZwYl4Elr10woqRloIblQanwJ7yUqGXAsWv7iuQ==
-
 "@rbxts/compiler-types@^1.2.7-types.0":
   version "1.2.7-types.1"
   resolved "https://registry.yarnpkg.com/@rbxts/compiler-types/-/compiler-types-1.2.7-types.1.tgz#35986d7b7d05621612b20ec0c42f63b4a1de8749"
@@ -21,20 +16,6 @@
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/@rbxts/ping/-/ping-2.3.5.tgz#8b396f03471bd0b987241ebf5f7d44f30da7aa13"
   integrity sha512-gLV8XR3vlQf5R0WFfErI9SmqTOvxr1oH2MlBexQsei9LzyN0kH4dfPuoo1a6LQlPl7MS3vY2eROVPdJkmrSgPg==
-
-"@rbxts/promise-character@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@rbxts/promise-character/-/promise-character-1.0.3.tgz#0099e7007e936fca1e7ecccbc616a47f01ac7463"
-  integrity sha512-2OaN4JIoCfRetBcgEFCwlj1lmipLoyj9zCrp+kDSEjD66+vNY+3XUd9XYXlJIue4/yhc9ObHuYIdvegROTmjHg==
-  dependencies:
-    "@rbxts/compiler-types" "^1.2.3-types.1"
-    "@rbxts/types" "^1.0.537"
-    "@rbxts/validate-tree" "^2.0.1"
-
-"@rbxts/promise-child@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@rbxts/promise-child/-/promise-child-1.2.0.tgz#a6479581c41a397ec768c2df4f4944d8a08c0fd1"
-  integrity sha512-hFGGGhp51udu4SLJFxP9ARWBIKOwSCb+rfwSuB+9F2DS9+dZrly+b4lfW+e5gzRpEh2b0vwb2l22SziDvYsuUQ==
 
 "@rbxts/services@^1.2.0":
   version "1.2.0"
@@ -46,15 +27,7 @@
   resolved "https://registry.yarnpkg.com/@rbxts/testez/-/testez-0.3.1-ts.7.tgz#a5bb2e0640123c007655329f264e9ee4fcafb565"
   integrity sha512-DkIlRFdMODHjJPEYJT/cPYv2ZQzSqAufF4XAsqrx7zFg8OVAkSHY5aGChGoPNrZo0PM4zz9bw46ZIVqLfcM05Q==
 
-"@rbxts/types@^1.0.537", "@rbxts/types@^1.0.551":
+"@rbxts/types@^1.0.551":
   version "1.0.557"
   resolved "https://registry.yarnpkg.com/@rbxts/types/-/types-1.0.557.tgz#a97d90533f2a00044d31257adbeb3d647213583a"
   integrity sha512-bulbMtqvv8z7zSs1rm+4MqapmJ/I5SNNmEhi487m0AO50h+KpmBN025tGGhW4Im16YhhiKYdE/c8w5Xg6WExhg==
-
-"@rbxts/validate-tree@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@rbxts/validate-tree/-/validate-tree-2.0.1.tgz#ed1e3471899933e3680d2dfbcff051813c498175"
-  integrity sha512-nruvCNPgQQAEjAhnS8ggDOefI3jddziZZVflZYx09zM4yylqwQLL/6cSbWD8ta/MpigudpS5Do2q7eBUvOoRIA==
-  dependencies:
-    "@rbxts/compiler-types" "^1.2.3-types.1"
-    "@rbxts/types" "^1.0.537"
