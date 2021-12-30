@@ -82,11 +82,15 @@ export namespace Character {
 	 * it is still important to check if this function
 	 * returns undefined.
 	 *
-	 * @param char The character model.
+	 * @param char The character model, can also be a humanoid directly.
 	 * @returns The animator of the model.
 	 */
-	export function getAnimator(hum: Humanoid) {
-		return hum.FindFirstAncestorOfClass('Animator');
+	export function getAnimator(char: Model | Humanoid) {
+		const hum = char.IsA('Humanoid') ? char : getHum(char);
+		if (!hum) return;
+
+		const animator = hum.FindFirstChildOfClass('Animator');
+		if (animator) return animator;
 	}
 
 	/**
@@ -95,13 +99,17 @@ export namespace Character {
 	 * it is still important to check if this function
 	 * returns undefined.
 	 *
-	 * @param char The character model.
+	 * @param char The character model, can also be a humanoid directly.
 	 * @param timeout The timeout to wait for the animator (defualts to 3 seconds).
 	 * @returns The animator of the model.
 	 */
-	export function waitAnimator(hum: Humanoid, timeout = 3) {
+	export function waitAnimator(char: Model | Humanoid, timeout = 3) {
+		const hum = char.IsA('Humanoid') ? char : waitHum(char, timeout);
+		if (!hum?.IsA('Humanoid')) return;
+
 		const animator = hum.WaitForChild('Animator', timeout);
-		if (animator?.IsA('Animator')) return animator;
+		if (!animator?.IsA('Animator')) return;
+		return animator;
 	}
 
 	/**
@@ -118,17 +126,20 @@ export namespace Character {
 	 * If the humanoid is not sitting, this function will
 	 * do nothing and not yield.
 	 *
-	 * @param humanoid The humanoid to ensure is standing.
+	 * @param char The char to ensure is standing, can also be a humanoid directly.
 	 */
-	export function stand(humanoid: Humanoid) {
-		if (!humanoid.SeatPart) return;
+	export function stand(char: Model | Humanoid) {
+		const hum = char.IsA('Humanoid') ? char : getHum(char);
+		if (!hum?.IsA('Humanoid')) return;
 
-		const seat = humanoid.SeatPart;
+		if (!hum.SeatPart) return;
+
+		const seat = hum.SeatPart;
 		if (!seat.IsA('Seat')) return;
 
 		const originalDisabled = seat.Disabled;
 		seat.Disabled = true;
-		humanoid.Sit = false;
+		hum.Sit = false;
 		task.wait(0.3);
 
 		task.delay(1, () => (seat.Disabled = originalDisabled));
