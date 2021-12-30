@@ -165,4 +165,21 @@ export namespace Character {
 		else if (typeIs(location, 'CFrame')) char.SetPrimaryPartCFrame(location);
 		else char.SetPrimaryPartCFrame(location.CFrame);
 	}
+
+	/**
+	 * Unequips any tools that the character may be holding,
+	 * and returns the tool that was previously in the
+	 * character, and was affected by the unequip.
+	 *
+	 * @param char The character to unequip tools from.
+	 * @returns The tool that was previously in the character, or undefined.
+	 */
+	export function forceUnequip(char: Model) {
+		const hum = getHum(char);
+		if (!hum) return;
+
+		const tool = char.FindFirstChildOfClass('Tool');
+		hum.UnequipTools();
+		if (tool?.Parent !== char) return tool;
+	}
 }
