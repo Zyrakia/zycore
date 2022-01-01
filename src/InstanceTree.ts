@@ -401,7 +401,6 @@ export namespace InstanceTree {
 	 * if you want.
 	 *
 	 * Toggled instances:
-	 * - BasePart: transparency, collision
 	 * - ParticleEmitter: enabled
 	 * - Trail: enabled
 	 * - Decal: transprancy
@@ -425,11 +424,7 @@ export namespace InstanceTree {
 		recursive = false,
 		info?: TweenInfo,
 	) {
-		if (instance.IsA('BasePart')) {
-			if (info) TweenService.Create(instance, info, { Transparency: enabled ? 0 : 1 }).Play();
-			else instance.Transparency = enabled ? 0 : 1;
-			instance.CanCollide = enabled;
-		} else if (instance.IsA('ParticleEmitter')) instance.Enabled = enabled;
+		if (instance.IsA('ParticleEmitter')) instance.Enabled = enabled;
 		else if (instance.IsA('Trail')) instance.Enabled = enabled;
 		else if (instance.IsA('Decal')) {
 			if (info) TweenService.Create(instance, info, { Transparency: enabled ? 0 : 1 }).Play();
