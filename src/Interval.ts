@@ -1,8 +1,10 @@
 export type Interval = {
+	/** Cancels the interval, preventing any further executions. */
 	destroy: () => void;
 };
 
 export type Timeout = {
+	/** If a timeout has not executed yet, this will prevent it from executing. */
 	destroy: () => void;
 };
 
