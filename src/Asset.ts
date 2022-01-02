@@ -84,13 +84,13 @@ export namespace Asset {
 	 * that was created.
 	 *
 	 * @param assetId The asset ID to preload.
-	 * @param type The type of instance to create.
+	 * @param assetType The type of instance to create.
 	 * @returns The created instance.
 	 */
-	export function preloadCreate(assetId: string, type: PreloadableAsset) {
+	export function preloadCreate(assetId: string, assetType: PreloadableAsset) {
 		let instance: Instance;
 
-		switch (type) {
+		switch (assetType) {
 			case PreloadableAsset.DECAL:
 				instance = Make('Decal', { Texture: assetId });
 				break;
