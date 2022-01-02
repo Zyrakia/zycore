@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@rbxts/altmake@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@rbxts/altmake/-/altmake-0.0.1.tgz#f34bbcc96b285f29b536ab748933115a147aa1eb"
+  integrity sha512-0oZaqDtGcS9d1NB8pw0A21ZSZTzZOBdyJRK3cTphjNt1Gjs/CL1PPj2e01FVHr16lXlYOak9sy44IpN4nTlVMQ==
+
 "@rbxts/bin@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@rbxts/bin/-/bin-1.2.1.tgz#967974d47cce714a480709b445b47f0dcfafb7ee"
