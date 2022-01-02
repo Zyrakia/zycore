@@ -14,3 +14,4 @@ export { GroupRanker } from './GroupRanker';
 export type { RankMapping } from './GroupRanker';
 export { UpdateSquasher } from './UpdateSquasher';
 export { Debris } from './Debris';
+export { Asset, PreloadableAsset } from './Asset';
