@@ -15,4 +15,4 @@ export type { RankMapping } from './GroupRanker';
 export { UpdateSquasher } from './UpdateSquasher';
 export { Debris } from './Debris';
 export { Asset, PreloadableAsset } from './Asset';
-export { LevelPermissionManager } from './LevelPermissionManager';
+export { LevelPermissionManager } from './permission/LevelPermissionManager';
