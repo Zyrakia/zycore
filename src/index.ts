@@ -13,6 +13,8 @@ export { BinMap } from './BinMap';
 export { GroupRanker } from './GroupRanker';
 export type { RankMapping } from './GroupRanker';
 export { UpdateSquasher } from './UpdateSquasher';
+export { CharacterWatcher } from './char-watcher/CharacterWatcher';
+export { GlobalCharacterWatcher } from './char-watcher/GlobalCharacterWatcher';
 export { Debris } from './Debris';
 export { Asset, PreloadableAsset } from './Asset';
 export { LevelPermissionManager } from './permission/LevelPermissionManager';
