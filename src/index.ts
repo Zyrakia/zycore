@@ -13,3 +13,4 @@ export { BinMap } from './BinMap';
 export { GroupRanker } from './GroupRanker';
 export type { RankMapping } from './GroupRanker';
 export { UpdateSquasher } from './UpdateSquasher';
+export { Debris } from './Debris';
