@@ -18,3 +18,4 @@ export { GlobalCharacterWatcher } from './char-watcher/GlobalCharacterWatcher';
 export { Debris } from './Debris';
 export { Asset, PreloadableAsset } from './Asset';
 export { LevelPermissionManager } from './permission/LevelPermissionManager';
+export { Cache } from './Cache';
