@@ -3,7 +3,7 @@ export type NumericKeyPair<T> = T extends Record<infer K, infer V> ? [K & number
 export namespace Objects {
 	/**
 	 * Converts an object into an array of key-value pairs and then
-	 * sorts them by key in the specified order (default ascending).
+	 * sorts them by key in the specified order (default descending).
 	 *
 	 * Credits to Voralias (https://github.com/Vorlias) since I
 	 * basically just copy-pasted the Typescript typings.
@@ -14,7 +14,7 @@ export namespace Objects {
 	 */
 	export function sortedPairs<T extends { [P in keyof T & number]: T[P] }>(
 		obj: T,
-		order: 'asc' | 'desc' = 'asc',
+		order: 'asc' | 'desc' = 'desc',
 	) {
 		const values = [];
 
@@ -22,6 +22,6 @@ export namespace Objects {
 			values.push([k, v] as NumericKeyPair<T>);
 		}
 
-		return values.sort((a, b) => (order === 'asc' ? a[0] > b[0] : a[0] < b[0]));
+		return values.sort((a, b) => (order === 'desc' ? a[0] > b[0] : a[0] < b[0]));
 	}
 }
