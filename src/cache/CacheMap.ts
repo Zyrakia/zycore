@@ -1,11 +1,11 @@
 import { setTimeout, Timeout } from 'Interval';
 
 /**
- * A simple cache that stores values for a certain amount of time,
- * and calls a getter every time the value is requested and not
+ * A simple cache map that keeps keys for a certain amount of time,
+ * and calls a getter every time a key is requested and not
  * in the cache.
  */
-export class Cache<T, K> {
+export class CacheMap<T, K> {
 	/** The cache mapping. */
 	private cache = new Map<T, K>();
 
@@ -16,7 +16,7 @@ export class Cache<T, K> {
 	 * Creates a new cache.
 	 *
 	 * @param getter The getter to use to get a value for a key if it is not cached.
-	 * @param expirationSeconds The number of seconds to cache values for, or undefined to cache forever.
+	 * @param expirationSeconds The number of seconds to cache values for, or omit to cache forever.
 	 */
 	public constructor(private getter: (key: T) => K, private expirationSeconds?: number) {}
 
