@@ -1,28 +1,33 @@
 import { RunService } from '@rbxts/services';
 
 class BenchmarkResult {
-	private micros: number;
-	private microsPerRun: number;
-
-	public constructor(elapsed: number, private runCount: number, private opName?: string) {
-		this.micros = elapsed * 1000000;
-		this.microsPerRun = this.micros / runCount;
-	}
+	public constructor(
+		private elapsed: number,
+		private runCount: number,
+		private opName?: string,
+	) {}
 
 	/**
-	 * Writes the average time of the operation in micros to the
-	 * console, followed with the total time in micros if the
-	 * operation was ran multiple times.
+	 * Writes the benchmark result to the console, if multiple runs
+	 * were performed it will show the average time and then in brackets
+	 * the total time, otherwise it will just show the total time.
+	 *
+	 * If the operation took more than 1000 microseconds, it will
+	 * show the time in milliseconds, if the operation took more than
+	 * 1000 milliseconds, it will show the time in seconds. Otherwise
+	 * it will show the time in microseconds.
 	 *
 	 * Format:
-	 * Benchmark({opName}?): {runMicros} μs ({totalMicros?} μs total)
+	 * `Benchmark({opName}?): {runTime} μs/ms/s * ${runCount} ({totalTime?} μs/ms/s)`
 	 *
 	 * @param opName The name of the operation being benchmarked.
 	 */
 	public write(opName = this.opName) {
 		print(
-			`Benchmark${opName ? `(${opName})` : ''}: ${this.formatMicros(this.microsPerRun)}${
-				this.runCount > 1 ? ` (${this.formatMicros(this.micros)})` : ''
+			`${this.formatName(opName)} ${
+				this.runCount > 1
+					? `${this.formatPerRun()} (${this.formatTotalRun()})`
+					: `${this.formatTotalRun()}`
 			}`,
 		);
 	}
@@ -65,21 +70,81 @@ class BenchmarkResult {
 	}
 
 	/**
-	 * Returns the elapsed time of the benchmark.
+	 * Returns the elapsed time of the benchmark in seconds.
 	 */
-	public getMicros() {
-		return this.micros;
+	public getSeconds() {
+		return this.elapsed;
 	}
 
 	/**
-	 * Returns the average time in micros.
+	 * Returns the average time in seconds.
 	 */
-	public getMicrosPerRun() {
-		return this.microsPerRun;
+	public getSecondsPerRun() {
+		return this.elapsed / this.runCount;
 	}
 
-	private formatMicros(micros: number) {
-		return '%.2f μs'.format(micros);
+	/**
+	 * Returns the elapsed time of the benchmark in milliseconds.
+	 */
+	public getMillis() {
+		return this.elapsed * 1000;
+	}
+
+	/**
+	 * Returns the average time in milliseconds.
+	 */
+	public getMillisPerRun() {
+		return this.getMillis() / this.runCount;
+	}
+
+	/**
+	 * Returns the elapsed time of the benchmark in microseconds.
+	 */
+	public getMicros() {
+		return this.elapsed * 1000000;
+	}
+
+	/**
+	 * Returns the average time in microseconds.
+	 */
+	public getMicrosPerRun() {
+		return this.getMicros() / this.runCount;
+	}
+
+	/**
+	 * Formats the total run time of the benchmark with
+	 * the appropriate unit.
+	 */
+	private formatTotalRun() {
+		const micros = this.getMicros();
+		const millis = this.getMillis();
+		const seconds = this.getSeconds();
+
+		if (micros <= 1000) return '%.2f μs'.format(micros);
+		else if (millis <= 1000) return '%.2f ms'.format(millis);
+		else return '%.2f s'.format(seconds);
+	}
+
+	/**
+	 * Formats the average time of the benchmark with
+	 * the appropriate unit.
+	 */
+	private formatPerRun() {
+		const micros = this.getMicrosPerRun();
+		const millis = this.getMillisPerRun();
+		const seconds = this.getSecondsPerRun();
+
+		if (micros <= 1000) return `%.2f μs * ${this.runCount}`.format(micros);
+		else if (millis <= 1000) return `%.2f ms * ${this.runCount}`.format(millis);
+		else return `%.2f s * ${this.runCount}`.format(seconds);
+	}
+
+	/**
+	 * Formats the name of the benchmark depending
+	 * on if an operation name was provided.
+	 */
+	private formatName(opName?: string) {
+		return `Benchmark${opName ? `(${opName})` : ''}:`;
 	}
 }
 
