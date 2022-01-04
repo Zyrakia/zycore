@@ -18,7 +18,7 @@ class BenchmarkResult {
 	 * it will show the time in microseconds.
 	 *
 	 * Format:
-	 * `Benchmark({opName}?): {runTime} μs/ms/s * ${runCount} ({totalTime?} μs/ms/s)`
+	 * `Benchmark({opName}?): {runTime} μs/ms/s ({totalTime?} μs/ms/s for {runCount} runs)`
 	 *
 	 * @param opName The name of the operation being benchmarked.
 	 */
@@ -26,7 +26,7 @@ class BenchmarkResult {
 		print(
 			`${this.formatName(opName)} ${
 				this.runCount > 1
-					? `${this.formatPerRun()} (${this.formatTotalRun()})`
+					? `${this.formatPerRun()} (${this.formatTotalRun()} for ${this.runCount} runs)`
 					: `${this.formatTotalRun()}`
 			}`,
 		);
@@ -134,9 +134,9 @@ class BenchmarkResult {
 		const millis = this.getMillisPerRun();
 		const seconds = this.getSecondsPerRun();
 
-		if (micros <= 1000) return `%.2f μs * ${this.runCount}`.format(micros);
-		else if (millis <= 1000) return `%.2f ms * ${this.runCount}`.format(millis);
-		else return `%.2f s * ${this.runCount}`.format(seconds);
+		if (micros <= 1000) return `%.2f μs`.format(micros);
+		else if (millis <= 1000) return `%.2f ms`.format(millis);
+		else return `%.2f s`.format(seconds);
 	}
 
 	/**
