@@ -1,5 +1,6 @@
 import { Ping } from '@rbxts/ping';
 import { RunService, Players, GroupService } from '@rbxts/services';
+import { Objects } from 'Objects';
 
 export type RankMapping<T> = { [key: number]: T | undefined };
 
@@ -17,6 +18,8 @@ export class GroupRanker<Identifier> {
 	/** A ping that fires whenever a player is assigned an identifier. */
 	public readonly onIdentified = this.identifyPing.connector;
 
+	private mapping: [number, Identifier | undefined][];
+
 	/**
 	 * Creates a new GroupRanker, each key in the mapping should
 	 * correspond to a rank in the group, and the value should
@@ -31,16 +34,16 @@ export class GroupRanker<Identifier> {
 	 *   253: 'mod', // If the player has a rank over or equal to 253, they will be given the identifier 'mod'
 	 * }
 	 * ```
-     * 
-     * This mapping is calculated top-down, so if a player is grater or equal to multiple ranks,
-     * the uppermost key-value pair will be used. In the example above, this would mean it would check
-     * against 255 first, then 254, then 253.
+	 *
+	 * This mapping is calculated top-down, so if a player is grater or equal to multiple ranks,
+	 * the uppermost key-value pair will be used. In the example above, this would mean it would check
+	 * against 255 first, then 254, then 253.
 	 *
 	 * @param groupID The group ID to use for the ranker
 	 * @param mapping The mapping of ranks to identifiers
 	 */
-	public constructor(private groupID: number, private mapping: RankMapping<Identifier>) {
-		this.validateMapping();
+	public constructor(private groupID: number, mapping: RankMapping<Identifier>) {
+		this.mapping = GroupRanker.formatMapping(mapping);
 	}
 
 	public get(player: Player): Identifier | undefined;
@@ -113,8 +116,7 @@ export class GroupRanker<Identifier> {
 	 * This will not invalidate the existing identifiers..
 	 */
 	public setMapping(mapping: RankMapping<Identifier>) {
-		this.mapping = mapping;
-		this.validateMapping();
+		this.mapping = GroupRanker.formatMapping(mapping);
 		this.rankToIdentifier.clear();
 	}
 
@@ -149,13 +151,11 @@ export class GroupRanker<Identifier> {
 		const existing = this.rankToIdentifier.get(rank);
 		if (existing) return existing;
 
-		let identifier = this.mapping[rank];
-		if (identifier === undefined) {
-			for (const [key, value] of pairs(this.mapping)) {
-				if (rank < key) continue;
-				identifier = value;
-				break;
-			}
+		let identifier;
+		for (const [key, value] of this.mapping) {
+			if (rank < key || value === undefined) continue;
+			identifier = value;
+			break;
 		}
 
 		if (identifier) this.rankToIdentifier.set(rank, identifier);
@@ -172,14 +172,17 @@ export class GroupRanker<Identifier> {
 	}
 
 	/**
-	 * Validates the mapping of the ranker and
+	 * Formats and validates the mapping of the ranker and
 	 * throws if the mapping is invalid.
 	 */
-	private validateMapping() {
-		for (const [key] of pairs(this.mapping)) {
-			if (!typeIs(key, 'number')) delete this.mapping[key];
+	private static formatMapping<T>(mapping: RankMapping<T>) {
+		const sortedMapping = Objects.sortedPairs(mapping);
+
+		for (const [key] of sortedMapping) {
 			if (key < 0) throw 'A rank cannot be less than 0!';
 			else if (key > 255) throw 'A rank cannot be greater than 255!';
 		}
+
+		return sortedMapping;
 	}
 }
