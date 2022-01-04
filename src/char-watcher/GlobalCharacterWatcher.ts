@@ -27,10 +27,6 @@ export class GlobalCharacterWatcher {
 	 * you need to listen to since watch will fire for the
 	 * existing character immediately if desired.
 	 *
-	 * @see {@link watch}
-	 * @see {@link onAdded}
-	 * @see {@link onRemoving}
-	 *
 	 * @param existing Whether to fire for an existing character
 	 */
 	public constructor(private existing = true) {

@@ -23,6 +23,19 @@ export class GroupRanker<Identifier> {
 	 * be the identifier that should be given to the player
 	 * if they have that rank.
 	 *
+	 * Example Mapping:
+	 * ```ts
+	 * const mapping = {
+	 *   255: 'owner', // If the player has a rank over or equal to 255, they will be given the identifier 'owner'
+	 *   254: 'admin', // If the player has a rank over or equal to 254, they will be given the identifier 'admin'
+	 *   253: 'mod', // If the player has a rank over or equal to 253, they will be given the identifier 'mod'
+	 * }
+	 * ```
+     * 
+     * This mapping is calculated top-down, so if a player is grater or equal to multiple ranks,
+     * the uppermost key-value pair will be used. In the example above, this would mean it would check
+     * against 255 first, then 254, then 253.
+	 *
 	 * @param groupID The group ID to use for the ranker
 	 * @param mapping The mapping of ranks to identifiers
 	 */
