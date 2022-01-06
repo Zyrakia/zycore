@@ -9,20 +9,11 @@ export namespace InstanceTree {
 	 *
 	 * @param instance The instance to start with.
 	 * @param cb The callback to call for each descendant.
+	 * @param inclusive Whether to call the callback for the given instance.
 	 */
-	export function walk(instance: Instance, cb: (instance: Instance) => void) {
+	export function walk(instance: Instance, cb: (instance: Instance) => void, inclusive = false) {
+		if (inclusive) cb(instance);
 		instance.GetDescendants().forEach((descendant) => cb(descendant));
-	}
-
-	/**
-	 * Calls the given callback for the given instance and each of it's descendants.
-	 *
-	 * @param instance The instance to start with.
-	 * @param cb The callback to call for each descendant.
-	 */
-	export function walkInclusive(instance: Instance, cb: (instance: Instance) => void) {
-		cb(instance);
-		walk(instance, cb);
 	}
 
 	/**
@@ -30,52 +21,32 @@ export namespace InstanceTree {
 	 *
 	 * @param instance The instance to start with.
 	 * @param cb The callback to call for each child.
+	 * @param inclusive Whether to call the callback for the given instance.
 	 */
-	export function walkNear(instance: Instance, cb: (instance: Instance) => void) {
+	export function walkNear(
+		instance: Instance,
+		cb: (instance: Instance) => void,
+		inclusive = false,
+	) {
+		if (inclusive) cb(instance);
 		instance.GetChildren().forEach((descendant) => cb(descendant));
 	}
-
-	/**
-	 * Calls the given callback for the given instance and each of it's children.
-	 *
-	 * @param instance The instance to start with.
-	 * @param cb The callback to call for each child.
-	 */
-	export function walkNearInclusive(instance: Instance, cb: (instance: Instance) => void) {
-		cb(instance);
-		walkNear(instance, cb);
-	}
-
 	/**
 	 * Calls the given callback for each descendant of the given instance that is of the given class.
 	 *
 	 * @param instance The instance to start with.
 	 * @param filter The class to filter by.
 	 * @param cb The callback to call for each descendant.
+	 * @param inclusive Whether to include the instance itself.
 	 */
 	export function walkFilter<T extends keyof Instances>(
 		instance: Instance,
 		filter: T,
 		cb: (instance: Instances[T]) => void,
+		inclusive = false,
 	) {
+		if (inclusive && instance.IsA(filter)) cb(instance);
 		instance.GetDescendants().forEach((descendant) => descendant.IsA(filter) && cb(descendant));
-	}
-
-	/**
-	 * Calls the given callback for the instance if it is of the given class,
-	 * and each of it's descendants that is of the given class.
-	 *
-	 * @param instance The instance to start with.
-	 * @param filter The class to filter by.
-	 * @param cb The callback to call for each descendant.
-	 */
-	export function walkFilterInclusive<T extends keyof Instances>(
-		instance: Instance,
-		filter: T,
-		cb: (instance: Instances[T]) => void,
-	) {
-		instance.IsA(filter) && cb(instance);
-		walkFilter(instance, filter, cb);
 	}
 
 	/**
@@ -84,30 +55,16 @@ export namespace InstanceTree {
 	 * @param instance The instance to start with.
 	 * @param filter The class to filter by.
 	 * @param cb The callback to call for each child.
+	 * @param inclusive Whether to include the instance itself.
 	 */
 	export function walkNearFilter<T extends keyof Instances>(
 		instance: Instance,
 		filter: T,
 		cb: (instance: Instances[T]) => void,
+		inclusive = false,
 	) {
+        if (inclusive && instance.IsA(filter)) cb(instance);
 		instance.GetChildren().forEach((descendant) => descendant.IsA(filter) && cb(descendant));
-	}
-
-	/**
-	 * Calls the given callback for the instance if it is of the given class,
-	 * and each of it's children that is of the given class.
-	 *
-	 * @param instance The instance to start with.
-	 * @param filter The class to filter by.
-	 * @param cb The callback to call for each child.
-	 */
-	export function walkNearFilterInclusive<T extends keyof Instances>(
-		instance: Instance,
-		filter: T,
-		cb: (instance: Instances[T]) => void,
-	) {
-		instance.IsA(filter) && cb(instance);
-		walkNearFilter(instance, filter, cb);
 	}
 
 	/**
@@ -238,7 +195,7 @@ export namespace InstanceTree {
 	 * @param instance The instance to unlock.
 	 */
 	export function cloneUnlock(instance: Instance) {
-		walkInclusive(instance, (i) => (i.Archivable = true));
+		walk(instance, (i) => (i.Archivable = true), true);
 	}
 
 	/**
@@ -248,7 +205,7 @@ export namespace InstanceTree {
 	 * @param instance The instance to lock.
 	 */
 	export function cloneLock(instance: Instance) {
-		walkInclusive(instance, (i) => (i.Archivable = false));
+		walk(instance, (i) => (i.Archivable = false), true);
 	}
 
 	/**
