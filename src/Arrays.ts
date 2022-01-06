@@ -11,6 +11,35 @@ export namespace Arrays {
 	}
 
 	/**
+	 * Returns a random element of the input array based upon
+	 * the weight of each element.
+	 *
+	 * A random weight is generated at the start between 0 and the total weight
+	 * of the array, and then each element is checked to see if it's weight
+	 * added to the running total is greater than the random weight. If so,
+	 * the element is returned. As a fallback, the last element is returned.
+	 *
+	 * @param array The array to choose a random element from.
+	 * @param random An optional random source.
+	 * @returns A random element of the input array.
+	 */
+	export function pickWeightedRandom<T extends { weight: number }[]>(
+		array: T,
+		random = new Random(),
+	): T[number] {
+		const totalWeight = array.reduce((sum, item) => sum + item.weight, 0);
+		const randomWeight = random.NextNumber(0, totalWeight);
+		let currentWeight = 0;
+
+		for (const item of array) {
+			currentWeight += item.weight;
+			if (currentWeight > randomWeight) return item;
+		}
+
+		return array[array.size() - 1];
+	}
+
+	/**
 	 * Checks if both arrays are the same size and contain the same elements.
 	 *
 	 * @param first The first array to compare.
@@ -76,5 +105,47 @@ export namespace Arrays {
 		}
 
 		return reversed;
+	}
+
+	/**
+	 * Returns the input array sliced down to the specified indices.
+	 * The input array is not modified.
+	 *
+	 * @param array The array to slice.
+	 * @param start The index to start at.
+	 * @param stop The index to stop at.
+	 * @returns The sliced array.
+	 */
+	export function slice<T extends defined[]>(array: T, start: number, stop?: number) {
+		const size = array.size();
+
+		start = math.min(start, size);
+		stop = stop === undefined ? size : math.min(stop + 1, size);
+
+		const result = [];
+		for (let i = start; i < stop; i++) result.push(array[i]);
+		return result;
+	}
+
+	/**
+	 * Returns the input array in lower case.
+	 * The input array is not modified.
+	 *
+	 * @param array The array to lower case.
+	 * @returns The lower cased array.
+	 */
+	export function lower<T extends string[]>(array: T) {
+		return array.map((x) => x.lower());
+	}
+
+	/**
+	 * Returns the input array in upper case.
+	 * The input array is not modified.
+	 *
+	 * @param array The array to upper case.
+	 * @returns The upper case array.
+	 */
+	export function upper<T extends string[]>(array: T) {
+		return array.map((x) => x.upper());
 	}
 }
