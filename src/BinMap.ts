@@ -99,4 +99,11 @@ export class BinMap<T> {
 
 		return bin;
 	}
+
+    /**
+     * Returns the iterator of the internal map.
+     */
+	public [Symbol.iterator]() {
+		return this.map[Symbol.iterator]();
+	}
 }
