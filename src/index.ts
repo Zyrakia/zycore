@@ -16,7 +16,7 @@ export { UpdateSquasher } from './UpdateSquasher';
 export { CharacterWatcher } from './char-watcher/CharacterWatcher';
 export { GlobalCharacterWatcher } from './char-watcher/GlobalCharacterWatcher';
 export { Debris } from './Debris';
-export { Asset, PreloadableAsset } from './Asset';
+export { Asset, PreloadableAsset, ThumbnailTypes } from './Asset';
 export { LevelPermissionManager } from './permission/LevelPermissionManager';
 export { CacheMap } from './cache/CacheMap';
 export { Objects } from './Objects';

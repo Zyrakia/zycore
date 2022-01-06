@@ -13,6 +13,23 @@ export enum PreloadableAsset {
 	ANIMATION,
 }
 
+/**
+ * A map to possible rbxthumb asset types
+ * mapped to their possible height and width
+ * values.
+ */
+export interface ThumbnailTypes {
+	Asset: 150 | 420;
+	Avatar: 100 | 352 | 720;
+	AvatarHeadShot: 48 | 60 | 150;
+	BadgeIcon: 150;
+	BundleThumbnail: 150 | 420;
+	GameIcon: 50 | 150;
+	GamePass: 150;
+	GroupIcon: 150 | 420;
+	Outfit: 150 | 420;
+}
+
 export namespace Asset {
 	/**
 	 * Prefixes an assetId number with the Roblox asset
@@ -23,6 +40,29 @@ export namespace Asset {
 	 */
 	export function prefix(assetId: number) {
 		return `rbxassetid://${assetId}`;
+	}
+
+	/**
+	 * Returns the assetId number encoded in the Roblox thumbnail
+	 * protocol `rbxthumb://`, with the given asset type and dimensions.
+	 *
+     * This `thumbnail(24813339, "Asset", 150)`
+     * turns into this `rbxthumb://type=Asset&id=24813339&w=150&h=150`
+     * 
+	 * To read more about the rbxthumb protocol, see
+	 * [here](https://developer.roblox.com/en-us/articles/Content#rbxthumb).
+     * 
+	 * @param assetId The assetId to prefix.
+	 * @param typeName The type of thumbnail to use.
+	 * @param size The size of the thumbnail. (used for width and height)
+	 * @returns The assetId encoded into a thumbnail URL.
+	 */
+	export function thumbnail<T extends keyof ThumbnailTypes>(
+		assetId: number,
+		typeName: T,
+		size: ThumbnailTypes[T],
+	) {
+		return `rbxthumb://type=${typeName}&id=${assetId}&w=${size}&h=${size}`;
 	}
 
 	/**
