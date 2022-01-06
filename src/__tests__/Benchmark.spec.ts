@@ -14,8 +14,7 @@ export = () => {
 		}, 1000000);
 
 		it('should have an accurate benchmark time', () => {
-			bench.write('Addition');
-			expect(bench.getMicros()).to.be.near(26000, 1000);
+			expect(bench.getMicros()).to.be.near(26000, 2500);
 		});
 	});
 

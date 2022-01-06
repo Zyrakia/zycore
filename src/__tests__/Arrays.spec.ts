@@ -100,4 +100,52 @@ export = () => {
 			expect(Arrays.equals(arr, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).to.equal(true);
 		});
 	});
+
+	describe('slice', () => {
+		const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+		const sliced = Arrays.slice(arr, 2, 5);
+		print(sliced.join(' '));
+
+		it('should slice an input array', () => {
+			expect(Arrays.equals(sliced, [3, 4, 5, 6])).to.equal(true);
+		});
+
+		it('should not modify the original array', () => {
+			expect(Arrays.equals(arr, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).to.equal(true);
+		});
+	});
+
+	describe('lower', () => {
+		const arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+		const lower = Arrays.lower(arr);
+
+		it('should lowercase an input array', () => {
+			expect(
+				Arrays.equals(lower, ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']),
+			).to.equal(true);
+		});
+
+		it('should not modify the original array', () => {
+			expect(Arrays.equals(arr, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'])).to.equal(
+				true,
+			);
+		});
+	});
+
+	describe('upper', () => {
+		const arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+		const upper = Arrays.upper(arr);
+
+		it('should uppercase an input array', () => {
+			expect(
+				Arrays.equals(upper, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']),
+			).to.equal(true);
+		});
+
+		it('should not modify the original array', () => {
+			expect(Arrays.equals(arr, ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])).to.equal(
+				true,
+			);
+		});
+	});
 };
