@@ -190,9 +190,9 @@ export namespace Character {
 	 * @returns The animation script, or undefined if it wasn't found.
 	 */
 	export function getAnimationScript(char: Model) {
-		const script = char.FindFirstChild('Animate');
-		if (!script?.IsA('LocalScript')) return;
-		return script;
+		const animScript = char.FindFirstChild('Animate');
+		if (!animScript?.IsA('LocalScript')) return;
+		return animScript;
 	}
 
 	/**
@@ -204,10 +204,10 @@ export namespace Character {
 	 * @returns The animation, or undefined if it wasn't found.
 	 */
 	export function getAnimationForState(char: Model, state: string) {
-		const script = getAnimationScript(char);
-		if (!script) return;
+		const animScript = getAnimationScript(char);
+		if (!animScript) return;
 
-		const container = script.FindFirstChild(state.lower());
+		const container = animScript.FindFirstChild(state.lower());
 		if (!container?.IsA('StringValue')) return;
 
 		return container.FindFirstChildOfClass('Animation');
