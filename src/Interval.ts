@@ -10,7 +10,8 @@ export type Timeout = {
 
 /**
  * Creates an interval that runs the function every `interval` seconds.
- * Note that the first run will happen after `interval` seconds.
+ * Note that the first run will happen after `interval` seconds, if this
+ * behavior is desired, use `setIntervalNow` instead.
  *
  * @param cb The function to run.
  * @param interval The interval in seconds.
@@ -32,6 +33,24 @@ export function setInterval<A extends unknown[]>(
 	});
 
 	return { destroy: () => (running = false) };
+}
+
+/**
+ * Asynchronously calls the specified function immediately and
+ * then calls {@link setInterval} with the specified parameters.
+ *
+ * @param cb The function to run.
+ * @param interval The interval in seconds.
+ * @param args The arguments to pass to the function.
+ * @returns The interval.
+ */
+export function setIntervalNow<A extends unknown[]>(
+	cb: (...args: A) => void,
+	interval: number,
+	...args: A
+): Interval {
+	task.spawn(() => cb(...args));
+	return setInterval(cb, interval, ...args);
 }
 
 /**
