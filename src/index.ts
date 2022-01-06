@@ -20,3 +20,4 @@ export { Asset, PreloadableAsset, ThumbnailTypes } from './Asset';
 export { LevelPermissionManager } from './permission/LevelPermissionManager';
 export { CacheMap } from './cache/CacheMap';
 export { Objects } from './Objects';
+export { Users } from './Users';
