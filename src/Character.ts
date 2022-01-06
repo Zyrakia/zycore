@@ -182,4 +182,34 @@ export namespace Character {
 		hum.UnequipTools();
 		if (tool?.Parent !== char) return tool;
 	}
+
+	/**
+	 * Returns the animation script within a character.
+	 *
+	 * @param char The character to get the animation script from.
+	 * @returns The animation script, or undefined if it wasn't found.
+	 */
+	export function getAnimationScript(char: Model) {
+		const script = char.FindFirstChild('Animate');
+		if (!script?.IsA('LocalScript')) return;
+		return script;
+	}
+
+	/**
+	 * Searches through the character's animate script and finds the
+	 * given animation for the specified state name and returns it.
+	 *
+	 * @param char The character to get the animation script from.
+	 * @param state The state name to search for.
+	 * @returns The animation, or undefined if it wasn't found.
+	 */
+	export function getAnimationForState(char: Model, state: string) {
+		const script = getAnimationScript(char);
+		if (!script) return;
+
+		const container = script.FindFirstChild(state.lower());
+		if (!container?.IsA('StringValue')) return;
+
+		return container.FindFirstChildOfClass('Animation');
+	}
 }
