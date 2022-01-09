@@ -27,7 +27,7 @@ export = () => {
 	describe('walkInclusive', () => {
 		it('should invoke the callback for every descendant, including root', () => {
 			let walked = 0;
-			InstanceTree.walkInclusive(parent, () => walked++);
+			InstanceTree.walk(parent, () => walked++, true);
 			expect(walked).to.equal(descendantsAmount + 1);
 		});
 	});
@@ -43,7 +43,7 @@ export = () => {
 	describe('walkNearInclusive', () => {
 		it('should invoke the callback for every child, including root', () => {
 			let walked = 0;
-			InstanceTree.walkNearInclusive(parent, () => walked++);
+			InstanceTree.walkNear(parent, () => walked++, true);
 			expect(walked).to.equal(childAmount + 1);
 		});
 	});
@@ -59,7 +59,7 @@ export = () => {
 	describe('walkFilterInclusive', () => {
 		it('should invoke the callback for every descendant of the given type, including root', () => {
 			let walked = 0;
-			InstanceTree.walkFilterInclusive(parent, 'MeshPart', () => walked++);
+			InstanceTree.walkFilter(parent, 'MeshPart', () => walked++, true);
 			expect(walked).to.equal(meshDescendantAmount);
 		});
 	});
@@ -75,7 +75,7 @@ export = () => {
 	describe('walkNearFilterInclusive', () => {
 		it('should invoke the callback for every child of the given type, including root', () => {
 			let walked = 0;
-			InstanceTree.walkNearFilterInclusive(parent, 'MeshPart', () => walked++);
+			InstanceTree.walkNearFilter(parent, 'MeshPart', () => walked++, true);
 			expect(walked).to.equal(meshChildAmount);
 		});
 	});
