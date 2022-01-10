@@ -144,4 +144,30 @@ export namespace Strings {
 	export function truncate(str: string, length: number, suffix = '...') {
 		return str.size() > length ? str.sub(0, length) + suffix : str;
 	}
+
+	/**
+	 * Pads the end of the passed string with the specified
+	 * character until the string reaches the specified length.
+	 *
+	 * @param str The string to pad.
+	 * @param length The length to pad to.
+	 * @param char The character to pad with.
+	 * @returns The padded string.
+	 */
+	export function padEnd(str: string, length: number, char = ' ') {
+		return str.size() >= length ? str : str + char.rep(length - str.size());
+	}
+
+	/**
+	 * Pads the beginning of the passed string with the specified
+	 * character until the string reaches the specified length.
+	 *
+	 * @param str The string to pad.
+	 * @param length The length to pad to.
+	 * @param char The character to pad with.
+	 * @returns The padded string.
+	 */
+	export function padStart(str: string, length: number, char = ' ') {
+		return str.size() >= length ? str : char.rep(length - str.size()) + str;
+	}
 }

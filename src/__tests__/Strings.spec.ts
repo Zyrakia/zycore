@@ -136,4 +136,18 @@ export = () => {
 			expect(truncate).to.equal('fo...');
 		});
 	});
+
+	describe('padEnd', () => {
+		it('should return the padded string', () => {
+			const padEnd = Strings.padEnd('foo', 5, '-');
+			expect(padEnd).to.equal('foo--');
+		});
+	});
+
+	describe('padStart', () => {
+		it('should return the padded string', () => {
+			const padStart = Strings.padStart('foo', 5, '-');
+			expect(padStart).to.equal('--foo');
+		});
+	});
 };
