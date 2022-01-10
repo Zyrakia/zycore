@@ -195,11 +195,4 @@ export class DebouncerMap<T> {
 
 		return debouncer;
 	}
-
-	/**
-	 * Returns the iterator of the internal map.
-	 */
-	public [Symbol.iterator]() {
-		return this.map[Symbol.iterator]();
-	}
 }
