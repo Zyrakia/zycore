@@ -34,6 +34,7 @@
     },
     "devDependencies": {
         "@rbxts/compiler-types": "^1.2.7-types.0",
+        "@rbxts/inspect": "^1.0.1",
         "@rbxts/services": "^1.2.0",
         "@rbxts/testez": "^0.3.1-ts.7",
         "@rbxts/types": "^1.0.551"
