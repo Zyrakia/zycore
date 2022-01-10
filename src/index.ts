@@ -23,3 +23,4 @@ export { CacheMap } from './cache/CacheMap';
 export { Objects } from './Objects';
 export { Users } from './Users';
 export { Tags } from './Tags';
+export { PartEffects } from './PartEffects';

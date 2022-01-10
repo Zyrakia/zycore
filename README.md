@@ -215,6 +215,7 @@ destroy()
 ```
 defaultLifetime
 add()
+addSink()
 ```
 
 ### <b>Asset</b> - utility functions for working with Roblox asset-related things.
@@ -283,4 +284,10 @@ getTagged()
 getTags()
 onAdded()
 onRemoved()
+```
+
+### <b>PartEffects</b> - utility functions for animating BaseParts.
+
+```
+sink()
 ```
