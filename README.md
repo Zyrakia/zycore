@@ -25,6 +25,7 @@ Below is a short list of utilities and a concise description, full method-by-met
 - slice()
 - lower()
 - upper()
+- flatten()
 ```
 
 ### <b>Benchmark</b> - utility functions for benchmarking code and display the results in appropriate formats.
@@ -109,7 +110,6 @@ clear()
 setTimeoutAll()
 resetAll()
 has()
-[Symbol.iterator]()
 ```
 
 ### <b>Interval & Timeout</b> - Feature replication of the JS setTimeout and setInterval functions.
@@ -144,6 +144,8 @@ includes()
 lastCamel()
 extractNumbers()
 truncate()
+padEnd()
+padStart()
 ```
 
 ### <b>Character</b> - utility functions for working with Roblox characters.
@@ -170,7 +172,6 @@ getAnimationForState()
 addAll()
 destroyAll()
 deleteAll()
-[Symbol.iterator]()
 ```
 
 ### <b>GroupRanker</b> - utility class for assigning identifiers to players based on their rank in a Roblox group according to a customizable mapping.
