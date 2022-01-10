@@ -1,3 +1,5 @@
+export type UnpackedArray<T> = T extends Array<infer U> ? UnpackedArray<U> : T;
+
 export namespace Arrays {
 	/**
 	 * Returns a random element of the input array.
@@ -147,5 +149,25 @@ export namespace Arrays {
 	 */
 	export function upper<T extends string[]>(array: T) {
 		return array.map((x) => x.upper());
+	}
+
+	/**
+	 * Recursively flattens the input array such that all
+	 * elements, not matter how deep, are placed in a single
+	 * array. The input array is not modified.
+	 *
+	 * @param array The array to flatten.
+	 * @returns The flattened array.
+	 */
+	export function flatten<T extends defined[]>(arr: T) {
+		let flattened: UnpackedArray<T>[] = [];
+
+		for (const item of arr) {
+			if (typeIs(item, 'table')) {
+				flattened = [...flattened, ...flatten(item as T)];
+			} else flattened.push(item);
+		}
+
+		return flattened;
 	}
 }

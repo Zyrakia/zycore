@@ -1,4 +1,22 @@
 import { Arrays } from 'Arrays';
+import inspect from '@rbxts/inspect';
+
+function deepEquals<T extends defined>(first: T[], second: T[]) {
+	if (first.size() !== second.size()) return false;
+
+	for (let i = 0; i < first.size(); i++) {
+		const a = first[i];
+		const b = second[i];
+
+		if (a === b) continue;
+
+		if (typeIs(a, 'table') && typeIs(b, 'table')) {
+			if (!deepEquals(a as unknown as T[], b as unknown as T[])) return false;
+		} else return false;
+	}
+
+	return true;
+}
 
 export = () => {
 	describe('pickRandom', () => {
@@ -104,7 +122,6 @@ export = () => {
 	describe('slice', () => {
 		const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		const sliced = Arrays.slice(arr, 2, 5);
-		print(sliced.join(' '));
 
 		it('should slice an input array', () => {
 			expect(Arrays.equals(sliced, [3, 4, 5, 6])).to.equal(true);
@@ -146,6 +163,38 @@ export = () => {
 			expect(Arrays.equals(arr, ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])).to.equal(
 				true,
 			);
+		});
+	});
+
+	describe('flatten', () => {
+		it('should flatten deep arrays', () => {
+			const arr = [
+				[1, 2, 3],
+				[4, 5, 6],
+				[7, [8, 9, 10]],
+			];
+			const flattened = Arrays.flatten(arr);
+
+			expect(Arrays.equals(flattened, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).to.equal(true);
+		});
+
+		it('should flatten shallow arrays', () => {
+			const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+			const flattened = Arrays.flatten(arr);
+
+			expect(Arrays.equals(flattened, [1, 2, 3, 4, 5, 6, 7, 8, 9])).to.equal(true);
+		});
+
+		it('should not modify the original array', () => {
+			const arr = [
+				[1, 2, 3],
+				[4, 5, 6],
+				[7, 8, 9],
+			];
+
+			const flattened = Arrays.flatten(arr);
+
+			expect(deepEquals(arr, flattened as unknown as number[][])).to.equal(false);
 		});
 	});
 };
