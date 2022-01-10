@@ -46,12 +46,12 @@ export namespace Asset {
 	 * Returns the assetId number encoded in the Roblox thumbnail
 	 * protocol `rbxthumb://`, with the given asset type and dimensions.
 	 *
-     * This `thumbnail(24813339, "Asset", 150)`
-     * turns into this `rbxthumb://type=Asset&id=24813339&w=150&h=150`
-     * 
+	 * This `thumbnail(24813339, "Asset", 150)`
+	 * turns into this `rbxthumb://type=Asset&id=24813339&w=150&h=150`
+	 *
 	 * To read more about the rbxthumb protocol, see
 	 * [here](https://developer.roblox.com/en-us/articles/Content#rbxthumb).
-     * 
+	 *
 	 * @param assetId The assetId to prefix.
 	 * @param typeName The type of thumbnail to use.
 	 * @param size The size of the thumbnail. (used for width and height)
@@ -153,7 +153,7 @@ export namespace Asset {
 	 * @param instance The instance to preload.
 	 * @returns The instance.
 	 */
-	export function preloadReturn(instance: Instance) {
+	export function preloadReturn<T extends Instance>(instance: T) {
 		preload(instance);
 		return instance;
 	}
