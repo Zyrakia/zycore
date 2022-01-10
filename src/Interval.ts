@@ -1,11 +1,20 @@
 export type Interval = {
 	/** Cancels the interval, preventing any further executions. */
 	destroy: () => void;
+
+	/** Returns whether the interval has been destroyed. */
+	isDestroyed: () => boolean;
 };
 
 export type Timeout = {
 	/** If a timeout has not executed yet, this will prevent it from executing. */
 	destroy: () => void;
+
+	/** Returns whether the Timeout has been destroyed. */
+	isDestroyed: () => boolean;
+
+	/** Returns whether the Timeout has executed. */
+	hasExecuted: () => boolean;
 };
 
 /**
@@ -32,7 +41,7 @@ export function setInterval<A extends unknown[]>(
 		}
 	});
 
-	return { destroy: () => (running = false) };
+	return { destroy: () => (running = false), isDestroyed: () => !running };
 }
 
 /**
@@ -67,11 +76,19 @@ export function setTimeout<A extends unknown[]>(
 	...args: A
 ): Timeout {
 	let shouldRun = true;
+	let didRun = false;
 
 	task.spawn(() => {
 		task.wait(math.abs(interval));
-		if (shouldRun) cb(...args);
+		if (shouldRun) {
+			cb(...args);
+			didRun = true;
+		}
 	});
 
-	return { destroy: () => (shouldRun = false) };
+	return {
+		destroy: () => (shouldRun = false),
+		isDestroyed: () => !shouldRun,
+		hasExecuted: () => didRun,
+	};
 }
