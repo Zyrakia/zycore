@@ -1,4 +1,4 @@
-export type UnpackedArray<T> = T extends Array<infer U> ? UnpackedArray<U> : T;
+import { UnpackedArray } from 'type-toolbelt/Arrays';
 
 export namespace Arrays {
 	/**
