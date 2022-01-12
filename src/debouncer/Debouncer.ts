@@ -1,4 +1,4 @@
-import { Workspace } from '@rbxts/services';
+import { Time } from 'Time';
 
 export class Debouncer {
 	private last?: number;
@@ -19,7 +19,7 @@ export class Debouncer {
 	 */
 	public try() {
 		const canPass = this.check();
-		if (canPass) this.last = Workspace.GetServerTimeNow();
+		if (canPass) this.last = Time.now();
 		return canPass;
 	}
 
@@ -33,8 +33,8 @@ export class Debouncer {
 		if (this.locked) return false;
 		if (this.last === undefined) return true;
 
-		const now = Workspace.GetServerTimeNow();
-		if (now - this.last >= this.timeout) return true;
+		const now = Time.now();
+		if (Time.diff(this.last, now) >= this.timeout) return true;
 
 		return false;
 	}

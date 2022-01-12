@@ -1,4 +1,5 @@
 import { RunService } from '@rbxts/services';
+import { Time, TimeUnit } from 'Time';
 
 class BenchmarkResult {
 	public constructor(
@@ -95,7 +96,7 @@ class BenchmarkResult {
 	 * Returns the elapsed time of the benchmark in milliseconds.
 	 */
 	public getMillis() {
-		return this.elapsed * 1000;
+		return Time.convert(this.elapsed, TimeUnit.SECOND, TimeUnit.MILLI);
 	}
 
 	/**
@@ -109,7 +110,7 @@ class BenchmarkResult {
 	 * Returns the elapsed time of the benchmark in microseconds.
 	 */
 	public getMicros() {
-		return this.elapsed * 1000000;
+		return Time.convert(this.elapsed, TimeUnit.SECOND, TimeUnit.MICRO);
 	}
 
 	/**
@@ -174,7 +175,7 @@ export namespace Benchmark {
 		for (let i = 0; i < runs; i++) f();
 		const fin = os.clock();
 
-		return new BenchmarkResult(fin - start, runs);
+		return new BenchmarkResult(Time.diff(start, fin), runs);
 	}
 
 	/**
@@ -211,7 +212,7 @@ export namespace Benchmark {
 
 		activeBenchmarks.delete(id);
 
-		return new BenchmarkResult(fin - start, 1, id);
+		return new BenchmarkResult(Time.diff(fin, start), 1, id);
 	}
 
 	/**

@@ -305,3 +305,16 @@ warning()
 err()
 errNonFatal()
 ```
+
+### <b>Time</b> - utility functions for working with time and time units.
+
+```
+now()
+localNow()
+diff()
+convert()
+secondsToReadable()
+toClock()
+toClockHoursMinutes()
+toClockMinutesSeconds()
+```
