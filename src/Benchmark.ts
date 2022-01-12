@@ -8,28 +8,36 @@ class BenchmarkResult {
 	) {}
 
 	/**
-	 * Writes the benchmark result to the console, if multiple runs
-	 * were performed it will show the average time and then in brackets
-	 * the total time, otherwise it will just show the total time.
-	 *
-	 * If the operation took more than 1000 microseconds, it will
-	 * show the time in milliseconds, if the operation took more than
-	 * 1000 milliseconds, it will show the time in seconds. Otherwise
-	 * it will show the time in microseconds.
+	 * Returns the result of the benchmark in
+	 * a readable and consistent format. Depending on
+	 * how long the benchmark took, it will show different
+	 * units. If the benchmark was run multiple times it will
+	 * show the total time and the average time, with the amount
+	 * of runs that were performed.
 	 *
 	 * Format:
 	 * `Benchmark({opName}?): {runTime} μs/ms/s ({totalTime?} μs/ms/s for {runCount} runs)`
 	 *
 	 * @param opName The name of the operation being benchmarked.
+	 * @returns The benchmark result in a readable format.
 	 */
-	public write(opName = this.opName) {
-		print(
-			`${this.formatName(opName)} ${
-				this.runCount > 1
-					? `${this.formatPerRun()} (${this.formatTotalRun()} for ${this.runCount} runs)`
-					: `${this.formatTotalRun()}`
-			}`,
-		);
+	public getMessage(opName = this.opName) {
+		return `${this.formatName(opName)} ${
+			this.runCount > 1
+				? `${this.formatPerRun()} (${this.formatTotalRun()} for ${this.runCount} runs)`
+				: `${this.formatTotalRun()}`
+		}`;
+	}
+
+	/**
+	 * Writes the benchmark result to the console, in a readable
+	 * and consistent format. This just prints the result of
+	 * {@link getMessage} to the console.
+	 *
+	 * @param opName The name of the operation being benchmarked.
+	 */
+	public write(opName?: string) {
+		print(this.getMessage(opName));
 	}
 
 	/**

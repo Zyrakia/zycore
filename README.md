@@ -37,6 +37,7 @@ stop()
 runDebug()
 
 BenchmarkResult
+getMessage()
 write()
 writeIfClient()
 writeIfServer()
@@ -290,4 +291,17 @@ onRemoved()
 
 ```
 sink()
+```
+
+### <b>Log</b> - utility functions for logging preset or dynamic messages with optional prefix / suffix.
+
+```
+prefix
+suffix
+mapping
+
+info()
+warning()
+err()
+errNonFatal()
 ```

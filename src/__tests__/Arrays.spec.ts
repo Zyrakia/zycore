@@ -1,5 +1,4 @@
 import { Arrays } from 'Arrays';
-import inspect from '@rbxts/inspect';
 
 function deepEquals<T extends defined>(first: T[], second: T[]) {
 	if (first.size() !== second.size()) return false;

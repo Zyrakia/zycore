@@ -1,3 +1,13 @@
+/**
+ * Extracts the keys of a type that are not a number.
+ */
+export type StringKeyof<T> = Exclude<keyof T, number>;
+
+/**
+ * Extracts the keys of a type that are not a string.
+ */
+export type NumberKeyof<T> = Exclude<keyof T, string>;
+
 export type NumericKeyPair<T> = T extends Record<infer K, infer V> ? [K & number, V] : never;
 
 export namespace Objects {

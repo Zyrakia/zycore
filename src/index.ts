@@ -1,3 +1,4 @@
+export type { NestedArray, UnpackedArray } from './Arrays';
 export { Arrays } from './Arrays';
 export { Benchmark } from './Benchmark';
 export { InstanceTree } from './InstanceTree';
@@ -19,7 +20,10 @@ export { Debris } from './Debris';
 export { Asset, PreloadableAsset, ThumbnailTypes } from './Asset';
 export { LevelPermissionManager } from './permission/LevelPermissionManager';
 export { CacheMap } from './cache/CacheMap';
+export type { StringKeyof, NumberKeyof, NumericKeyPair } from './Objects';
 export { Objects } from './Objects';
 export { Users } from './Users';
 export { Tags } from './Tags';
 export { PartEffects } from './PartEffects';
+export type { LogMapping, FormatArgs } from './Log';
+export { Log } from './Log';
