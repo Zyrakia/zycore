@@ -56,7 +56,7 @@ export = () => {
 	});
 
 	describe('toReadableString', () => {
-		expect(Time.toReadableString(Time.convert(1, TimeUnit.YEAR, TimeUnit.SECOND) + 5)).to.equal(
+		expect(Time.toReadable(Time.convert(1, TimeUnit.YEAR, TimeUnit.SECOND) + 5)).to.equal(
 			'1 year, 5 seconds',
 		);
 	});

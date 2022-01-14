@@ -92,7 +92,7 @@ export namespace Time {
 	 * years, but does not include any 0 units.
 	 *
 	 * Example:
-	 * Time.toReadableString(Time.convert(1, TimeUnit.YEAR, TimeUnit.SECOND) + 5) => "1 year, 5 seconds"
+	 * Time.toReadable(Time.convert(1, TimeUnit.YEAR, TimeUnit.SECOND) + 5) => "1 year, 5 seconds"
 	 *
 	 * @param seconds The seconds to format.
 	 * @param upperLimit The upper TimeUnit to stop at, default is {@link TimeUnit.YEAR}.
@@ -100,7 +100,7 @@ export namespace Time {
 	 * @param excludedUnits An array of TimeUnit to exclude from the output, default is [{@link TimeUnit.FORTNIGHT}, {@link TimeUnit.SIDERIAL_YEAR}].
 	 * @returns The formatted seconds.
 	 */
-	export function toReadableString(
+	export function toReadable(
 		seconds: number,
 		upperLimit = TimeUnit.YEAR,
 		lowerLimit = TimeUnit.SECOND,
