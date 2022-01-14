@@ -66,12 +66,12 @@ export namespace Time {
 	 * Gets the different between a start and end time.
 	 *
 	 * @param start The start time.
-	 * @param fin The end time.
+	 * @param fin The end time, defaults to {@link Time.now}.
 	 * @param unit An optional unit to convert the difference to, if specified, assumes the start and end times are in seconds.
 	 * @returns The time difference in the specified time unit.
 	 */
-	export function diff(start: number, fin: number, unit?: TimeUnit) {
-		const diff = fin - start;
+	export function diff(start: number, fin?: number, unit?: TimeUnit) {
+		const diff = (fin ?? Time.now()) - start;
 		return unit !== undefined ? convert(diff, TimeUnit.SECOND, unit) : diff;
 	}
 
