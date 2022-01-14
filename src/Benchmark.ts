@@ -212,7 +212,7 @@ export namespace Benchmark {
 
 		activeBenchmarks.delete(id);
 
-		return new BenchmarkResult(Time.diff(fin, start), 1, id);
+		return new BenchmarkResult(Time.diff(start, fin), 1, id);
 	}
 
 	/**
