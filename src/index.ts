@@ -6,7 +6,7 @@ export { Numbers } from './Numbers';
 export { Debouncer } from './debouncer/Debouncer';
 export { DebouncerMap } from './debouncer/DebouncerMap';
 export type { Interval, Timeout } from './Interval';
-export { setInterval, setTimeout } from './Interval';
+export { setInterval, setTimeout, setIntervalNow } from './Interval';
 export { Colors, RGB } from './Colors';
 export { Strings } from './Strings';
 export { Character } from './Character';
