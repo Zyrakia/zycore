@@ -18,6 +18,7 @@ export { CharacterWatcher } from './char-watcher/CharacterWatcher';
 export { GlobalCharacterWatcher } from './char-watcher/GlobalCharacterWatcher';
 export { Debris } from './Debris';
 export { Asset, PreloadableAsset, ThumbnailTypes } from './Asset';
+export { Animations } from './Animations';
 export { LevelPermissionManager } from './permission/LevelPermissionManager';
 export { CacheMap } from './cache/CacheMap';
 export type { StringKeyof, NumberKeyof, NumericKeyPair } from './Objects';
