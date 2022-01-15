@@ -4,6 +4,9 @@ export type Interval = {
 
 	/** Returns whether the interval has been destroyed. */
 	isDestroyed: () => boolean;
+
+	/** Adjusts the interval, applies the next iteration. */
+	adjustInterval: (interval: number) => void;
 };
 
 export type Timeout = {
@@ -32,16 +35,21 @@ export function setInterval<A extends unknown[]>(
 	interval: number,
 	...args: A
 ): Interval {
+	let timeout = interval;
 	let running = true;
 
 	task.spawn(() => {
 		while (running) {
-			task.wait(math.abs(interval));
+			task.wait(math.abs(timeout));
 			if (running) cb(...args);
 		}
 	});
 
-	return { destroy: () => (running = false), isDestroyed: () => !running };
+	return {
+		destroy: () => (running = false),
+		isDestroyed: () => !running,
+		adjustInterval: (interval: number) => (timeout = interval),
+	};
 }
 
 /**
