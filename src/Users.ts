@@ -1,3 +1,5 @@
+import { Players } from '@rbxts/services';
+
 export namespace Users {
 	/**
 	 * Returns a players full name formatted with their username
@@ -19,5 +21,30 @@ export namespace Users {
 			: primaryPreference === 'user'
 			? `${player.Name} (${secondaryIndicator} ${player.DisplayName})`
 			: `${player.DisplayName} (${secondaryIndicator} ${player.Name})`;
+	}
+
+	/**
+	 * Returns the name of the user with the given ID, if said user is online,
+	 * it will not create a request, and return the display name if the
+	 * `preferDisplayName` argument is set to true. If the player is not online
+	 * it will address `Players.GetNameFromUserIdAsync` method, and return the
+	 * result, if any. This means the method will yield if the player is not
+	 * online.
+	 *
+	 * This function does not throw if the player with the specified ID does
+	 * not exist, it will just return nothing.
+	 *
+	 * @param userId The ID of the user to get the name of.
+	 * @param preferDisplayName Attempts to return the display name instead of the username. Default true.
+	 * @returns The name of the user with
+	 */
+	export function getName(userId: number, preferDisplayName = true) {
+		const onlinePlayer = Players.GetPlayerByUserId(userId);
+		if (onlinePlayer) return preferDisplayName ? onlinePlayer.DisplayName : onlinePlayer.Name;
+
+		try {
+			const name = Players.GetNameFromUserIdAsync(userId);
+			return name;
+		} catch {}
 	}
 }
