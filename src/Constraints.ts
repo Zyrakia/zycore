@@ -1,14 +1,6 @@
 import { Make } from '@rbxts/altmake';
 
-interface SupportedConstraints {
-	RigidConstraint: RigidConstraint;
-	CylindricalConstraint: CylindricalConstraint;
-	SpringConstraint: SpringConstraint;
-	RodConstraint: RodConstraint;
-	RopeConstraint: RopeConstraint;
-	HingeConstraint: HingeConstraint;
-	BallSocketConstraint: BallSocketConstraint;
-}
+type ConstraintLike = ExtractMembers<CreatableInstances, Constraint>;
 
 export namespace Constraints {
 	/**
@@ -36,14 +28,18 @@ export namespace Constraints {
 	 * @param target The instance to parent the attachment to.
 	 * @returns The attachments and constraint created.
 	 */
-	export function make(className: keyof SupportedConstraints, host: Instance, target: Instance) {
+	export function make<T extends keyof ConstraintLike>(
+		className: T,
+		host: Instance,
+		target: Instance,
+	): { a0: Attachment; a1: Attachment; constraint: CreatableInstances[T] } {
 		const { a0, a1 } = makeAttachments(host, target);
 
-		const constraint = Make(className, {
+		const constraint = Make(className as 'RigidConstraint', {
 			Attachment0: a0,
 			Attachment1: a1,
 			Parent: host,
-		});
+		}) as CreatableInstances[T];
 
 		return { constraint, a0, a1 };
 	}
