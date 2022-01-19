@@ -29,3 +29,4 @@ export { PartEffects } from './PartEffects';
 export type { LogMapping, FormatArgs } from './Log';
 export { Log } from './Log';
 export { Time, TimeUnit } from './Time';
+export { Constraints } from './Constraints';
