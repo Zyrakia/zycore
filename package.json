@@ -6,9 +6,12 @@
     "license": "MIT",
     "scripts": {
         "build": "rbxtsc",
-        "watch": "rbxtsc -w",
-        "prepublishOnly": "yarn run build",
-        "test": "rbxtsc --type=game && rojo build -o ./test.rbxlx && run-in-roblox --place ./test.rbxlx --script ./out/test-runner.server.lua"
+        "clean": "rimraf out",
+        "prepublishOnly": "yarn clean && yarn build",
+        "test:compile": "rbxtsc --type=game",
+        "test:build": "rojo build default.project.json -o test.rbxl",
+        "test:run": "run-in-roblox --place ./test.rbxl --script ./out/__tests__/test-runner.server.lua",
+        "test": "yarn clean && yarn test:compile && yarn test:build && yarn test:run"
     },
     "repository": {
         "type": "git",
@@ -21,6 +24,13 @@
     "publishConfig": {
         "access": "public"
     },
+    "files": [
+        "out",
+        "!out/__tests__",
+        "!out/test-runner.server.lua",
+        "README.md",
+        "LICENSE.md"
+    ],
     "keywords": [
         "roblox",
         "roblox-ts",
