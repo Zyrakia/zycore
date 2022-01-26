@@ -179,6 +179,19 @@ export namespace Benchmark {
 	}
 
 	/**
+	 * Runs a function and returns the result of the function. In addition to returning
+	 * the result, it also writes the benchmark result to the console automatically.
+	 *
+	 * @param f The function to benchmark.
+	 * @param opName The name of the operation being benchmarked.
+	 */
+	export function runReturn(f: () => void, opName?: string) {
+		const result = run(f);
+		result.write(opName);
+		return result;
+	}
+
+	/**
 	 * Starts a benchmark with the specified ID.
 	 * If a benchmark with the same ID is already running, this will throw.
 	 *
