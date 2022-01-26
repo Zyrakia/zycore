@@ -28,6 +28,7 @@
         "out",
         "!out/__tests__",
         "!out/test-runner.server.lua",
+        "!out/tsconfig.tsbuildinfo",
         "README.md",
         "LICENSE.md"
     ],
