@@ -3,6 +3,7 @@
     "description": "Utilities I have considered useful for my projects.",
     "version": "1.1.5",
     "main": "out/init.lua",
+    "types": "out/index.d.ts",
     "license": "MIT",
     "scripts": {
         "build": "rbxtsc",
@@ -20,7 +21,6 @@
     "bugs": {
         "url": "https://github.com/zyrakia/zycore/issues"
     },
-    "types": "out/index.d.ts",
     "publishConfig": {
         "access": "public"
     },
