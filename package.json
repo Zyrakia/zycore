@@ -1,7 +1,7 @@
 {
     "name": "@rbxts/zycore",
     "description": "Utilities I have considered useful for my projects.",
-    "version": "1.1.7",
+    "version": "1.1.8",
     "main": "out/init.lua",
     "types": "out/index.d.ts",
     "license": "MIT",
@@ -29,6 +29,7 @@
         "!out/__tests__",
         "!out/test-runner.server.lua",
         "!out/tsconfig.tsbuildinfo",
+        "!*.rbxl",
         "README.md",
         "LICENSE.md"
     ],
