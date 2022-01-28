@@ -40,7 +40,7 @@
         "utils"
     ],
     "dependencies": {
-        "@rbxts/altmake": "^0.0.1",
+        "@rbxts/altmake": "^0.1.4",
         "@rbxts/bin": "^1.2.1",
         "@rbxts/ping": "^2.3.5"
     },
