@@ -1,4 +1,4 @@
-import { typesAre } from 'TypeChecking';
+import { typesAre } from 'safety/TypeChecking';
 
 export = () => {
 	describe('typesAre', () => {

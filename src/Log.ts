@@ -74,3 +74,8 @@ export namespace Log {
 		}`;
 	}
 }
+
+export const logInfo = Log.info;
+export const logWarning = Log.warning;
+export const logError = Log.err;
+export const logErrorNonFatal = Log.errNonFatal;
