@@ -167,7 +167,27 @@ export namespace Strings {
 	 * @param char The character to pad with.
 	 * @returns The padded string.
 	 */
-	export function padStart(str: string, length: number, char = ' ') {
+	export function padStart<T extends string>(str: T, length: number, char = ' ') {
 		return str.size() >= length ? str : char.rep(length - str.size()) + str;
+	}
+
+	/**
+	 * Returns the input string with the first character capitalized.
+	 *
+	 * @param str The string to capitalize.
+	 * @returns The capitalized string.
+	 */
+	export function capitalize<T extends string>(str: T) {
+		return (slice(str, 1, 2).upper() + slice(str, 2)) as Capitalize<T>;
+	}
+
+	/**
+	 * Returns the input string with the fist character lowercased.
+	 *
+	 * @param str The string to lowercase.
+	 * @returns The lowercased string.
+	 */
+	export function uncapitalize<T extends string>(str: T) {
+		return (slice(str, 1, 2).lower() + slice(str, 2)) as Uncapitalize<T>;
 	}
 }
