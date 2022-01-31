@@ -78,6 +78,41 @@ export namespace Numbers {
 		return new Random().NextNumber(n * -1, n);
 	}
 
+	/**
+	 * Returns a random number between min and max.
+	 *
+	 * @param min The minimum number.
+	 * @param max The maximum number.
+	 * @returns A random number between min and max.
+	 */
+	export function random(min: number, max: number) {
+		return new Random().NextNumber(min, max);
+	}
+
+	/**
+	 * Maps a value from one range to another.
+	 *
+	 * @param num The value to map.
+	 * @param from The range to map from.
+	 * @param to The range to map to.
+	 * @returns The mapped value.
+	 */
+	export function map(num: number, from: [number, number], to: [number, number]) {
+		return ((num - from[0]) * (to[1] - to[0])) / (from[1] - from[0]) + to[0];
+	}
+
+	/**
+	 * Unmaps a value mapped with {@link map}.
+	 *
+	 * @param num The value to unmap.
+	 * @param from The from range used to map.
+	 * @param to The to range used to map.
+	 * @returns The unmapped value.
+	 */
+	export function unmap(num: number, from: [number, number], to: [number, number]) {
+		return ((num - to[0]) * (from[1] - from[0])) / (to[1] - to[0]) + from[0];
+	}
+
 	const generatedIds = new Set<number>();
 
 	/**

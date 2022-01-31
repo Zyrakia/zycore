@@ -93,4 +93,24 @@ export = () => {
 			expect(id1).to.never.equal(id2);
 		});
 	});
+
+	describe('map/unmap', () => {
+		const currMin = 0;
+		const currMax = 10;
+
+		const newMin = 0;
+		const newMax = 1;
+
+		it('should map a number from one range to another', () => {
+			expect(Numbers.map(0, [currMin, currMax], [newMin, newMax])).to.equal(0);
+			expect(Numbers.map(5, [currMin, currMax], [newMin, newMax])).to.equal(0.5);
+			expect(Numbers.map(10, [currMin, currMax], [newMin, newMax])).to.equal(1);
+		});
+
+		it('should unmap a number from one range to another', () => {
+			expect(Numbers.unmap(0, [currMin, currMax], [newMin, newMax])).to.equal(0);
+			expect(Numbers.unmap(0.5, [currMin, currMax], [newMin, newMax])).to.equal(5);
+			expect(Numbers.unmap(1, [currMin, currMax], [newMin, newMax])).to.equal(10);
+		});
+	});
 };
