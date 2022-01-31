@@ -38,3 +38,4 @@ export { Time, TimeUnit } from './Time';
 export { Constraints } from './Constraints';
 export { typesAre } from './safety/TypeChecking';
 export { Retrier } from './safety/Retrier';
+export { cleanup, cleanupAll } from './safety/Cleanup';
