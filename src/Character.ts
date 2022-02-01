@@ -1,5 +1,3 @@
-import { Make } from '@rbxts/altmake';
-
 export const R15Parts = {
 	Head: 'BasePart',
 	LeftFoot: 'BasePart',
