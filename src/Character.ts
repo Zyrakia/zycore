@@ -1,3 +1,25 @@
+import { Make } from '@rbxts/altmake';
+
+export const R15Parts = {
+	Head: 'BasePart',
+	LeftFoot: 'BasePart',
+	LeftHand: 'BasePart',
+	LeftLowerArm: 'BasePart',
+	LeftLowerLeg: 'BasePart',
+	LeftUpperArm: 'BasePart',
+	LeftUpperLeg: 'BasePart',
+	LowerTorso: 'BasePart',
+	RightFoot: 'BasePart',
+	RightHand: 'BasePart',
+	RightLowerArm: 'BasePart',
+	RightLowerLeg: 'BasePart',
+	RightUpperArm: 'BasePart',
+	RightUpperLeg: 'BasePart',
+	UpperTorso: 'BasePart',
+	HumanoidRootPart: 'BasePart',
+	Humanoid: 'Humanoid',
+} as const;
+
 export namespace Character {
 	/**
 	 * Returns the character model of the player.
@@ -20,60 +42,37 @@ export namespace Character {
 	}
 
 	/**
-	 * Returns the humanoid of the specified model,
-	 * this will exist if the model is a character, but
-	 * it is still important to check if this function
-	 * returns undefined.
+	 * Returns the specified member of the specified model,
+	 * the specified member will exist if the model is a character, but
+	 * it is still important to check if this function returns undefined.
 	 *
 	 * @param char The character model.
-	 * @returns The humanoid of the character model.
+	 * @param member The member to get.
+	 * @returns The specified member of the model.
 	 */
-	export function getHum(char: Model) {
-		return char.FindFirstChildOfClass('Humanoid');
+	export function getMember<T extends keyof typeof R15Parts>(char: Model, member: T) {
+		const found = char.FindFirstChild(member);
+		if (!found?.IsA(R15Parts[member])) return;
+		return found;
 	}
 
 	/**
-	 * Yields for the humanoid of the specified model,
-	 * this will exist if the model is a character, but
-	 * it is still important to check if this function
-	 * returns undefined.
+	 * Yields for the specified member of the specified model,
+	 * the specified member will exist if the model is a character, but
+	 * it is still important to check if this function returns undefined.
 	 *
 	 * @param char The character model.
-	 * @param timeout The timeout to wait for the humanoid (defualts to 3 seconds).
-	 * @returns A promise that resolves with the humanoid of the character model.
+	 * @param member The member to get.
+	 * @param timeout The timeout to wait for the specified member (defualts to 3 seconds).
 	 */
-	export function waitHum(char: Model, timeout = 3) {
-		const humanoid = char.WaitForChild('Humanoid', timeout);
-		if (humanoid?.IsA('Humanoid')) return humanoid;
-	}
-
-	/**
-	 * Returns the HRP of the specified model,
-	 * this will exist if the model is a character, but
-	 * it is still important to check if this function
-	 * returns undefined.
-	 *
-	 * @param char The character model.
-	 * @returns The HumanoidRootPart of the model.
-	 */
-	export function getRoot(char: Model) {
-		const root = char.FindFirstChild('HumanoidRootPart');
-		if (root?.IsA('BasePart')) return root;
-	}
-
-	/**
-	 * Yields for the HRP of the specified model,
-	 * this will exist of the model is a character, but
-	 * it is still important to check if this function
-	 * returns undefined.
-	 *
-	 * @param char The character model.
-	 * @param timeout The timeout to wait for the HRP (defualts to 3 seconds).
-	 * @returns The HumanoidRootPart of the model.
-	 */
-	export function waitRoot(char: Model, timeout = 3) {
-		const root = char.WaitForChild('HumanoidRootPart', timeout);
-		if (root?.IsA('BasePart')) return root;
+	export function waitMember<T extends keyof typeof R15Parts>(
+		char: Model,
+		member: T,
+		timeout = 3,
+	) {
+		const found = char.WaitForChild(member, timeout);
+		if (!found?.IsA(R15Parts[member])) return;
+		return found;
 	}
 
 	/**
@@ -86,7 +85,7 @@ export namespace Character {
 	 * @returns The animator of the model.
 	 */
 	export function getAnimator(char: Model | Humanoid) {
-		const hum = char.IsA('Humanoid') ? char : getHum(char);
+		const hum = char.IsA('Humanoid') ? char : getMember(char, 'Humanoid');
 		if (!hum) return;
 
 		const animator = hum.FindFirstChildOfClass('Animator');
@@ -104,8 +103,8 @@ export namespace Character {
 	 * @returns The animator of the model.
 	 */
 	export function waitAnimator(char: Model | Humanoid, timeout = 3) {
-		const hum = char.IsA('Humanoid') ? char : waitHum(char, timeout);
-		if (!hum?.IsA('Humanoid')) return;
+		const hum = char.IsA('Humanoid') ? char : waitMember(char, 'Humanoid', timeout);
+		if (!hum) return;
 
 		const animator = hum.WaitForChild('Animator', timeout);
 		if (!animator?.IsA('Animator')) return;
@@ -129,10 +128,8 @@ export namespace Character {
 	 * @param char The char to ensure is standing, can also be a humanoid directly.
 	 */
 	export function stand(char: Model | Humanoid) {
-		const hum = char.IsA('Humanoid') ? char : getHum(char);
-		if (!hum?.IsA('Humanoid')) return;
-
-		if (!hum.SeatPart) return;
+		const hum = char.IsA('Humanoid') ? char : getMember(char, 'Humanoid');
+		if (!hum || !hum.SeatPart) return;
 
 		const seat = hum.SeatPart;
 		if (!seat.IsA('Seat')) return;
@@ -175,7 +172,7 @@ export namespace Character {
 	 * @returns The tool that was previously in the character, or undefined.
 	 */
 	export function forceUnequip(char: Model) {
-		const hum = getHum(char);
+		const hum = getMember(char, 'Humanoid');
 		if (!hum) return;
 
 		const tool = char.FindFirstChildOfClass('Tool');
