@@ -1,4 +1,5 @@
 import { Players } from '@rbxts/services';
+import { Strings } from 'Strings';
 
 export namespace Users {
 	/**
@@ -9,7 +10,7 @@ export namespace Users {
 	 *
 	 * @param player The player to get the name of.
 	 * @param secondaryIndicator The indicator used before the secondary name. Default "@".
-	 * @@param primaryPreference The name that should appear first. Default "display".
+	 * @param primaryPreference The name that should appear first. Default "display".
 	 */
 	export function getFullName(
 		player: Player,
@@ -46,5 +47,39 @@ export namespace Users {
 			const name = Players.GetNameFromUserIdAsync(userId);
 			return name;
 		} catch {}
+	}
+
+	/**
+	 * Searches through the list of players and returns the first player
+	 * that has a name or display name that matches the given name, optionally
+	 * ignoring casing, whitespace. If fuzzy is set to true, it will also match
+	 * for the first player which has a name or display name that contains the
+	 * given name.
+	 *
+	 * Prioritizes the name, then the display name, then any fuzzy matches in the same order.
+	 *
+	 * @param name The name to search for.
+	 * @param fuzzy Whether to match for the first player which has a name or display name that contains the given name. Default true.
+	 * @param ignoreCasing Whether to ignore casing. Default true.
+	 * @param ignoreWhitespace Whether to ignore whitespace. Default true.
+	 * @returns The first player that has a name or display name that matches the given name.
+	 */
+	export function searchFor(
+		name: string,
+		fuzzy = true,
+		ignoreCasing = true,
+		ignoreWhitespace = true,
+	) {
+		const caseAdjusted = ignoreCasing ? name.lower() : name;
+		const search = ignoreWhitespace ? Strings.trim(caseAdjusted) : caseAdjusted;
+
+		for (const player of Players.GetPlayers()) {
+			const name = ignoreCasing ? player.Name.lower() : player.Name;
+			const dName = ignoreCasing ? player.DisplayName.lower() : player.DisplayName;
+
+			if (name === search || dName === search) return player;
+			if (!fuzzy) continue;
+			if (Strings.includes(name, search) || Strings.includes(dName, search)) return player;
+		}
 	}
 }
