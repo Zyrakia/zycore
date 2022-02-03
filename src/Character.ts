@@ -18,6 +18,18 @@ export const R15Parts = {
 	Humanoid: 'Humanoid',
 } as const;
 
+export const CharacterSounds = {
+	Climbing: 'Climbing',
+	Died: 'Died',
+	FreeFalling: 'FreeFalling',
+	GettingUp: 'GettingUp',
+	Jumping: 'Jumping',
+	Landing: 'Landing',
+	Running: 'Running',
+	Splash: 'Splash',
+	Swimming: 'Swimming',
+};
+
 export namespace Character {
 	/**
 	 * Returns the character model of the player.
@@ -71,6 +83,58 @@ export namespace Character {
 		const found = char.WaitForChild(member, timeout);
 		if (!found?.IsA(R15Parts[member])) return;
 		return found;
+	}
+
+	/**
+	 * Returns the specified sound of the specified model or HRP,
+	 * if it is a model, it will try to find the HumanoidRootPart
+	 * member automatically.
+	 *
+	 * @param charOrRoot The character model or HumanoidRootPart.
+	 * @param sound The sound to get.
+	 * @returns The specified sound, if it was found.
+	 */
+	export function getSound<T extends keyof typeof CharacterSounds>(
+		charOrRoot: Model | BasePart,
+		soundName: T,
+	) {
+		const part = charOrRoot.IsA('BasePart')
+			? charOrRoot
+			: Character.getMember(charOrRoot, 'HumanoidRootPart');
+
+		if (!part) return;
+
+		const sound = part.FindFirstChild(soundName);
+		if (!sound?.IsA('Sound')) return;
+
+		return sound;
+	}
+
+	/**
+	 * Yields for the specified sound of the specified model or HRP,
+	 * if it is a model, it will try to yield for the HumanoidRootPart
+	 * member automatically.
+	 *
+	 * @param charOrRoot The character model or HumanoidRootPart.
+	 * @param sound The sound to get.
+	 * @param timeout The timeout to wait for the specified sound (defualts to 3 seconds).
+	 * @returns The specified sound, if it was found.
+	 */
+	export function waitSound<T extends keyof typeof CharacterSounds>(
+		charOrRoot: Model | BasePart,
+		soundName: T,
+		timeout = 3,
+	) {
+		const part = charOrRoot.IsA('BasePart')
+			? charOrRoot
+			: Character.waitMember(charOrRoot, 'HumanoidRootPart', timeout);
+
+		if (!part) return;
+
+		const sound = part.WaitForChild(soundName, timeout);
+		if (!sound?.IsA('Sound')) return;
+
+		return sound;
 	}
 
 	/**
