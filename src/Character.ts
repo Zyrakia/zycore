@@ -220,9 +220,9 @@ export namespace Character {
 	 * @param location The location to teleport to.
 	 */
 	export function teleport(char: Model, location: Vector3 | CFrame | BasePart) {
-		if (typeIs(location, 'Vector3')) char.SetPrimaryPartCFrame(new CFrame(location));
-		else if (typeIs(location, 'CFrame')) char.SetPrimaryPartCFrame(location);
-		else char.SetPrimaryPartCFrame(location.CFrame);
+		if (typeIs(location, 'Vector3')) char.PivotTo(new CFrame(location));
+		else if (typeIs(location, 'CFrame')) char.PivotTo(location);
+		else char.PivotTo(location.CFrame);
 	}
 
 	/**
