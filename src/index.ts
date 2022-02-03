@@ -20,7 +20,7 @@ export { Debris } from './Debris';
 export { Asset, PreloadableAsset, ThumbnailTypes } from './Asset';
 export { Animations } from './Animations';
 export { LevelPermissionManager } from './permission/LevelPermissionManager';
-export { CacheMap } from './cache/CacheMap';
+export { GetterCache } from './cache/GetterCache';
 export type {
 	StringKeyof,
 	NumberKeyof,
@@ -39,3 +39,5 @@ export { Constraints } from './Constraints';
 export { typesAre } from './safety/TypeChecking';
 export { Retrier } from './safety/Retrier';
 export { cleanup, cleanupAll } from './safety/Cleanup';
+export { ArrayCache } from './cache/ArrayCache';
+export { Cache } from './cache/Cache';
