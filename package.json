@@ -1,54 +1,54 @@
 {
-    "name": "@rbxts/zycore",
-    "description": "Utilities I have considered useful for my projects.",
-    "version": "1.2.1",
-    "main": "out/init.lua",
-    "types": "out/index.d.ts",
-    "license": "MIT",
-    "scripts": {
-        "build": "rbxtsc",
-        "clean": "rimraf out",
-        "prepublishOnly": "yarn clean && yarn build",
-        "test:compile": "rbxtsc --type=game",
-        "test:build": "rojo build default.project.json -o test.rbxl",
-        "test:run": "run-in-roblox --place ./test.rbxl --script ./out/__tests__/test-runner.server.lua",
-        "test": "yarn clean && yarn test:compile && yarn test:build && yarn test:run"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/zyrakia/zycore"
-    },
-    "bugs": {
-        "url": "https://github.com/zyrakia/zycore/issues"
-    },
-    "publishConfig": {
-        "access": "public"
-    },
-    "files": [
-        "out",
-        "!out/__tests__",
-        "!out/test-runner.server.lua",
-        "!out/tsconfig.tsbuildinfo",
-        "!*.rbxl",
-        "README.md",
-        "LICENSE.md"
-    ],
-    "keywords": [
-        "roblox",
-        "roblox-ts",
-        "rbxts",
-        "utils"
-    ],
-    "dependencies": {
-        "@rbxts/altmake": "^0.1.4",
-        "@rbxts/bin": "^1.2.1",
-        "@rbxts/ping": "^2.3.5"
-    },
-    "devDependencies": {
-        "@rbxts/compiler-types": "^1.2.7-types.0",
-        "@rbxts/inspect": "^1.0.1",
-        "@rbxts/services": "^1.2.0",
-        "@rbxts/testez": "^0.3.1-ts.7",
-        "@rbxts/types": "^1.0.551"
-    }
+	"name": "@rbxts/zycore",
+	"description": "Utilities I have considered useful for my projects.",
+	"version": "2.2.1",
+	"main": "out/init.lua",
+	"types": "out/index.d.ts",
+	"license": "MIT",
+	"scripts": {
+		"build": "rbxtsc",
+		"clean": "rimraf out",
+		"prepublishOnly": "yarn clean && yarn build",
+		"test:compile": "rbxtsc --type=game",
+		"test:build": "rojo build default.project.json -o test.rbxl",
+		"test:run": "run-in-roblox --place ./test.rbxl --script ./out/__tests__/test-runner.server.lua",
+		"test": "yarn clean && yarn test:compile && yarn test:build && yarn test:run"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/zyrakia/zycore"
+	},
+	"bugs": {
+		"url": "https://github.com/zyrakia/zycore/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"out",
+		"!out/__tests__",
+		"!out/test-runner.server.lua",
+		"!out/tsconfig.tsbuildinfo",
+		"!*.rbxl",
+		"README.md",
+		"LICENSE.md"
+	],
+	"keywords": [
+		"roblox",
+		"roblox-ts",
+		"rbxts",
+		"utils"
+	],
+	"dependencies": {
+		"@rbxts/altmake": "^0.1.4",
+		"@rbxts/bin": "^1.2.1",
+		"@rbxts/ping": "^2.3.5"
+	},
+	"devDependencies": {
+		"@rbxts/compiler-types": "^1.2.7-types.0",
+		"@rbxts/inspect": "^1.0.1",
+		"@rbxts/services": "^1.2.0",
+		"@rbxts/testez": "^0.3.1-ts.7",
+		"@rbxts/types": "^1.0.551"
+	}
 }
