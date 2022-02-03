@@ -70,8 +70,12 @@ export namespace Users {
 		ignoreCasing = true,
 		ignoreWhitespace = true,
 	) {
+		if (!name) return;
+
 		const caseAdjusted = ignoreCasing ? name.lower() : name;
 		const search = ignoreWhitespace ? Strings.trim(caseAdjusted) : caseAdjusted;
+
+		if (!search) return;
 
 		for (const player of Players.GetPlayers()) {
 			const name = ignoreCasing ? player.Name.lower() : player.Name;
