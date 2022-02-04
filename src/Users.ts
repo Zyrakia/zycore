@@ -86,4 +86,23 @@ export namespace Users {
 			if (Strings.includes(name, search) || Strings.includes(dName, search)) return player;
 		}
 	}
+
+	/**
+	 * Returns the player that matches the input. If the input is a player,
+	 * it will simply return the input. If the input is a number, it will
+	 * attempt to find the player with a UserId that matches the input. If
+	 * the input is a string, it will try to parse that string into a number,
+	 * and then attempt the same search.
+	 *
+	 * @param player The player to find.
+	 * @returns The player that matches the input.
+	 */
+	export function findFromSelfOrId(player: Player | number | string) {
+		if (typeIs(player, 'Instance')) return player;
+
+		const id = typeIs(player, 'number') ? player : tonumber(player);
+		if (id === undefined) return;
+
+		return Players.GetPlayerByUserId(id);
+	}
 }
