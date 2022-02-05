@@ -44,13 +44,25 @@ export namespace Tags {
 	}
 
 	/**
-	 * Returns all the tags on the specified instances.
+	 * Returns all the tags on the specified instance.
 	 *
 	 * @param instances The instances to check.
 	 * @returns The tags tagged by the instances.
 	 */
 	export function getTags(instance: Instance) {
 		return CollectionService.GetTags(instance);
+	}
+
+	/**
+	 * Clears all tags applied to the specified instance.
+	 *
+	 * @param instance The instance to clear tags from.
+	 * @returns The instance with the tags cleared.
+	 */
+	export function clearTags(instance: Instance) {
+		const tags = CollectionService.GetTags(instance);
+		tags.forEach((tag) => CollectionService.RemoveTag(instance, tag));
+		return tags;
 	}
 
 	/**
