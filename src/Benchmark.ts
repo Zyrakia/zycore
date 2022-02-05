@@ -184,10 +184,16 @@ export namespace Benchmark {
 	 *
 	 * @param f The function to benchmark.
 	 * @param opName The name of the operation being benchmarked.
+	 * @returns The result of the function.
 	 */
-	export function runReturn(f: () => void, opName?: string) {
-		const result = run(f);
-		result.write(opName);
+	export function runReturn<T extends unknown>(f: () => T, opName?: string) {
+		const start = os.clock();
+		const result = f();
+		const fin = os.clock();
+
+		const benchmark = new BenchmarkResult(Time.diff(start, fin), 1);
+		benchmark.write(opName);
+
 		return result;
 	}
 
