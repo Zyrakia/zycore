@@ -1,7 +1,7 @@
 {
 	"name": "@rbxts/zycore",
 	"description": "Utilities I have considered useful for my projects.",
-	"version": "2.2.8",
+	"version": "2.2.10",
 	"main": "out/init.lua",
 	"types": "out/index.d.ts",
 	"license": "MIT",
