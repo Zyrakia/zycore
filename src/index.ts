@@ -41,3 +41,4 @@ export { Retrier } from './safety/Retrier';
 export { cleanup, cleanupAll } from './safety/Cleanup';
 export { ArrayCache } from './cache/ArrayCache';
 export { Cache } from './cache/Cache';
+export { CacheValue } from './cache/CacheValue';
