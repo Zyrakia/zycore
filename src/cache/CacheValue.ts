@@ -35,8 +35,7 @@ export class CacheValue<K> {
 	 */
 	public get() {
 		if (this.value) return this.value;
-		this.fetch();
-		return this.value;
+		return this.fetch();
 	}
 
 	/**
@@ -66,11 +65,14 @@ export class CacheValue<K> {
 	/**
 	 * Fetches and sets the value from the getter and
 	 * starts a forget timeout if necessary.
+	 *
+	 * @returns The fetched value.
 	 */
 	private fetch() {
 		const value = this.getter();
 		this.value = value;
 		this.startForgetting();
+		return value;
 	}
 
 	/**
