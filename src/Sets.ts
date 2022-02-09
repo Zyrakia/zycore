@@ -42,4 +42,10 @@ export namespace Sets {
 			callback(item, ...(args as unknown[]));
 		}
 	}
+
+	export function pickRandom<T>(set: Set<T>, random = new Random()) {
+		const index = random.NextInteger(0, set.size() - 1);
+		let i = -1;
+		for (const item of set) if (i++ === index) return item;
+	}
 }
