@@ -47,7 +47,6 @@ export class Retrier {
 				}
 
 				return false;
-			} finally {
 			}
 		}
 
