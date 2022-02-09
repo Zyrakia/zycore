@@ -393,10 +393,11 @@ export namespace InstanceTree {
 	 * @param instance The instance to iterate over.
 	 * @returns The mass of the instance.
 	 */
-	export function getInstanceMass(instance: Instance) {
+	export function collectMass(instance: Instance, recursive = false): number {
 		return instance.GetChildren().reduce((acc, inst) => {
 			if (inst.IsA('BasePart')) return (acc += inst.Mass);
-			return acc;
+			if (!recursive) return acc;
+            return acc + collectMass(inst, true);
 		}, 0);
 	}
 

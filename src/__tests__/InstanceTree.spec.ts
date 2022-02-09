@@ -1,3 +1,4 @@
+import { Make } from '@rbxts/altmake';
 import { InstanceTree } from 'InstanceTree';
 
 export = () => {
@@ -89,10 +90,7 @@ export = () => {
 
 	describe('findHighestAncestorNotOfClass', () => {
 		it('should return the highest ancestor not of the given class', () => {
-			const ancestor = InstanceTree.findHighestAncestorNotOfClass(
-				greatGrandChild,
-				'MeshPart',
-			);
+			const ancestor = InstanceTree.findHighestAncestorNotOfClass(greatGrandChild, 'MeshPart');
 
 			expect(ancestor).to.equal(parent);
 		});
@@ -205,5 +203,37 @@ export = () => {
 			const found = InstanceTree.findChildOfClassThorough(parent, 'Part', true);
 			expect(found).to.equal(targetPart);
 		});
+	});
+
+	describe('collectMass', () => {
+		// each 1,1,1 part is 0.7 mass
+
+		const testTree = Make('Model', {
+			Children: [Make('Part', { Size: new Vector3(1, 1, 1) }), Make('Part', { Size: new Vector3(1, 1, 1) })],
+		});
+
+		const mass = InstanceTree.collectMass(testTree);
+		expect(mass).to.be.near(1.4);
+
+		const testTree2 = Make('Model', {
+			Children: [
+				Make('Part', { Size: new Vector3(1, 1, 1) }),
+				Make('Part', { Size: new Vector3(1, 1, 1) }),
+				Make('Model', {
+					Children: [
+						Make('Part', { Size: new Vector3(1, 1, 1) }),
+						Make('Part', { Size: new Vector3(1, 1, 1) }),
+						Make('Part', { Size: new Vector3(1, 1, 1) }),
+						Make('Part', { Size: new Vector3(1, 1, 1) }),
+					],
+				}),
+			],
+		});
+
+		const mass2 = InstanceTree.collectMass(testTree2);
+		expect(mass2).to.be.near(1.4);
+
+		const mass3 = InstanceTree.collectMass(testTree2, true);
+		expect(mass3).to.be.near(4.2);
 	});
 };
