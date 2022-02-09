@@ -21,13 +21,7 @@ export { Asset, PreloadableAsset, ThumbnailTypes } from './Asset';
 export { Animations } from './Animations';
 export { LevelPermissionManager } from './permission/LevelPermissionManager';
 export { GetterCache } from './cache/GetterCache';
-export type {
-	StringKeyof,
-	NumberKeyof,
-	NumericKeyPair,
-	CapitalizeKeys,
-	UncapitalizeKeys,
-} from './Objects';
+export type { StringKeyof, NumberKeyof, NumericKeyPair, CapitalizeKeys, UncapitalizeKeys } from './Objects';
 export { Objects } from './Objects';
 export { Users } from './Users';
 export { Tags } from './Tags';
@@ -42,3 +36,4 @@ export { cleanup, cleanupAll } from './safety/Cleanup';
 export { ArrayCache } from './cache/ArrayCache';
 export { Cache } from './cache/Cache';
 export { CacheValue } from './cache/CacheValue';
+export { Sets } from './Sets';
