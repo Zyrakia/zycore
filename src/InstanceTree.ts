@@ -2,7 +2,7 @@ import { Arrays } from 'Arrays';
 import { Strings } from 'Strings';
 
 import { Bin } from '@rbxts/bin';
-import { TweenService } from '@rbxts/services';
+import { ReplicatedStorage, ServerStorage, TweenService } from '@rbxts/services';
 
 export namespace InstanceTree {
 	/**
@@ -24,11 +24,7 @@ export namespace InstanceTree {
 	 * @param cb The callback to call for each child.
 	 * @param inclusive Whether to call the callback for the given instance.
 	 */
-	export function walkNear(
-		instance: Instance,
-		cb: (instance: Instance) => void,
-		inclusive = false,
-	) {
+	export function walkNear(instance: Instance, cb: (instance: Instance) => void, inclusive = false) {
 		if (inclusive) cb(instance);
 		instance.GetChildren().forEach((descendant) => cb(descendant));
 	}
@@ -64,7 +60,7 @@ export namespace InstanceTree {
 		cb: (instance: Instances[T]) => void,
 		inclusive = false,
 	) {
-        if (inclusive && instance.IsA(filter)) cb(instance);
+		if (inclusive && instance.IsA(filter)) cb(instance);
 		instance.GetChildren().forEach((descendant) => descendant.IsA(filter) && cb(descendant));
 	}
 
@@ -94,10 +90,7 @@ export namespace InstanceTree {
 	 * @param filter The class to filter by.
 	 * @returns The ancestors of the given instance that are of the given class.
 	 */
-	export function gatherAncestorsFilter<T extends keyof Instances>(
-		instance: Instance,
-		filter: T,
-	) {
+	export function gatherAncestorsFilter<T extends keyof Instances>(instance: Instance, filter: T) {
 		let ancestors = [];
 		let parent = instance.Parent;
 
@@ -178,15 +171,10 @@ export namespace InstanceTree {
 	 * @param filter The class to filter by.
 	 * @returns The first ancestor of the given instance that is not of the given class.
 	 */
-	export function findHighestAncestorNotOfClass<T extends keyof Instances>(
-		instance: Instance,
-		filter: T,
-	) {
+	export function findHighestAncestorNotOfClass<T extends keyof Instances>(instance: Instance, filter: T) {
 		const ancestors = gatherAncestors(instance);
 		Arrays.reverse(ancestors);
-		return ancestors.find((ancestor) => !ancestor.IsA(filter) && ancestor !== game) as
-			| Instance
-			| undefined;
+		return ancestors.find((ancestor) => !ancestor.IsA(filter) && ancestor !== game) as Instance | undefined;
 	}
 
 	/**
@@ -376,12 +364,7 @@ export namespace InstanceTree {
 	 * @param recursive Whether to toggle the descendants.
 	 * @param info If specified, will tween the given property with the given info (if possible).
 	 */
-	export function toggle(
-		instance: Instance,
-		enabled: boolean,
-		recursive = false,
-		info?: TweenInfo,
-	) {
+	export function toggle(instance: Instance, enabled: boolean, recursive = false, info?: TweenInfo) {
 		if (instance.IsA('ParticleEmitter')) instance.Enabled = enabled;
 		else if (instance.IsA('Trail')) instance.Enabled = enabled;
 		else if (instance.IsA('Decal')) {
@@ -403,105 +386,27 @@ export namespace InstanceTree {
 	}
 
 	/**
-	 * Checks if the specified property can be used to index
-	 * the given instance and not thrown an error or return an instance.
+	 * Iterates over the instances children and aggregates the mass
+	 * of all BaseParts.
 	 *
-	 * IMPORTANT: I tried to account for edge cases where the property
-	 * of an instance points to an instance (like ObjectValue.Value), but I
-	 * 100% forgot some. If you find a case where this function
-	 * returns incorrect results, please report it to me. This all means
-	 * that if you need a 100% accurate check, please don't use this.
-	 *
-	 * @param instance The instance to check on.
-	 * @param property The property to check for.
-	 * @returns Whether the property exists on the instance.
+	 * @param instance The instance to iterate over.
+	 * @returns The mass of the instance.
 	 */
-	export function hasProperty(instance: Instance, property: string) {
-		try {
-			// @ts-ignore
-			const value = instance[property];
+	export function getInstanceMass(instance: Instance) {
+		return instance.GetChildren().reduce((acc, inst) => {
+			if (inst.IsA('BasePart')) return (acc += inst.Mass);
+			return acc;
+		}, 0);
+	}
 
-			if (typeIs(value, 'Instance')) {
-				switch (property) {
-					case 'Parent':
-						return true;
-					case 'PrimaryPart':
-						if (instance.IsA('Model') || instance.IsA('Workspace')) return true;
-						break;
-					case 'Value':
-						if (instance.IsA('ObjectValue')) return true;
-						break;
-					case 'Part0':
-						if (instance.IsA('JointInstance')) return true;
-						break;
-					case 'Part1':
-						if (instance.IsA('JointInstance')) return true;
-						break;
-					case 'Occupant':
-						if (instance.IsA('Seat')) return true;
-						break;
-					case 'Attachment0':
-						if (
-							instance.IsA('Constraint') ||
-							instance.IsA('PathfindingLink') ||
-							instance.IsA('Beam') ||
-							instance.IsA('Trail')
-						)
-							return true;
-
-						break;
-					case 'Attachment1':
-						if (
-							instance.IsA('Constraint') ||
-							instance.IsA('PathfindingLink') ||
-							instance.IsA('Beam') ||
-							instance.IsA('Trail')
-						)
-							return true;
-
-						break;
-					case 'RootPart':
-						if (instance.IsA('Humanoid')) return true;
-						break;
-					case 'SeatPart':
-						if (instance.IsA('Humanoid')) return true;
-						break;
-					case 'CurrentCamera':
-						if (instance.IsA('Workspace') || instance.IsA('ViewportFrame')) return true;
-						break;
-					case 'Target':
-						if (instance.IsA('Mouse')) return true;
-						break;
-					case 'TargetFilter':
-						if (instance.IsA('Mouse')) return true;
-						break;
-					case 'UnitRay':
-						if (instance.IsA('Mouse')) return true;
-						break;
-					case 'WalkToPart':
-						if (instance.IsA('Humanoid')) return true;
-						break;
-					case 'AssemblyRootPart':
-						if (instance.IsA('BasePart')) return true;
-						break;
-					case 'Part0':
-						if (instance.IsA('NoCollisionConstraint') || instance.IsA('WeldConstraint'))
-							return true;
-
-						break;
-					case 'Part1':
-						if (instance.IsA('NoCollisionConstraint') || instance.IsA('WeldConstraint'))
-							return true;
-
-						break;
-				}
-
-				return false;
-			}
-
-			return true;
-		} catch {
-			return false;
-		}
+	/**
+	 * Returns whether the given instance is a descendant of
+	 * replicated/server storage.
+	 *
+	 * @param instance The instance to check.
+	 * @returns Whether the given instance is stored.
+	 */
+	export function isStored(instance: Instance) {
+		return instance.IsDescendantOf(ReplicatedStorage) || instance.IsDescendantOf(ServerStorage);
 	}
 }
