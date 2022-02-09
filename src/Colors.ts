@@ -6,6 +6,56 @@ export namespace Colors {
 		return Color3.fromRGB(r, g, b);
 	}
 
+    /**
+     * Returns a color from the given decimal hex value.
+     * 
+	 * From https://github.com/grilme99/tabletop-island/blob/main/src/shared/util/color-utils.ts
+     * 
+     * @param decimal The decimal hex value.
+     * @returns The color.
+     */
+	export function fromHex(decimal: number) {
+		return RGB(
+			bit32.band(bit32.rshift(decimal, 16), 2 ** 8 - 1),
+			bit32.band(bit32.rshift(decimal, 8), 2 ** 8 - 1),
+			bit32.band(decimal, 2 ** 8 - 1),
+		);
+	}
+
+	/**
+	 * Encodes the given color to a string that can be used in a
+	 * rich text enabled location.
+	 *
+	 * From https://github.com/grilme99/tabletop-island/blob/main/src/shared/util/color-utils.ts
+	 *
+	 * @param color The color to encode.
+	 * @returns The encoded color.
+	 */
+	export function toRichText(color: Color3) {
+		return `rgb(${math.round(color.R * 255)}, ${math.round(color.G * 255)}, ${math.round(color.B * 255)})`;
+	}
+
+	/**
+	 * Returns the input color darkened by the given percentage.
+	 *
+	 * @param color The color to darken.
+	 * @param perc The percentage to darken the color by.
+	 *
+	 */
+	export function darken(color: Color3, perc: number) {
+		return new Color3(color.R * perc, color.G * perc, color.B * perc);
+	}
+
+	/**
+	 * Returns the input color lightened by the given percentage.
+	 *
+	 * @param color The color to lighten.
+	 * @param perc The percentage to lighten the color by.
+	 */
+	export function lighten(color: Color3, perc: number) {
+		return new Color3(perc + (1 - perc) * color.R, perc + (1 - perc) * color.G, perc + (1 - perc) * color.B);
+	}
+
 	/**
 	 * Returns a random color.
 	 */
