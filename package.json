@@ -41,8 +41,9 @@
 	],
 	"dependencies": {
 		"@rbxts/altmake": "^0.1.4",
-		"@rbxts/bin": "^1.2.1",
-		"@rbxts/ping": "^2.3.5"
+		"@rbxts/bin": "^1.2.6",
+		"@rbxts/ping": "^2.3.5",
+		"@rbxts/t": "^3.0.0"
 	},
 	"devDependencies": {
 		"@rbxts/compiler-types": "^1.2.7-types.0",
