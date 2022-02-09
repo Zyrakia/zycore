@@ -3,6 +3,7 @@ import { Strings } from 'Strings';
 
 import { Bin } from '@rbxts/bin';
 import { ReplicatedStorage, ServerStorage, TweenService } from '@rbxts/services';
+import { t } from '@rbxts/t';
 
 export namespace InstanceTree {
 	/**
@@ -408,5 +409,18 @@ export namespace InstanceTree {
 	 */
 	export function isStored(instance: Instance) {
 		return instance.IsDescendantOf(ReplicatedStorage) || instance.IsDescendantOf(ServerStorage);
+	}
+
+	/**
+	 * Returns the attribute with the specified name from the given instance.
+	 *
+	 * @param instance The instance to get the attribute from.
+	 * @param name The name of the attribute.
+	 * @param guard An optional guard that the attribute must pass in order to be returned.
+	 * @returns The attribute with the specified name, or undefined.
+	 */
+	export function getAttribute<T>(instance: Instance, name: string, guard?: t.check<T>) {
+		const value = instance.GetAttribute(name);
+		return (guard ? (guard(value) ? value : undefined) : value) as T | undefined;
 	}
 }
