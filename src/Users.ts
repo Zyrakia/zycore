@@ -1,5 +1,6 @@
-import { Players } from '@rbxts/services';
 import { Strings } from 'Strings';
+
+import { Players } from '@rbxts/services';
 
 export namespace Users {
 	/**

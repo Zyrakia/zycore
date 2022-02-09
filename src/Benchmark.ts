@@ -1,5 +1,6 @@
-import { RunService } from '@rbxts/services';
 import { Time, TimeUnit } from 'Time';
+
+import { RunService } from '@rbxts/services';
 
 class BenchmarkResult {
 	public constructor(

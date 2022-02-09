@@ -1,7 +1,8 @@
-import { Bin } from '@rbxts/bin';
-import { TweenService } from '@rbxts/services';
 import { Arrays } from 'Arrays';
 import { Strings } from 'Strings';
+
+import { Bin } from '@rbxts/bin';
+import { TweenService } from '@rbxts/services';
 
 export namespace InstanceTree {
 	/**

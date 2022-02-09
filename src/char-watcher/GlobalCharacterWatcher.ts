@@ -1,6 +1,7 @@
 import { Bin } from '@rbxts/bin';
 import { Ping } from '@rbxts/ping';
 import { Players } from '@rbxts/services';
+
 import { CharacterWatcher } from './CharacterWatcher';
 
 export class GlobalCharacterWatcher {

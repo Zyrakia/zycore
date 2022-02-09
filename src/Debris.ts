@@ -1,5 +1,3 @@
-import { Make } from '@rbxts/altmake';
-import { TweenService, Workspace } from '@rbxts/services';
 import { setTimeout, Timeout } from 'Interval';
 import { PartEffects } from 'PartEffects';
 
@@ -41,11 +39,7 @@ export namespace Debris {
 	 * @param sinkSpeed The speed at which the part sinks, sent to the sink method.
 	 * @returns A tuple containing the destruction {@link Timeout} and the items passed.
 	 */
-	export function addSinking(
-		items: BasePart | BasePart[],
-		lifetime = defaultLifetime,
-		sinkSpeed = 0.01,
-	) {
+	export function addSinking(items: BasePart | BasePart[], lifetime = defaultLifetime, sinkSpeed = 0.01) {
 		const itemsArray = typeIs(items, 'Instance') ? [items] : items;
 
 		return [

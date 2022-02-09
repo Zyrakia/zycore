@@ -1,5 +1,6 @@
-import { Ping } from '@rbxts/ping';
 import { setTimeout, Timeout } from 'Interval';
+
+import { Ping } from '@rbxts/ping';
 
 /**
  * A utility class that delays updates

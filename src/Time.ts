@@ -1,5 +1,6 @@
-import { Workspace } from '@rbxts/services';
 import { Strings } from 'Strings';
+
+import { Workspace } from '@rbxts/services';
 
 /**
  * Time units based in seconds, taken from Brave search

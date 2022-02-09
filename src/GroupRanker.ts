@@ -1,6 +1,7 @@
-import { Ping } from '@rbxts/ping';
-import { RunService, Players, GroupService } from '@rbxts/services';
 import { Objects } from 'Objects';
+
+import { Ping } from '@rbxts/ping';
+import { GroupService, Players, RunService } from '@rbxts/services';
 
 export type RankMapping<T> = { [key: number]: T | undefined };
 
