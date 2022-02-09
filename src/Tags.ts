@@ -1,4 +1,5 @@
 import { CollectionService } from '@rbxts/services';
+import { t } from '@rbxts/t';
 
 export namespace Tags {
 	/**
@@ -87,5 +88,24 @@ export namespace Tags {
 	 */
 	export function onRemoved(tag: string, cb: (instance: Instance) => void) {
 		return CollectionService.GetInstanceRemovedSignal(tag).Connect(cb);
+	}
+
+	/**
+	 * Creates a set that holds all of the instances tagged with the specified tag,
+	 * now and in the future. An instance is added when the tag is added to it, and
+	 * removed when the tag is removed from it.
+	 *
+	 * @param tag The tag to create a set for.
+	 * @param guard An optional guard, if an instance fails the guard, it will not be added to the set.
+	 * @returns The set.
+	 */
+	export function createLinkedSet<T extends Instance>(tag: string, guard?: t.check<T>) {
+		const set = new Set<T>();
+
+		onAdded(tag, (inst) => (guard ? guard(inst) : true) && set.add(inst as T));
+		onRemoved(tag, (inst) => set.delete(inst as T));
+		getTagged(tag).forEach((inst) => (guard ? guard(inst) : true) && set.add(inst as T));
+
+		return set;
 	}
 }
