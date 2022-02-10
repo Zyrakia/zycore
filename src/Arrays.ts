@@ -183,7 +183,7 @@ export namespace Arrays {
 	 * @param callbacks The array of callbacks to run.
 	 * @param args The arguments to pass to each callback.
 	 */
-	export function run<T extends Callback>(callbacks: T[], ...args: Parameters<T>) {
+	export function run<T extends (...args: unknown[]) => void>(callbacks: T[], ...args: Parameters<T>) {
 		for (const cb of callbacks) task.spawn(cb, ...args);
 	}
 
@@ -194,7 +194,7 @@ export namespace Arrays {
 	 * @param callbacks The array of callbacks to run.
 	 * @param args The arguments to pass to each callback.
 	 */
-	export function runSync<T extends Callback>(callbacks: T[], ...args: Parameters<T>) {
+	export function runSync<T extends (...args: unknown[]) => void>(callbacks: T[], ...args: Parameters<T>) {
 		for (const cb of callbacks) cb(...args);
 	}
 }

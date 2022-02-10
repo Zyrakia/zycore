@@ -50,7 +50,7 @@ export namespace Sets {
 	 * @param set The set to iterate over.
 	 * @param args The arguments to pass to each callback.
 	 */
-	export function runNoKey<T extends Callback>(set: Set<T>, ...args: Parameters<T>) {
+	export function runNoKey<T extends (...args: unknown[]) => void>(set: Set<T>, ...args: Parameters<T>) {
 		for (const item of set) task.spawn(item, ...args);
 	}
 
@@ -61,7 +61,7 @@ export namespace Sets {
 	 * @param set The set to iterate over.
 	 * @param args The arguments to pass to each callback.
 	 */
-	export function runNoKeySync<T extends Callback>(set: Set<T>, ...args: Parameters<T>) {
+	export function runNoKeySync<T extends (...args: unknown[]) => void>(set: Set<T>, ...args: Parameters<T>) {
 		for (const item of set) item(...args);
 	}
 
