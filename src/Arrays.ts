@@ -33,10 +33,7 @@ export namespace Arrays {
 	 * @param random An optional random source.
 	 * @returns A random element of the input array.
 	 */
-	export function pickWeightedRandom<T extends { weight: number }[]>(
-		array: T,
-		random = new Random(),
-	): T[number] {
+	export function pickWeightedRandom<T extends { weight: number }[]>(array: T, random = new Random()): T[number] {
 		const totalWeight = array.reduce((sum, item) => sum + item.weight, 0);
 		const randomWeight = random.NextNumber(0, totalWeight);
 		let currentWeight = 0;
@@ -177,5 +174,27 @@ export namespace Arrays {
 		}
 
 		return flattened;
+	}
+
+	/**
+	 * Asynchronously runs each callback in an array of callbacks with the
+	 * given arguments.
+	 *
+	 * @param callbacks The array of callbacks to run.
+	 * @param args The arguments to pass to each callback.
+	 */
+	export function run<T extends Callback>(callbacks: T[], ...args: Parameters<T>) {
+		for (const cb of callbacks) task.spawn(cb, ...args);
+	}
+
+	/**
+	 * Synchronously runs each callback in an array of callbacks with the
+	 * given arguments.
+	 *
+	 * @param callbacks The array of callbacks to run.
+	 * @param args The arguments to pass to each callback.
+	 */
+	export function runSync<T extends Callback>(callbacks: T[], ...args: Parameters<T>) {
+		for (const cb of callbacks) cb(...args);
 	}
 }
