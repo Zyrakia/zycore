@@ -6,14 +6,14 @@ export namespace Colors {
 		return Color3.fromRGB(r, g, b);
 	}
 
-    /**
-     * Returns a color from the given decimal hex value.
-     * 
+	/**
+	 * Returns a color from the given decimal hex value.
+	 *
 	 * From https://github.com/grilme99/tabletop-island/blob/main/src/shared/util/color-utils.ts
-     * 
-     * @param decimal The decimal hex value.
-     * @returns The color.
-     */
+	 *
+	 * @param decimal The decimal hex value.
+	 * @returns The color.
+	 */
 	export function fromHex(decimal: number) {
 		return RGB(
 			bit32.band(bit32.rshift(decimal, 16), 2 ** 8 - 1),
@@ -54,6 +54,16 @@ export namespace Colors {
 	 */
 	export function lighten(color: Color3, perc: number) {
 		return new Color3(perc + (1 - perc) * color.R, perc + (1 - perc) * color.G, perc + (1 - perc) * color.B);
+	}
+
+	/**
+	 * Inverts the given color.
+	 *
+	 * @param color The color to invert.
+	 * @returns The inverted color.
+	 */
+	export function invert(color: Color3) {
+		return new Color3(1 - color.R, 1 - color.G, 1 - color.B);
 	}
 
 	/**
