@@ -9,6 +9,7 @@ export type { Interval, Timeout } from './Interval';
 export { setInterval, setTimeout, setIntervalNow } from './Interval';
 export { Colors, RGB } from './Colors';
 export { Strings } from './Strings';
+export type { R15Members, CharacterSounds } from './Character';
 export { Character } from './Character';
 export { BinMap } from './BinMap';
 export { GroupRanker } from './GroupRanker';
