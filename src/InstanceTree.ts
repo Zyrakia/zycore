@@ -2,7 +2,7 @@ import { Arrays } from 'Arrays';
 import { Strings } from 'Strings';
 
 import { Bin } from '@rbxts/bin';
-import { ReplicatedStorage, ServerStorage, TweenService } from '@rbxts/services';
+import { ReplicatedStorage, ServerStorage, StarterPack, TweenService } from '@rbxts/services';
 import { t } from '@rbxts/t';
 
 export namespace InstanceTree {
@@ -404,13 +404,17 @@ export namespace InstanceTree {
 
 	/**
 	 * Returns whether the given instance is a descendant of
-	 * replicated/server storage.
+	 * replicated/server storage or starter pack.
 	 *
 	 * @param instance The instance to check.
 	 * @returns Whether the given instance is stored.
 	 */
 	export function isStored(instance: Instance) {
-		return instance.IsDescendantOf(ReplicatedStorage) || instance.IsDescendantOf(ServerStorage);
+		return (
+			instance.IsDescendantOf(ReplicatedStorage) ||
+			instance.IsDescendantOf(ServerStorage) ||
+			instance.IsDescendantOf(StarterPack)
+		);
 	}
 
 	/**
