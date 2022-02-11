@@ -1,4 +1,4 @@
-export const R15Parts = {
+export const R15Members = {
 	Head: 'BasePart',
 	LeftFoot: 'BasePart',
 	LeftHand: 'BasePart',
@@ -60,9 +60,9 @@ export namespace Character {
 	 * @param member The member to get.
 	 * @returns The specified member of the model.
 	 */
-	export function getMember<T extends keyof typeof R15Parts>(char: Model, member: T) {
+	export function getMember<T extends keyof typeof R15Members>(char: Model, member: T) {
 		const found = char.FindFirstChild(member);
-		if (!found?.IsA(R15Parts[member])) return;
+		if (!found?.IsA(R15Members[member])) return;
 		return found;
 	}
 
@@ -75,13 +75,9 @@ export namespace Character {
 	 * @param member The member to get.
 	 * @param timeout The timeout to wait for the specified member (defualts to 3 seconds).
 	 */
-	export function waitMember<T extends keyof typeof R15Parts>(
-		char: Model,
-		member: T,
-		timeout = 3,
-	) {
+	export function waitMember<T extends keyof typeof R15Members>(char: Model, member: T, timeout = 3) {
 		const found = char.WaitForChild(member, timeout);
-		if (!found?.IsA(R15Parts[member])) return;
+		if (!found?.IsA(R15Members[member])) return;
 		return found;
 	}
 
@@ -94,13 +90,8 @@ export namespace Character {
 	 * @param sound The sound to get.
 	 * @returns The specified sound, if it was found.
 	 */
-	export function getSound<T extends keyof typeof CharacterSounds>(
-		charOrRoot: Model | BasePart,
-		soundName: T,
-	) {
-		const part = charOrRoot.IsA('BasePart')
-			? charOrRoot
-			: Character.getMember(charOrRoot, 'HumanoidRootPart');
+	export function getSound<T extends keyof typeof CharacterSounds>(charOrRoot: Model | BasePart, soundName: T) {
+		const part = charOrRoot.IsA('BasePart') ? charOrRoot : Character.getMember(charOrRoot, 'HumanoidRootPart');
 
 		if (!part) return;
 
@@ -230,11 +221,11 @@ export namespace Character {
 	 * and returns the tool that was previously in the
 	 * character, and was affected by the unequip.
 	 *
-	 * @param char The character to unequip tools from.
+	 * @param char The character to unequip tools from, can also be a humanoid directly.
 	 * @returns The tool that was previously in the character, or undefined.
 	 */
-	export function forceUnequip(char: Model) {
-		const hum = getMember(char, 'Humanoid');
+	export function forceUnequip(char: Model | Humanoid) {
+		const hum = char.IsA('Model') ? getMember(char, 'Humanoid') : char;
 		if (!hum) return;
 
 		const tool = char.FindFirstChildOfClass('Tool');
