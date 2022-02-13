@@ -99,12 +99,11 @@ export namespace Objects {
 	export function getChangedKeys<T extends {}, U extends {}>(objectOne: T, objectTwo: U) {
 		const diff = [];
 
-
-		for (const [key, value] of pairs(objectOne) as unknown as [keyof T, unknown][]) {
-			if (!(key in objectTwo)) diff.push(key);
+		for (const [key, value] of pairs(objectOne)) {
+			if (!((key as keyof T) in objectTwo)) diff.push(key);
 			else if (value !== objectTwo[key as unknown as keyof U]) diff.push(key);
 		}
 
 		return diff as (keyof T)[];
-    }
+	}
 }
