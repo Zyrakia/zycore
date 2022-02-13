@@ -31,10 +31,7 @@ export namespace Objects {
 	 * @order The order to sort the keys in
 	 * @returns The sorted array of key-value pairs
 	 */
-	export function sortedPairs<T extends { [P in keyof T & number]: T[P] }>(
-		obj: T,
-		order: 'asc' | 'desc' = 'desc',
-	) {
+	export function sortedPairs<T extends { [P in keyof T & number]: T[P] }>(obj: T, order: 'asc' | 'desc' = 'desc') {
 		const values = [];
 
 		for (const [k, v] of pairs(obj)) {
@@ -87,4 +84,27 @@ export namespace Objects {
 
 		return copy as UncapitalizeKeys<T>;
 	}
+
+	/**
+	 * Iterates through all keys in object one and checks whether the key exists in object two,
+	 * if it does not exist, the key is added to the return list. If the key does exist, it will check
+	 * if the values are referentially equal, if they are not, the key is added to the return list.
+	 *
+	 * This only detects keys that were removed or changed, not keys that were added.
+	 *
+	 * @param objectOne The first object to compare
+	 * @param objectTwo The second object to compare
+	 * @returns The list of keys in object one that have changed
+	 */
+	export function getChangedKeys<T extends {}, U extends {}>(objectOne: T, objectTwo: U) {
+		const diff = [];
+
+
+		for (const [key, value] of pairs(objectOne) as unknown as [keyof T, unknown][]) {
+			if (!(key in objectTwo)) diff.push(key);
+			else if (value !== objectTwo[key as unknown as keyof U]) diff.push(key);
+		}
+
+		return diff as (keyof T)[];
+    }
 }
