@@ -64,6 +64,24 @@ export namespace Arrays {
 	}
 
 	/**
+	 * Checks if both arrays are the same size, and all elements of the first
+	 * array are somewhere in the second array.
+	 *
+	 * @param first The first array to compare.
+	 * @param second The second array to compare.
+	 * @returns A boolean indicating whether the second array contains all elements of the first array.
+	 */
+	export function fuzzyEquals<T extends defined>(first: T[], second: T[]) {
+		if (first.size() !== second.size()) return false;
+
+		for (const value of first) {
+			if (!second.includes(value)) return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Spreads the elements of the input array and returns the result.
 	 *
 	 * @param array The array to spread.
