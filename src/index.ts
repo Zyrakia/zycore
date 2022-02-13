@@ -38,3 +38,5 @@ export { ArrayCache } from './cache/ArrayCache';
 export { Cache } from './cache/Cache';
 export { CacheValue } from './cache/CacheValue';
 export { Sets } from './Sets';
+export { Raycasts } from './raycast/Raycasts';
+export { RayParams } from './raycast/RayParams';
