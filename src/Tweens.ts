@@ -51,12 +51,44 @@ export namespace Tweens {
 
 		while (nextValue) {
 			const tween = TweenService.Create(instance, nextInfo(), { [property]: nextValue } as any);
-
 			tween.Play();
 			tween.Completed.Wait();
 
 			i++;
 		}
+	}
+
+	/**
+	 * For each of the provided properties, starts a new tween that will tween the value of the
+	 * "to" instance to the value of the "from" instance. These tweens all happen at the same time.
+	 *
+	 * Think of it as transferring all the given properties from one instance
+	 * to another, at the same time, through tweening.
+	 *
+	 * @param fromInst The instance to tween from
+	 * @param toInst The instance to tween to
+	 * @param properties The properties to tween
+	 * @param info The tween info to use
+	 * @returns A promise that resolves when all tweens have completed
+	 */
+	export async function transfer<T extends Instance, K extends keyof TweenableProperties<T>>(
+		fromInst: T,
+		toInst: T,
+		properties: K | K[],
+		info: TweenInfo,
+	) {
+		const props = typeIs(properties, 'table') ? properties : [properties];
+		const promises = props.map(async (property) => {
+			const fromValue = fromInst[property];
+			const toValue = toInst[property];
+			if (fromValue === toValue) return;
+
+			const tween = TweenService.Create(fromInst, info, { [property]: toValue } as any);
+			tween.Play();
+			tween.Completed.Wait();
+		});
+
+		await Promise.all(promises);
 	}
 
 	/**
