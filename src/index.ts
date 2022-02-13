@@ -40,3 +40,5 @@ export { CacheValue } from './cache/CacheValue';
 export { Sets } from './Sets';
 export { Raycasts } from './raycast/Raycasts';
 export { RayParams } from './raycast/RayParams';
+export type { Tweenable, TweenableProperties } from './Tweens';
+export { Tweens } from './Tweens';
