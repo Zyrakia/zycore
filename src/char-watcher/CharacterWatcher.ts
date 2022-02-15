@@ -24,7 +24,7 @@ export class CharacterWatcher {
 	 * existing character immediately if desired.
 	 *
 	 * @param player The player to watch
-	 * @param existing Whether to fire for an existing character
+	 * @param existing Whether to fire for an existing character. Defaults to true
 	 */
 	public constructor(private player: Player, private existing = true) {}
 
@@ -56,6 +56,11 @@ export class CharacterWatcher {
 		this.linkTo(player);
 	}
 
+	/**
+	 * Links the watcher to the given player,
+	 * creating all events necessary to watch
+	 * for character events.
+	 */
 	private linkTo(player: Player) {
 		if (!this.bin.isEmpty()) return;
 		if (this.isDestroyed) throw 'CharacterWatcher is destroyed.';
