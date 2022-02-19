@@ -45,4 +45,5 @@ export { Tweens } from './Tweens';
 export { ClassWatcher } from './ClassWatcher';
 export { InstanceMap } from './instance-collection/InstanceMap';
 export { InstanceSet } from './instance-collection/InstanceSet';
+export type { AttrValue } from './Attributes';
 export { Attributes } from './Attributes';
