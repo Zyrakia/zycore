@@ -14,7 +14,8 @@ export type AttrValue =
 	| NumberSequence
 	| ColorSequence
 	| NumberRange
-	| Rect;
+	| Rect
+	| undefined;
 
 export namespace Attributes {
 	/**
