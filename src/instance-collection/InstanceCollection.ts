@@ -47,4 +47,16 @@ export class InstanceCollection<T extends Instance> {
 	protected unbindFromAll() {
 		this.bins.deleteAll();
 	}
+
+	/**
+	 * Adds an item to the removal bin of an instance.
+	 *
+	 * @param instance The instance to link the item to.
+	 * @param item The item to link to the instance.
+	 */
+	public onRemoval(instance: T, item: Bin.Item) {
+		if (!this.bins.has(instance)) return;
+		this.bins.add(instance, item);
+		return this;
+	}
 }
