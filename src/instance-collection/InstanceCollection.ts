@@ -20,7 +20,6 @@ export class InstanceCollection<T extends Instance> {
 	 */
 	protected bindTo(instance: T, item: Bin.Item) {
 		if (this.bins.has(instance)) return;
-		this.bins.add(instance, () => this.unbindFrom(instance));
 
 		const conn = instance.AncestryChanged.Connect((_, parent) => {
 			if (parent) return;
