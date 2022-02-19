@@ -29,7 +29,7 @@ export namespace Colors {
 	 * From https://github.com/grilme99/tabletop-island/blob/main/src/shared/util/color-utils.ts
 	 *
 	 * @param color The color to encode.
-	 * @returns The encoded color.
+	 * @returns The encoded color in the form of `rgb(r, g, b)`.
 	 */
 	export function toRichText(color: Color3) {
 		return `rgb(${math.round(color.R * 255)}, ${math.round(color.G * 255)}, ${math.round(color.B * 255)})`;
