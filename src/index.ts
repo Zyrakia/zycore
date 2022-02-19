@@ -43,3 +43,5 @@ export { RayParams } from './raycast/RayParams';
 export type { Tweenable, TweenableProperties } from './Tweens';
 export { Tweens } from './Tweens';
 export { ClassWatcher } from './ClassWatcher';
+export { InstanceMap } from './instance-collection/InstanceMap';
+export { InstanceSet } from './instance-collection/InstanceSet';

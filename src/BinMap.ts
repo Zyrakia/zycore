@@ -50,7 +50,7 @@ export class BinMap<T> {
 	 * @returns Whether the bin was deleted.
 	 */
 	public delete(key: T) {
-		this.getBin(key).destroy();
+		this.map.get(key)?.destroy();
 		return this.map.delete(key);
 	}
 
