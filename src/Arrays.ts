@@ -87,8 +87,8 @@ export namespace Arrays {
 	 * @param array The array to spread.
 	 * @returns The spreaded array.
 	 */
-	export function clone<T extends defined[]>(array: T) {
-		return [...array];
+	export function clone<T extends defined[]>(array: T): T {
+		return [...array] as T;
 	}
 
 	/**
@@ -141,7 +141,7 @@ export namespace Arrays {
 	 * @param stop The index to stop at.
 	 * @returns The sliced array.
 	 */
-	export function slice<T extends defined[]>(array: T, start: number, stop?: number) {
+	export function slice<T extends defined[]>(array: T, start: number, stop?: number): T {
 		const size = array.size();
 
 		start = math.min(start, size);
@@ -149,7 +149,7 @@ export namespace Arrays {
 
 		const result = [];
 		for (let i = start; i < stop; i++) result.push(array[i]);
-		return result;
+		return result as T;
 	}
 
 	/**
