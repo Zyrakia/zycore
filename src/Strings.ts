@@ -178,7 +178,7 @@ export namespace Strings {
 	 * @returns The capitalized string.
 	 */
 	export function capitalize<T extends string>(str: T) {
-		return (slice(str, 0, 1).upper() + slice(str, 1)) as Capitalize<T>;
+		return (slice(str, 0, 1).upper() + slice(str, 2)) as Capitalize<T>;
 	}
 
 	/**
@@ -188,6 +188,6 @@ export namespace Strings {
 	 * @returns The lowercased string.
 	 */
 	export function uncapitalize<T extends string>(str: T) {
-		return (slice(str, 0, 1).lower() + slice(str, 1)) as Uncapitalize<T>;
+		return (slice(str, 0, 1).lower() + slice(str, 2)) as Uncapitalize<T>;
 	}
 }
