@@ -75,7 +75,7 @@ export class GroupRanker<Identifier> {
 		if (existing) return existing;
 
 		const rank = this.getRankInGroup(player);
-		if (!rank) return;
+		if (rank === undefined) return;
 
 		let identifier = this.findIdentifier(rank);
 		if (identifier === undefined) {
@@ -134,15 +134,8 @@ export class GroupRanker<Identifier> {
 
 		const allGroups = GroupService.GetGroupsAsync(player.UserId);
 
-		let found: GetGroupsAsyncResult | undefined;
-		for (const group of allGroups) {
-			if (group.Id !== this.groupID) continue;
-			found = group;
-			break;
-		}
-
-		if (!found) return;
-		return found.Rank;
+		const match = allGroups.find((group) => group.Id === this.groupID);
+		return match?.Rank;
 	}
 
 	/**
