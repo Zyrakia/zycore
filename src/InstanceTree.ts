@@ -3,7 +3,6 @@ import { Strings } from 'Strings';
 
 import { Bin } from '@rbxts/bin';
 import { ReplicatedStorage, ServerStorage, StarterPack, TweenService } from '@rbxts/services';
-import { t } from '@rbxts/t';
 
 export namespace InstanceTree {
 	/**
@@ -278,19 +277,15 @@ export namespace InstanceTree {
 	 * @param instanceName If specified, looks for the first child of the given class with the given name.
 	 * @returns The first child of the given class, or undefined.
 	 */
-	export function findChildOfClass<T extends keyof Instances>(
-		instance: Instance,
-		className: T,
-		instanceName?: string,
-	) {
+	export function findChildOfClass<T extends keyof Instances>(instance: Instance, className: T, instanceName?: string) {
 		if (instanceName !== undefined) {
-			const found: Instances[T][] = [];
-			InstanceTree.walkFilter(instance, className, (instance) => {
-				if (instance.Name !== instanceName) return;
-				found.push(instance);
-			});
+			for (const child of instance.GetChildren()) {
+				if (!child.IsA(className)) continue;
+				if (child.Name !== instanceName) continue;
+				return child;
+			}
 
-			return found[0];
+			return;
 		}
 
 		return instance.FindFirstChildOfClass(className);
@@ -304,7 +299,7 @@ export namespace InstanceTree {
 	 * @param className The class to look for.
 	 * @param pointerName If specified, looks for the first ObjectValue with the given name.
 	 * @param instanceName If specified, checks if the ObjectValue contains an instance with the given name aswell.
-	 * @returns A tuple of the ObjectValue and the instance found, or undefined.
+	 * @returns The found instance, or undefined.
 	 */
 	export function findReferencedChildOfClass<T extends keyof Instances>(
 		instance: Instance,
@@ -313,19 +308,17 @@ export namespace InstanceTree {
 		instanceName?: string,
 	) {
 		if (pointerName !== undefined) {
-			const found: ObjectValue[] = [];
-			InstanceTree.walkFilter(instance, 'ObjectValue', (value) => {
-				if (value.Name !== pointerName) return;
-				if (instanceName !== undefined && value.Value?.Name !== instanceName) return;
-				if (!value.Value?.IsA(className)) return;
+			for (const child of instance.GetChildren()) {
+				if (!child.IsA('ObjectValue')) continue;
+				if (child.Name !== pointerName) continue;
 
-				found.push(value);
-			});
+				const value = child.Value;
 
-			const value = found[0];
-			if (!value) return;
+				if (instanceName !== undefined && value?.Name !== instanceName) continue;
+				if (!value?.IsA(className)) continue;
 
-			return value.Value as Instances[T];
+				return value;
+			}
 		}
 
 		const found = instance.FindFirstChildOfClass('ObjectValue');
@@ -415,18 +408,5 @@ export namespace InstanceTree {
 			instance.IsDescendantOf(ServerStorage) ||
 			instance.IsDescendantOf(StarterPack)
 		);
-	}
-
-	/**
-	 * Returns the attribute with the specified name from the given instance.
-	 *
-	 * @param instance The instance to get the attribute from.
-	 * @param name The name of the attribute.
-	 * @param guard An optional guard that the attribute must pass in order to be returned.
-	 * @returns The attribute with the specified name, or undefined.
-	 */
-	export function getAttribute<T>(instance: Instance, name: string, guard?: t.check<T>) {
-		const value = instance.GetAttribute(name);
-		return (guard ? (guard(value) ? value : undefined) : value) as T | undefined;
 	}
 }
