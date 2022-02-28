@@ -34,7 +34,7 @@ export class CacheValue<K> {
 	 * @returns The cached value.
 	 */
 	public get() {
-		if (this.value) return this.value;
+		if (this.value !== undefined) return this.value;
 		return this.fetch();
 	}
 

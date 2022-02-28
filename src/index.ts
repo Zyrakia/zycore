@@ -33,7 +33,7 @@ export { Time, TimeUnit } from './Time';
 export { Constraints } from './Constraints';
 export { typesAre } from './safety/TypeChecking';
 export { Retrier } from './safety/Retrier';
-export { cleanup, cleanupAll } from './safety/Cleanup';
+export { cleanup } from './safety/Cleanup';
 export { ArrayCache } from './cache/ArrayCache';
 export { Cache } from './cache/Cache';
 export { CacheValue } from './cache/CacheValue';

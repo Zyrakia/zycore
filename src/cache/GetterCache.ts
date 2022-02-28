@@ -28,7 +28,9 @@ export class GetterCache<K, V> extends Cache<K, V> {
 	 * @returns The value.
 	 */
 	public get(key: K) {
-		return this.cache.get(key) || this.unseenGet(key);
+		const existing = this.cache.get(key);
+		if (existing !== undefined) return existing;
+		return this.unseenGet(key);
 	}
 
 	/**
