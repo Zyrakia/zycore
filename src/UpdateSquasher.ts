@@ -67,7 +67,7 @@ export class UpdateSquasher<T> {
 	public publish() {
 		this.stopDelay();
 
-		if (!this.runningData) return;
+		if (this.runningData === undefined) return;
 		this.updatePing.fire(this.runningData);
 		this.runningData = undefined;
 	}
