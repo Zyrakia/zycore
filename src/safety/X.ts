@@ -28,9 +28,9 @@ export class X {
 	 */
 	public destroy() {
 		while (this.head) {
-			const { item, next } = this.head;
+			const { item, next: nextNode } = this.head;
 			cleanup(item);
-			this.head = next;
+			this.head = nextNode;
 		}
 	}
 
