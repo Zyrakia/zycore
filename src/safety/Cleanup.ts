@@ -13,8 +13,8 @@ export type CleanableValue =
 export function cleanup<T extends CleanableValue>(value: T) {
 	if (value === undefined) return;
 
-	const type = typeOf(value);
-	switch (type) {
+	const t = typeOf(value);
+	switch (t) {
 		case 'RBXScriptConnection':
 			(value as RBXScriptConnection).Disconnect();
 			break;
