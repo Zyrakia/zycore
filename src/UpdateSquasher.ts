@@ -20,8 +20,9 @@ export class UpdateSquasher<T> {
 	 * Creates a new UpdateSquasher.
 	 *
 	 * @param delay The delay in seconds to wait before sending an update
+	 * @param destructive Whether or not to start a new timeout after every push
 	 */
-	public constructor(private delay: number) {}
+	public constructor(private delay: number, private destructive = false) {}
 
 	/**
 	 * Pushes an update to the squasher.
@@ -29,11 +30,27 @@ export class UpdateSquasher<T> {
 	 * @param data The data to push.
 	 */
 	public push(data: T) {
-		if (!this.currentTimeout) {
-			this.currentTimeout = setTimeout(() => this.publish(), this.delay);
-		}
-
+		this.startDelay();
 		this.runningData = data;
+	}
+
+	/**
+	 * Starts a new publish delay if necessary.
+	 */
+	private startDelay() {
+		if (this.destructive) this.stopDelay();
+		if (this.currentTimeout) return;
+
+		this.currentTimeout = setTimeout(() => this.publish(), this.delay);
+	}
+
+	/**
+	 * Stops the current timeout.
+	 */
+	private stopDelay() {
+		if (!this.currentTimeout) return;
+		this.currentTimeout.destroy();
+		this.currentTimeout = undefined;
 	}
 
 	/**
@@ -48,13 +65,21 @@ export class UpdateSquasher<T> {
 	 * cancels then cancels the current timeout.
 	 */
 	public publish() {
-		if (this.currentTimeout) {
-			this.currentTimeout.destroy();
-			this.currentTimeout = undefined;
-		}
+		this.stopDelay();
 
 		if (!this.runningData) return;
 		this.updatePing.fire(this.runningData);
+		this.runningData = undefined;
+	}
+
+	/**
+	 * Destroys this squasher and renders it unusable. This
+	 * will destroy the current publish timeout, meaning any
+	 * running data will be lost.
+	 */
+	public destroy() {
+		this.updatePing.destroy();
+		this.stopDelay();
 		this.runningData = undefined;
 	}
 }
