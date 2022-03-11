@@ -105,7 +105,7 @@ export class Queue<T> {
 	 */
 	public setMaxItems(maxItems?: number) {
 		this.maxItems = maxItems;
-		while (this.isFull) this.pop();
+		while (this.isFull()) this.pop();
 		return this;
 	}
 
