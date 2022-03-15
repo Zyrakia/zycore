@@ -18,6 +18,26 @@ export const R15Members = {
 	Humanoid: 'Humanoid',
 } as const;
 
+export const R15MemberNames = [
+	'Head',
+	'LeftFoot',
+	'LeftHand',
+	'LeftLowerArm',
+	'LeftLowerLeg',
+	'LeftUpperArm',
+	'LeftUpperLeg',
+	'LowerTorso',
+	'RightFoot',
+	'RightHand',
+	'RightLowerArm',
+	'RightLowerLeg',
+	'RightUpperArm',
+	'RightUpperLeg',
+	'UpperTorso',
+	'HumanoidRootPart',
+	'Humanoid',
+] as ReadonlyArray<string>;
+
 export const CharacterSounds = {
 	Climbing: 'Climbing',
 	Died: 'Died',
@@ -90,8 +110,13 @@ export namespace Character {
 	 * @param sound The sound to get.
 	 * @returns The specified sound, if it was found.
 	 */
-	export function getSound<T extends keyof typeof CharacterSounds>(charOrRoot: Model | BasePart, soundName: T) {
-		const part = charOrRoot.IsA('BasePart') ? charOrRoot : Character.getMember(charOrRoot, 'HumanoidRootPart');
+	export function getSound<T extends keyof typeof CharacterSounds>(
+		charOrRoot: Model | BasePart,
+		soundName: T,
+	) {
+		const part = charOrRoot.IsA('BasePart')
+			? charOrRoot
+			: Character.getMember(charOrRoot, 'HumanoidRootPart');
 
 		if (!part) return;
 
