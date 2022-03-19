@@ -23,6 +23,23 @@ export namespace Colors {
 	}
 
 	/**
+	 * Returns a color from the given hex string. This operation
+	 * automatically removes any hashes (#) from the input
+	 * string, attempting to just extract the encoded decimal.
+	 *
+	 * This uses `tonumber(inputWithoutHashes, 16)` to extract the
+	 * hexadecimal value of the string.
+	 *
+	 * @param hex The hex string, ex: `#ff770` or `ff770`.
+	 * @returns The color, or undefined if it was unable to conver to a color.
+	 */
+	export function fromHexString(hex: string) {
+		const withoutHash = hex.gsub('#', '');
+		const base16 = tonumber(withoutHash, 16);
+		if (base16 !== undefined) return fromHex(base16);
+	}
+
+	/**
 	 * Encodes the given color to a string that can be used in a
 	 * rich text enabled location.
 	 *
