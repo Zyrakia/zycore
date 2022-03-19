@@ -80,14 +80,14 @@ export function setIntervalNow<A extends unknown[]>(
  */
 export function setTimeout<A extends unknown[]>(
 	cb: (...args: A) => void,
-	interval: number,
+	timeout: number,
 	...args: A
 ): Timeout {
 	let shouldRun = true;
 	let didRun = false;
 
 	task.spawn(() => {
-		task.wait(math.abs(interval));
+		task.wait(math.abs(timeout));
 		if (shouldRun) {
 			cb(...args);
 			didRun = true;
