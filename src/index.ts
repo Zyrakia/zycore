@@ -47,3 +47,7 @@ export { InstanceSet } from './instance-collection/InstanceSet';
 export type { AttrValue } from './Attributes';
 export { Attributes } from './Attributes';
 export { Queue } from './structures/Queue';
+export { Option } from './Option';
+export { PropertyLinked } from './properties/PropertyLinked';
+export { DynamicCenter } from './properties/DynamicCenter';
+export { EnsuredProperty } from './properties/EnsuredProperty';
