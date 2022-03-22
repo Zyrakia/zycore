@@ -47,7 +47,8 @@ export class DynamicCenter<I extends BasePart | Model> extends PropertyLinked<I,
 	 * Calculates the center of the held instance and returns it.
 	 */
 	protected update() {
-		if (this.isModel) return (this.inst as Model).GetBoundingBox()[0].Position;
+		const isModel = this.isModel ?? this.inst.IsA('Model');
+		if (isModel) return (this.inst as Model).GetBoundingBox()[0].Position;
 		else return (this.inst as BasePart).Position;
 	}
 }
