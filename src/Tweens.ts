@@ -1,10 +1,23 @@
 import { TweenService } from '@rbxts/services';
 
 /** Unions all types that are Tweenable by the Roblox TweenService. */
-export type Tweenable = number | boolean | CFrame | Rect | Color3 | UDim | UDim2 | Vector2 | Vector2int16 | Vector3;
+export type Tweenable =
+	| number
+	| boolean
+	| CFrame
+	| Rect
+	| Color3
+	| UDim
+	| UDim2
+	| Vector2
+	| Vector2int16
+	| Vector3;
 
 /** Returns all properties of the instance that are tweenable. */
-export type TweenableProperties<T extends Instance> = ExtractMembers<WritableInstanceProperties<T>, Tweenable>;
+export type TweenableProperties<T extends Instance> = ExtractMembers<
+	WritableInstanceProperties<T>,
+	Tweenable
+>;
 
 export namespace Tweens {
 	/** Set of all type names that are Tweenable by the Roblox TweenService. */
@@ -34,7 +47,11 @@ export namespace Tweens {
 	 * @param info The tween info to use
 	 * @returns A promise that resolves when all tweens have completed
 	 */
-	export async function throughArray<T extends Instance, K extends keyof TweenableProperties<T>, V extends T[K][]>(
+	export async function throughArray<
+		T extends Instance,
+		K extends keyof TweenableProperties<T>,
+		V extends T[K][],
+	>(
 		instance: T,
 		property: K,
 		values: V,
@@ -71,16 +88,15 @@ export namespace Tweens {
 	 * @param info The tween info to use
 	 * @returns A promise that resolves when all tweens have completed
 	 */
-	export async function transfer<T extends Instance, K extends keyof TweenableProperties<T>>(
-		fromInst: T,
-		toInst: T,
-		properties: K | K[],
-		info: TweenInfo,
-	) {
+	export async function transfer<
+		A extends Instance,
+		B extends Instance,
+		K extends keyof TweenableProperties<A | B>,
+	>(fromInst: A, toInst: B, properties: K | K[], info = new TweenInfo()) {
 		const props = typeIs(properties, 'table') ? properties : [properties];
 		const promises = props.map(async (property) => {
-			const fromValue = fromInst[property];
-			const toValue = toInst[property];
+			const fromValue = fromInst[property] as (A | B)[K];
+			const toValue = toInst[property] as (A | B)[K];
 			if (fromValue === toValue) return;
 
 			const tween = TweenService.Create(fromInst, info, { [property]: toValue } as any);
