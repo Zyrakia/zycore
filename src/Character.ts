@@ -18,6 +18,9 @@ export const R15Members = {
 	Humanoid: 'Humanoid',
 } as const;
 
+export type R15 = typeof R15Members;
+export type R15Names = ReadonlyArray<keyof R15>;
+
 export const R15MemberNames = [
 	'Head',
 	'LeftFoot',
@@ -36,7 +39,7 @@ export const R15MemberNames = [
 	'UpperTorso',
 	'HumanoidRootPart',
 	'Humanoid',
-] as ReadonlyArray<string>;
+] as R15Names;
 
 export const CharacterSounds = {
 	Climbing: 'Climbing',
@@ -80,10 +83,123 @@ export namespace Character {
 	 * @param member The member to get.
 	 * @returns The specified member of the model.
 	 */
-	export function getMember<T extends keyof typeof R15Members>(char: Model, member: T) {
+	export function getMember<T extends keyof R15>(char: Model, member: T) {
 		const found = char.FindFirstChild(member);
 		if (!found?.IsA(R15Members[member])) return;
 		return found;
+	}
+
+	/**
+	 * Returns the R15 BasePart members of the specified model.
+	 * This will iterate through {@link R15MemberNames}, excluding
+	 * all the entries that are not BaseParts, and then attempts
+	 * to find each name in the specified model, adding the
+	 * found result, if any, to the output array.
+	 *
+	 * @param char The model to find the members from.
+	 * @returns All the members it was able to find.
+	 */
+	export function getPartMembers(char: Model) {
+		const members: BasePart[] = [];
+
+		R15MemberNames.forEach((name) => {
+			if (R15Members[name] !== 'BasePart') return;
+			const member = char.FindFirstChild(name);
+			if (member?.IsA('BasePart')) members.push(member);
+		});
+
+		return members;
+	}
+
+	/**
+	 * Returns the R15 BasePart members of the specified model.
+	 * This will iterate through {@link R15MemberNames}, excluding
+	 * all the entries that are not BaseParts, and then attempts
+	 * to wait for each name in the specified model, adding the
+	 * found result, if any, to the output array.
+	 *
+	 * @param char The model to find the members in.
+	 * @param timeout The timeout to wait for each member (defualts to 3 seconds).
+	 * @returns All the members it was able to find.
+	 */
+	export function waitPartMembers(char: Model, timeout = 3) {
+		const members: BasePart[] = [];
+
+		R15MemberNames.forEach((name) => {
+			if (R15Members[name] !== 'BasePart') return;
+			const member = char.WaitForChild(name, timeout);
+			if (member?.IsA('BasePart')) members.push(member);
+		});
+
+		return members;
+	}
+
+	/**
+	 * Returns all R15 members that were able to be found
+	 * in the specified model as an array. This ensures
+	 * with all found members that the class of the instance
+	 * matches the wanted class specified in {@link R15Members}.
+	 *
+	 * @param char model to find the members in.
+	 * @param names The specific member names to look for, defaults to {@link R15MemberNames}.
+	 * @returns The array of found members.
+	 */
+	export function getMembers<T extends R15Names>(char: Model, names?: T) {
+		const members: Instances[R15[T[number]]][] = [];
+
+		(names || R15MemberNames).forEach((name) => {
+			const member = char.FindFirstChild(name);
+			if (member?.IsA(R15Members[name])) members.push(member as Instances[R15[T[number]]]);
+		});
+
+		return members;
+	}
+
+	/**
+	 * Returns all R15 members that were able to be found
+	 * in the specified model as an array. This ensures
+	 * with all found members that the class of the instance
+	 * matches the wanted class specified in {@link R15Members}.
+	 *
+	 * @param char The model to find the members in.
+	 * @param timeout The timeout to wait for each specified member (defualts to 3 seconds).
+	 * @param names The specific member names to look for, defaults to {@link R15MemberNames}.
+	 * @returns The array of found members.
+	 */
+	export function waitMembers<T extends R15Names>(char: Model, timeout = 3, names?: R15Names) {
+		const members: Instances[R15[T[number]]][] = [];
+
+		(names || R15MemberNames).forEach((name) => {
+			const member = char.WaitForChild(name, timeout);
+			if (member?.IsA(R15Members[name])) members.push(member as Instances[R15[T[number]]]);
+		});
+
+		return members;
+	}
+
+	/**
+	 * Maps the specified R15 members into an object so that they can be
+	 * safely dot accessed without throwing an error if it doesn't exist.
+	 * This ensures with all found members that the class of the instance
+	 * matches the wanted class specified in {@link R15Members}.
+	 *
+	 * For safety, the types to indicate that it may fail to find
+	 * any member, but the advantage is that you can dot access with
+	 * a question mark instead of it throwing an error.
+	 *
+	 * @param char The model to find the members in.
+	 * @param names The specified member names to map, defaults to {@link R15MemberNames}.
+	 * @returns The object of all found members.
+	 */
+	export function mapMembers<T extends R15Names>(char: Model, names?: T) {
+		const members: { [K in T[number]]?: Instances[R15[K]] } = {};
+
+		(names || R15MemberNames).forEach((name: T[number]) => {
+			const member = char.FindFirstChild(name);
+			if (member?.IsA(R15Members[name])) members[name] = member;
+		});
+
+		return members;
 	}
 
 	/**
