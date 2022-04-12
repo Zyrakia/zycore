@@ -52,6 +52,16 @@ export class EnsuredProperty<T extends Instance, K extends keyof WritableInstanc
 	}
 
 	/**
+	 * Updates the ensured value of this ensured property.
+	 * This will update the property on the instance
+	 * if necessary.
+	 */
+	public set(value: T[K]) {
+		this.ensuredValue = value;
+		this.update();
+	}
+
+	/**
 	 * Returns the inital that was recorded when the
 	 * ensured property was constructed.
 	 */

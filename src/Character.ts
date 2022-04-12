@@ -223,7 +223,7 @@ export namespace Character {
 	 * member automatically.
 	 *
 	 * @param charOrRoot The character model or HumanoidRootPart.
-	 * @param sound The sound to get.
+	 * @param soundName The sound to get.
 	 * @returns The specified sound, if it was found.
 	 */
 	export function getSound<T extends keyof typeof CharacterSounds>(
@@ -248,7 +248,7 @@ export namespace Character {
 	 * member automatically.
 	 *
 	 * @param charOrRoot The character model or HumanoidRootPart.
-	 * @param sound The sound to get.
+	 * @param soundName The sound to get.
 	 * @param timeout The timeout to wait for the specified sound (defualts to 3 seconds).
 	 * @returns The specified sound, if it was found.
 	 */
