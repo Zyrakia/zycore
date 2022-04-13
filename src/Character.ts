@@ -218,6 +218,35 @@ export namespace Character {
 	}
 
 	/**
+	 * Returns whether the specified instance has the name of a valid
+	 * R15 member, and the class name of the instance matches
+	 * the expected class name of that name.
+	 *
+	 * @param inst The possible R15 member.
+	 * @returns Whether the instance is an R15 member.
+	 */
+	export function isR15Member(inst: Instance): inst is Instances[R15[keyof R15]] {
+		const name = inst.Name;
+
+		const isName = isR15MemberName(name);
+		if (!isName) return false;
+
+		const expectedType = R15Members[name];
+		return inst.IsA(expectedType);
+	}
+
+	/**
+	 * Returns whether the specified name is included in
+	 * the R15 member names array.
+	 *
+	 * @param name The name to check.
+	 * @returns Whether the name is a name of a valid R15 member.
+	 */
+	export function isR15MemberName(name: string): name is R15Names[number] {
+		return R15MemberNames.some((v) => v === name);
+	}
+
+	/**
 	 * Returns the specified sound of the specified model or HRP,
 	 * if it is a model, it will try to find the HumanoidRootPart
 	 * member automatically.
