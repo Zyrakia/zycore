@@ -52,3 +52,5 @@ export { Option } from './Option';
 export { PropertyLinked } from './properties/PropertyLinked';
 export { DynamicCenter } from './properties/DynamicCenter';
 export { EnsuredProperty } from './properties/EnsuredProperty';
+export type { SF } from './Sorting';
+export { Sorting, SF_ASCENDING, SF_DESCENDING } from './Sorting';

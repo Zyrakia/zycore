@@ -1,3 +1,6 @@
+import { Make } from '@rbxts/altmake';
+import { TweenService } from '@rbxts/services';
+
 export namespace Numbers {
 	/**
 	 * Creates a list of numbers between from and to (inclusive).
@@ -32,6 +35,56 @@ export namespace Numbers {
 		}
 
 		return new NumberSequence(keypoints);
+	}
+
+	/**
+	 * Creates a number sequence out of the specified entries.
+	 * Each entry is a tuple of a time at 0, value at 1, and optional
+	 * envelope at 2.
+	 *
+	 * @param entries The entries to map into keypoints.
+	 * @returns The number sequence.
+	 */
+	export function manualSequence(...entries: [time: number, value: number, envelope?: number][]) {
+		const keypoints = entries.map((entry) => new NumberSequenceKeypoint(entry[0], entry[1], entry[2]));
+		return new NumberSequence(keypoints);
+	}
+
+	/**
+	 * Returns a tween that will tween a number sequence containing
+	 * the `from` value to a number sequence containing the `to` value.
+	 *
+	 * Under the hood, it tweens the `Value` property of a number value and
+	 * listens to the change to create a new number sequence to send to the
+	 * `onStep` callback.
+	 *
+	 * @param from The number to start at.
+	 * @param to The number to stop at.
+	 * @param info The tween info to tween with.
+	 * @param onStep The function called for each time the value changes.
+	 * @returns The tween, in order to begin you must play the tween.
+	 */
+	export function sequenceTween(
+		from: number,
+		to: number,
+		info: TweenInfo,
+		onStep: (sequence: NumberSequence) => void,
+	) {
+		const value = Make('NumberValue', { Value: from });
+
+		let stepSequence = new NumberSequence(from);
+		value.Changed.Connect((v) => {
+			stepSequence = new NumberSequence(v);
+			onStep(stepSequence);
+		});
+
+		const tween = TweenService.Create(value, info, { Value: to });
+		tween.Completed.Connect(() => {
+			value.Destroy();
+			tween.Destroy();
+		});
+
+		return tween;
 	}
 
 	/**
