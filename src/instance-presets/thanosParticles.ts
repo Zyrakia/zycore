@@ -21,5 +21,5 @@ export const thanosParticles = Make('ParticleEmitter', {
 	ShapeStyle: Enum.ParticleEmitterShapeStyle.Surface,
 	Acceleration: new Vector3(0, 1, -1.5),
 	Drag: 1,
-	VelocityInheritance: 1,
+	VelocityInheritance: 0,
 });
