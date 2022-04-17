@@ -31,7 +31,10 @@ export namespace Objects {
 	 * @order The order to sort the keys in
 	 * @returns The sorted array of key-value pairs
 	 */
-	export function sortedPairs<T extends { [P in keyof T & number]: T[P] }>(obj: T, order: 'asc' | 'desc' = 'desc') {
+	export function sortedPairs<T extends { [P in keyof T & number]: T[P] }>(
+		obj: T,
+		order: 'asc' | 'desc' = 'desc',
+	) {
 		const values = [];
 
 		for (const [k, v] of pairs(obj)) {
@@ -101,7 +104,7 @@ export namespace Objects {
 
 		for (const [key, value] of pairs(objectOne)) {
 			if (!((key as keyof T) in objectTwo)) diff.push(key);
-			else if (value !== objectTwo[key as unknown as keyof U]) diff.push(key);
+			else if ((value as unknown) !== objectTwo[key as keyof U]) diff.push(key);
 		}
 
 		return diff as (keyof T)[];

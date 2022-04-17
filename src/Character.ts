@@ -19,9 +19,10 @@ export const R15Members = {
 } as const;
 
 export type R15 = typeof R15Members;
-export type R15Names = ReadonlyArray<keyof R15>;
+export type R15Names = (keyof R15)[];
 
 export const R15MemberNames = [
+	'Humanoid',
 	'Head',
 	'LeftFoot',
 	'LeftHand',
@@ -38,7 +39,6 @@ export const R15MemberNames = [
 	'RightUpperLeg',
 	'UpperTorso',
 	'HumanoidRootPart',
-	'Humanoid',
 ] as R15Names;
 
 export const CharacterSounds = {
@@ -144,10 +144,10 @@ export namespace Character {
 	 * @param names The specific member names to look for, defaults to {@link R15MemberNames}.
 	 * @returns The array of found members.
 	 */
-	export function getMembers<T extends R15Names>(char: Model, names?: T) {
+	export function getMembers<T extends R15Names>(char: Model, ...names: T) {
 		const members: Instances[R15[T[number]]][] = [];
 
-		(names || R15MemberNames).forEach((name) => {
+		(names.isEmpty() ? R15MemberNames : names).forEach((name) => {
 			const member = char.FindFirstChild(name);
 			if (member?.IsA(R15Members[name])) members.push(member as Instances[R15[T[number]]]);
 		});
@@ -166,10 +166,10 @@ export namespace Character {
 	 * @param names The specific member names to look for, defaults to {@link R15MemberNames}.
 	 * @returns The array of found members.
 	 */
-	export function waitMembers<T extends R15Names>(char: Model, timeout = 3, names?: R15Names) {
+	export function waitMembers<T extends R15Names>(char: Model, timeout = 3, names: R15Names) {
 		const members: Instances[R15[T[number]]][] = [];
 
-		(names || R15MemberNames).forEach((name) => {
+		(names.isEmpty() ? R15MemberNames : names).forEach((name) => {
 			const member = char.WaitForChild(name, timeout);
 			if (member?.IsA(R15Members[name])) members.push(member as Instances[R15[T[number]]]);
 		});
@@ -191,10 +191,10 @@ export namespace Character {
 	 * @param names The specified member names to map, defaults to {@link R15MemberNames}.
 	 * @returns The object of all found members.
 	 */
-	export function mapMembers<T extends R15Names>(char: Model, names?: T) {
+	export function mapMembers<T extends R15Names>(char: Model, ...names: T) {
 		const members: { [K in T[number]]?: Instances[R15[K]] } = {};
 
-		(names || R15MemberNames).forEach((name: T[number]) => {
+		(names.isEmpty() ? R15MemberNames : names).forEach((name: T[number]) => {
 			const member = char.FindFirstChild(name);
 			if (member?.IsA(R15Members[name])) members[name] = member;
 		});

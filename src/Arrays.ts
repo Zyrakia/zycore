@@ -33,7 +33,10 @@ export namespace Arrays {
 	 * @param random An optional random source.
 	 * @returns A random element of the input array.
 	 */
-	export function pickWeightedRandom<T extends { weight: number }[]>(array: T, random = new Random()): T[number] {
+	export function pickWeightedRandom<T extends { weight: number }[]>(
+		array: T,
+		random = new Random(),
+	): T[number] {
 		const totalWeight = array.reduce((sum, item) => sum + item.weight, 0);
 		const randomWeight = random.NextNumber(0, totalWeight);
 		let currentWeight = 0;
@@ -214,5 +217,23 @@ export namespace Arrays {
 	 */
 	export function runSync<T extends Callback>(callbacks: T[], ...args: Parameters<T>) {
 		for (const cb of callbacks) cb(...(args as unknown[]));
+	}
+
+	/**
+	 * Returns whether the input value is a sequential array.
+	 *
+	 * @param value The value to check.
+	 * @returns Whether the input is a sequential table.
+	 */
+	export function is(value: unknown): value is Array<unknown> {
+		if (!typeIs(value, 'table')) return false;
+
+		let i = 0;
+		for (const _ of pairs(value)) {
+			i = i + 1;
+			if ((value as Record<number, unknown>)[i] === undefined) return false;
+		}
+
+		return true;
 	}
 }
