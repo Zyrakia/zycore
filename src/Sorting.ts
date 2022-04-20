@@ -1,10 +1,10 @@
 /** Declaration for a sorting function, returns true to switch elements, false to do nothing. */
 export type SF = (a: number, b: number) => boolean;
 
-/** Preset for an ascending sorting function. */
+/** Preset for an ascending sorting function. (`a < b`) */
 export const SF_ASCENDING: SF = (a, b) => a < b;
 
-/** Preset for a descending sorting function. */
+/** Preset for a descending sorting function. (`a > b`) */
 export const SF_DESCENDING: SF = (a, b) => a > b;
 
 export namespace Sorting {
