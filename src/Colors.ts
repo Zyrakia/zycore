@@ -114,6 +114,36 @@ export namespace Colors {
 		return new ColorSequence(keypoints);
 	}
 
+	/**
+	 * Converts a color into a unsigned 24bit integer.
+	 *
+	 * @param color
+	 * @returns The unsigned integer.
+	 */
+	export function toUInt24(color: Color3) {
+		const r = color.R * 255;
+		const g = color.G * 255;
+		const b = color.B * 255;
+
+		return bit32.bor(bit32.bor(bit32.lshift(r, 16), bit32.lshift(g, 8)), bit32.lshift(b, 0));
+	}
+
+	/**
+	 * Converts a unsigned 24bit integer into a color.
+	 *
+	 * @param colorInt The unsigned integer.
+	 * @returns The color.
+	 */
+	export function fromUInt24(colorInt: number) {
+		const uint24 = math.clamp(colorInt, 0, 16777215);
+
+		const r = bit32.rshift(bit32.band(uint24, 16711680), 16);
+		const g = bit32.rshift(bit32.band(uint24, 65280), 8);
+		const b = bit32.rshift(bit32.band(uint24, 255), 0);
+
+		return Color3.fromRGB(r, g, b);
+	}
+
 	export const WHITE = RGB(255, 255, 255);
 	export const BLACK = RGB(0, 0, 0);
 	export const RED = RGB(255, 0, 0);
