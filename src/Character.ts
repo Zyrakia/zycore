@@ -1,3 +1,5 @@
+import { InstanceTree } from 'InstanceTree';
+
 export const R15Members = {
 	Head: 'BasePart',
 	LeftFoot: 'BasePart',
@@ -431,5 +433,22 @@ export namespace Character {
 		if (!container?.IsA('StringValue')) return;
 
 		return container.FindFirstChildOfClass('Animation');
+	}
+
+	/**
+	 * Unanchors every part inside the specified model that is either an accesory handle
+	 * or has the name of a R15 part member. The HumanoidRootPart will stay anchored.
+	 *
+	 * @param char The character to unanchor.
+	 */
+	export function unachor(char: Model) {
+		InstanceTree.walkFilter(char, 'BasePart', (bp) => {
+			const parent = bp.Parent;
+			const name = bp.Name;
+
+			if (!(name === 'Handle' && parent?.IsA('Accessory')) && !isR15MemberName(name)) return;
+
+			bp.Anchored = name === 'HumanoidRootPart';
+		});
 	}
 }
