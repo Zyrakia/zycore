@@ -1,4 +1,6 @@
 import { setTimeout, Timeout } from 'Interval';
+import { Option } from 'Option';
+import { Users } from 'Users';
 
 /**
  * The base class for caches that hold values for each key
@@ -133,5 +135,34 @@ export class Cache<K, V> {
 	public setExpirationSeconds(seconds?: number) {
 		this.expirationSeconds = seconds;
 		if (seconds === undefined) this.stopForgettingAll();
+	}
+
+	/**
+	 * Wraps a function into the specified cache. This will, for each function call,
+	 * check if the first parameter that was given is cached, and if so, returns the cached
+	 * value. If it is not cached, it will return and cache the result of the
+	 * passed in function.
+	 *
+	 * This internally stores the result in an `Option`, meaning results of `undefined`/`nil` are
+	 * also cached.
+	 *
+	 * @param fn The function to wrap.
+	 * @param cache The cache to use, defaults to just a new Cache.
+	 * @returns A wrapper function with the same signature as the passed function.
+	 */
+	public static wrap<T extends Callback>(
+		fn: T,
+		cache = new Cache<Parameters<T>[0], Option<ReturnType<T>>>(),
+	): (...args: Parameters<T>) => ReturnType<T> {
+		return (...args: unknown[]) => {
+			const key = args[0];
+			const cachedResult = cache.get(key);
+			if (cachedResult) return cachedResult.get();
+
+			const result = fn(...args);
+			cache.set(key, new Option(result));
+
+			return result;
+		};
 	}
 }
