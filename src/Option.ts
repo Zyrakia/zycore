@@ -1,5 +1,5 @@
 /** Maps all keys in a type to have an Option type containing the original type. */
-export type MapOptions<T> = { [K in keyof T]: Option<T[K]> };
+export type MapOptions<T> = { [K in keyof T]: T[K] extends defined ? Option<T[K]> : never };
 
 /**
  * A utility class that has the ability to hold a value,
@@ -97,7 +97,7 @@ export class Option<T extends defined> {
 	 *
 	 * @returns An empty option.
 	 */
-	public static none<T>() {
+	public static none<T extends defined>() {
 		return new Option<T>(undefined);
 	}
 
@@ -107,7 +107,7 @@ export class Option<T extends defined> {
 	 * @param value The initial value of the option.
 	 * @returns A filled option.
 	 */
-	public static some<T>(value: T) {
+	public static some<T extends defined>(value: T) {
 		return new Option(value);
 	}
 
@@ -117,7 +117,7 @@ export class Option<T extends defined> {
 	 * @param size The size of the nones array.
 	 * @returns The array of empty options.
 	 */
-	public static nones<T>(size: number) {
+	public static nones<T extends defined>(size: number) {
 		const options: Option<T>[] = [];
 		for (let i = 0; i < size; i++) options.push(Option.none());
 		return options;
