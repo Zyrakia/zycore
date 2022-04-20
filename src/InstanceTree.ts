@@ -2,7 +2,8 @@ import { Arrays } from 'Arrays';
 import { Strings } from 'Strings';
 
 import { Bin } from '@rbxts/bin';
-import { ReplicatedStorage, ServerStorage, StarterPack, TweenService } from '@rbxts/services';
+import { ReplicatedStorage, ServerStorage, StarterPack, TweenService, Workspace } from '@rbxts/services';
+import { t } from '@rbxts/t';
 
 export namespace InstanceTree {
 	/**
@@ -277,7 +278,11 @@ export namespace InstanceTree {
 	 * @param instanceName If specified, looks for the first child of the given class with the given name.
 	 * @returns The first child of the given class, or undefined.
 	 */
-	export function findChildOfClass<T extends keyof Instances>(instance: Instance, className: T, instanceName?: string) {
+	export function findChildOfClass<T extends keyof Instances>(
+		instance: Instance,
+		className: T,
+		instanceName?: string,
+	) {
 		if (instanceName !== undefined) {
 			for (const child of instance.GetChildren()) {
 				if (!child.IsA(className)) continue;
@@ -408,5 +413,18 @@ export namespace InstanceTree {
 			instance.IsDescendantOf(ServerStorage) ||
 			instance.IsDescendantOf(StarterPack)
 		);
+	}
+
+	/**
+	 * Registers all descendants, now and in the future, with the specified callback.
+	 *
+	 * @param instance The instance to register all descendants of.
+	 * @param cb The callback to call with each descendant.
+	 * @param inclusive Whether to register the given instance aswell, defaults to false.
+	 * @returns The `DescendantAdded` connection.
+	 */
+	export function register(instance: Instance, cb: (instance: Instance) => void, inclusive = false) {
+		walk(instance, cb, inclusive);
+		return instance.DescendantAdded.Connect(cb);
 	}
 }
