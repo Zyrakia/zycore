@@ -7,11 +7,12 @@ export namespace Numbers {
 	 *
 	 * @param from The start of the range.
 	 * @param to The end of the range.
+	 * @param jump The amount to increase each step, defaults to 1.
 	 * @returns A list of numbers between from and to (inclusive).
 	 */
-	export function spread(from: number, to: number) {
+	export function spread(from: number, to: number, jump = 1) {
 		const numbers = [];
-		for (let i = from; i <= to; i++) numbers.push(i);
+		for (let i = from; i <= to; i += jump) numbers.push(i);
 		return numbers;
 	}
 
