@@ -73,8 +73,7 @@ export namespace Sets {
 	 * @returns The random element.
 	 */
 	export function pickRandom<T>(set: Set<T>, random = new Random()) {
-		const index = random.NextInteger(0, set.size() - 1);
-		let i = -1;
-		for (const item of set) if (i++ === index) return item;
+		let i = random.NextInteger(0, set.size() - 1);
+		for (const item of set) if (i-- <= 0) return item;
 	}
 }
