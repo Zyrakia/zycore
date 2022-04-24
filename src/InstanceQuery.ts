@@ -82,12 +82,12 @@ export class InstanceQuery<T extends Instance[] = [Instance]> {
 	/**
 	 * Adds a query that checks if the instance is of the given type.
 	 *
-	 * @param type The type to check for.
+	 * @param typeName The type to check for.
 	 * @param exact Whether to check `ClassName` equality instead of `IsA`. Defaults to `false`.
 	 */
-	public ofType<R extends keyof Instances>(type: R, exact = false) {
+	public ofType<R extends keyof Instances>(typeName: R, exact = false) {
 		return this.expect((inst): inst is Instances[R] => {
-			return exact ? classIs(inst, type) : inst.IsA(type);
+			return exact ? classIs(inst, typeName) : inst.IsA(typeName);
 		});
 	}
 
@@ -178,7 +178,7 @@ export class InstanceQuery<T extends Instance[] = [Instance]> {
 
 		for (const aggregator of this.aggregators) {
 			const result = aggregator(root, all);
-			all.push(...result);
+			for (const r of result) all.push(r);
 		}
 
 		return all;
