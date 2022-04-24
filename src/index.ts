@@ -55,3 +55,4 @@ export { EnsuredProperty } from './properties/EnsuredProperty';
 export type { SF } from './Sorting';
 export { Sorting, SF_ASCENDING, SF_DESCENDING } from './Sorting';
 export { Maps } from './Maps';
+export { InstanceQuery } from './InstanceQuery';
