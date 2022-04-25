@@ -1,3 +1,6 @@
+import { Bin } from '@rbxts/bin';
+import { Workspace } from '@rbxts/services';
+
 /**
  * A helper class to ensure a property on an instance
  * always equals a certain value.
@@ -82,5 +85,34 @@ export class EnsuredProperty<T extends Instance, K extends keyof WritableInstanc
 		}
 
 		if (reset) this.inst[this.key] = this.initialValue;
+	}
+
+	/**
+	 * Creates new ensured properties for all of the specified
+	 * properties, each of them ensuring the specified value.
+	 *
+	 * @param inst The instance to connect to.
+	 * @param values The values to ensure at the specified properties.
+	 * @param reset Whether to reset each property when destroyed.
+	 * @returns A bin that can be used to destroy all of the ensured properties.
+	 */
+	public static all<I extends Instance>(
+		inst: I,
+		values: Partial<WritableInstanceProperties<I>>,
+		reset?: boolean,
+	) {
+		const bin = new Bin();
+
+		for (const entry of pairs(values)) {
+			const [key, value] = entry as [
+				keyof WritableInstanceProperties<I>,
+				I[keyof WritableInstanceProperties<I>],
+			];
+
+			const prop = new EnsuredProperty(inst, key, value);
+			bin.add(() => prop.destroy(reset));
+		}
+
+		return bin;
 	}
 }
