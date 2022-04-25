@@ -104,7 +104,7 @@ export class EnsuredProperty<T extends Instance, K extends keyof WritableInstanc
 		const bin = new Bin();
 
 		for (const entry of pairs(values)) {
-			const [key, value] = entry as [
+			const [key, value] = entry as unknown as [
 				keyof WritableInstanceProperties<I>,
 				I[keyof WritableInstanceProperties<I>],
 			];
