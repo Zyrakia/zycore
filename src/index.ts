@@ -58,3 +58,5 @@ export { Maps } from './Maps';
 export { InstanceQuery } from './InstanceQuery';
 export type { Constructor } from './Meta';
 export { Meta } from './Meta';
+export { GMap } from './GMap';
+export { Mutex } from './Mutex';
