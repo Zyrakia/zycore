@@ -1,6 +1,5 @@
 import { setTimeout, Timeout } from 'Interval';
 import { Option } from 'Option';
-import { Users } from 'Users';
 
 /**
  * The base class for caches that hold values for each key

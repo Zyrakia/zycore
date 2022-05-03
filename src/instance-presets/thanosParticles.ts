@@ -1,6 +1,7 @@
-import { Make } from '@rbxts/altmake';
 import { Asset } from 'Asset';
 import { Numbers } from 'Numbers';
+
+import { Make } from '@rbxts/altmake';
 
 export const thanosParticles = Make('ParticleEmitter', {
 	Brightness: 2,

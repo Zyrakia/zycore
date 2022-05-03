@@ -1,5 +1,4 @@
 import { Bin } from '@rbxts/bin';
-import { Workspace } from '@rbxts/services';
 
 /**
  * A helper class to ensure a property on an instance

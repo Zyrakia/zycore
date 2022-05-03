@@ -2,8 +2,7 @@ import { Arrays } from 'Arrays';
 import { Strings } from 'Strings';
 
 import { Bin } from '@rbxts/bin';
-import { ReplicatedStorage, ServerStorage, StarterPack, TweenService, Workspace } from '@rbxts/services';
-import { t } from '@rbxts/t';
+import { ReplicatedStorage, ServerStorage, StarterPack, TweenService } from '@rbxts/services';
 
 export namespace InstanceTree {
 	/**

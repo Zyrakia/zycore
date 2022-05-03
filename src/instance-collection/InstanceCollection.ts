@@ -1,5 +1,6 @@
-import { Bin } from '@rbxts/bin';
 import { BinMap } from 'BinMap';
+
+import { Bin } from '@rbxts/bin';
 
 /**
  * The base class for all instance-bound collections.

@@ -1,8 +1,9 @@
-import { Clone } from '@rbxts/altmake';
-import { TweenService } from '@rbxts/services';
 import { Colors } from 'Colors';
 import { thanosParticles } from 'instance-presets/thanosParticles';
 import { Numbers } from 'Numbers';
+
+import { Clone } from '@rbxts/altmake';
+import { TweenService } from '@rbxts/services';
 
 export namespace PartEffects {
 	/**

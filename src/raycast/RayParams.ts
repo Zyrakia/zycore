@@ -1,5 +1,6 @@
-import { PhysicsService, Players } from '@rbxts/services';
 import { Tags } from 'Tags';
+
+import { PhysicsService, Players } from '@rbxts/services';
 
 /**
  * Utility class to build raycast parameters.

@@ -1,5 +1,6 @@
-import { Make } from '@rbxts/altmake';
 import { InstanceTree } from 'InstanceTree';
+
+import { Make } from '@rbxts/altmake';
 
 export = () => {
 	const parent = new Instance('Part');
