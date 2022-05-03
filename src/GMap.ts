@@ -3,7 +3,7 @@
  * the key is not present in the map.
  */
 export class GMap<K, V> {
-	private map: Map<K, V>;
+	protected map: Map<K, V>;
 
 	/**
 	 * Constructs a new map with the given getter.
