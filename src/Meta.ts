@@ -1,3 +1,4 @@
+/** Represents the constructor of `T`. */
 export type Constructor<T> = {
 	new (...args: any[]): T;
 };
