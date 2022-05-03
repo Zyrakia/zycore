@@ -56,3 +56,5 @@ export type { SF } from './Sorting';
 export { Sorting, SF_ASCENDING, SF_DESCENDING } from './Sorting';
 export { Maps } from './Maps';
 export { InstanceQuery } from './InstanceQuery';
+export type { Constructor } from './Meta';
+export { Meta } from './Meta';
