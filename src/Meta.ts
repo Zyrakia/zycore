@@ -7,11 +7,11 @@ export namespace Meta {
 	/**
 	 * Converts the given class constructor into a string.
 	 *
-	 * @param constructor The class constructor to convert.
+	 * @param const The class constructor to convert.
 	 * @returns The string name of the constructor.
 	 */
-	export function getConstructorName(constructor: Constructor<any>) {
-		return tostring(constructor);
+	export function getConstructorName(construct: Constructor<any>) {
+		return tostring(construct);
 	}
 
 	/**
