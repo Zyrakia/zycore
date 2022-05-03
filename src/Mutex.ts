@@ -36,7 +36,7 @@ export class Mutex {
 	 * @param args The arguments to pass to the function.
 	 * @returns The return value of the function.
 	 */
-	public run<T, A extends any[]>(fn: (...args: A) => T, ...args: A) {
+	public run<T, A extends unknown[]>(fn: (...args: A) => T, ...args: A) {
 		this.acquire();
 
 		try {
@@ -53,7 +53,7 @@ export class Mutex {
 	 * @param fn The function to wrap.
 	 * @returns A function that acquires and releases the mutex.
 	 */
-	public wrap<T, A extends any[]>(fn: (...args: A) => T) {
+	public wrap<T, A extends unknown[]>(fn: (...args: A) => T) {
 		return (...args: A) => this.run(fn, ...args);
 	}
 }
