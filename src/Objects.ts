@@ -109,4 +109,18 @@ export namespace Objects {
 
 		return diff as (keyof T)[];
 	}
+
+	/**
+	 * Returns a function that will merge the given objects with
+	 * the initial default object. This uses the spread operator
+	 * to merge the objects.
+	 *
+	 * @param defaults The default object to merge with
+	 * @returns The function that merges the objects
+	 */
+	export function defaulter<T extends {}>(defaults: Required<T>) {
+		return (obj: Partial<T> = {}) => {
+			return { ...defaults, ...obj } as T;
+		};
+	}
 }
