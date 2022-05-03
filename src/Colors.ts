@@ -164,6 +164,14 @@ export namespace Colors {
 	export const NAVY = RGB(0, 0, 128);
 	export const AQUA = RGB(0, 255, 255);
 	export const GRAY = RGB(128, 128, 128);
+	export const LIGHT_PINK = RGB(165, 105, 149);
+	export const LIGHT_BLUE = RGB(135, 206, 250);
+	export const LIGHT_GREEN = RGB(144, 238, 144);
+
+	export const RAINBOW = sequence(RED, YELLOW, GREEN, CYAN, BLUE, MAGENTA);
+	export const PASTEL = sequence(LIGHT_PINK, LIGHT_BLUE);
+	export const SUNSET = sequence(ORANGE, LIME, PINK, SALMON, MAROON, OLIVE);
+	export const NIGHT = sequence(NAVY, AQUA, GRAY);
 }
 
 export const RGB = Colors.RGB;
