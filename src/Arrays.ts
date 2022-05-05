@@ -236,4 +236,28 @@ export namespace Arrays {
 
 		return true;
 	}
+
+	/**
+	 * Returns an array with the same elements as the input array,
+	 * but an element containing the separator is inserted between
+	 * each element.
+	 * 
+	 * This ensures that `"a b c".split(" ").join(" ")` is
+	 * equivalent to `unsplit("a b c".split(" "), " ").join("")`.
+	 * 
+	 * @param array The array to insert separators into.
+	 * @param separator The separator to insert.
+	 * @returns The array with separators inserted.
+	 */
+	export function unsplit<T extends string>(array: T[], separator: string) {
+		const result = [];
+
+		for (let i = 0; i < array.size(); i++) {
+			if (i > 0) result.push(separator);
+			result.push(array[i]);
+		}
+
+		return result;
+	}
 }
+
