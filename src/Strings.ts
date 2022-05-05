@@ -65,7 +65,7 @@ export namespace Strings {
 	 * Checks if a string starts with a given substring.
 	 *
 	 * @param str The string to check.
-	 * @param sub The substring to check for.
+	 * @param search The substring to check for.
 	 * @returns Whether the string starts with the substring.
 	 */
 	export function startsWith(str: string, search: string) {

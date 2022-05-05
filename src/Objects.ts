@@ -19,6 +19,17 @@ export type UncapitalizeKeys<T> = {
 	[K in StringKeyof<T> as Uncapitalize<K>]: T[K] extends object ? UncapitalizeKeys<T[K]> : T[K];
 };
 
+/** Inverted object representation, supports arrays, maps and sets since those are all tables. */
+export type Inverted<T> = T extends Array<infer A>
+	? Map<A, number>
+	: T extends Map<infer A, infer B>
+	? Map<B, A>
+	: T extends Set<infer A>
+	? Map<boolean, A>
+	: T extends Record<any, string>
+	? { [P in keyof T as T[P]]: P }
+	: never;
+
 export namespace Objects {
 	/**
 	 * Converts an object into an array of key-value pairs and then
@@ -122,5 +133,23 @@ export namespace Objects {
 		return (obj: Partial<T> = {}) => {
 			return { ...defaults, ...obj } as T;
 		};
+	}
+
+	/**
+	 * Inverts the given object, this will return a new object with
+	 * the keys and values having switched places.
+	 *
+	 * @param obj The object to invert
+	 * @returns The inverted object
+	 */
+	export function invert<T extends {}>(obj: T) {
+		const inverted = {} as Inverted<T>;
+
+		for (const entry of pairs(obj)) {
+			const [key, value] = entry as unknown as [Inverted<T>[keyof Inverted<T>], keyof Inverted<T>];
+			inverted[value] = key;
+		}
+
+		return inverted;
 	}
 }
