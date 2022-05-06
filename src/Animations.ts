@@ -27,17 +27,25 @@ export namespace Animations {
 	}
 
 	/**
-	 * Iterates through all running tracks, stops each track, destroys it's animation and
-	 * then destroys the track itself.
+	 * Iterates through all running tracks, and
+	 * destroys each with {@link destroyTrack}.
 	 *
 	 * @param animator The animator to clear.
 	 */
 	export function resetAnimator(animator: Animator) {
 		const tracks = animator.GetPlayingAnimationTracks();
-		tracks.forEach((track) => {
-			track.Stop();
-			track.Animation?.Destroy();
-			track.Destroy();
-		});
+		tracks.forEach((track) => destroyTrack(track));
+	}
+
+	/**
+	 * Stops the track, destroys it's animation and then destroys
+	 * the track itself.
+	 *
+	 * @param track The track to clear.
+	 */
+	export function destroyTrack(track: AnimationTrack) {
+		if (track.IsPlaying) track.Stop();
+		track.Animation?.Destroy();
+		track.Destroy();
 	}
 }
