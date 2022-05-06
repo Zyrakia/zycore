@@ -8,12 +8,6 @@ export class CacheValue<K> {
 	/** The current cached value. */
 	private value?: K;
 
-	/** The getter that is used to obtain the value if none is cached. */
-	private getter: () => K;
-
-	/** The amount of seconds to cache the value for. */
-	private expirationSeconds?: number;
-
 	/** The active forget timeout of the value. */
 	private timeout?: Timeout;
 
@@ -22,11 +16,13 @@ export class CacheValue<K> {
 	 *
 	 * @param getter The getter used to fetch the value if it's not cached.
 	 * @param expirationSeconds The number of seconds to cache the value for, or omit to cache forever.
+	 * @param invalidator The function to call with every get to check if the value is still valid.
 	 */
-	public constructor(getter: () => K, expirationSeconds?: number) {
-		this.getter = getter;
-		this.expirationSeconds = expirationSeconds;
-	}
+	public constructor(
+		private getter: () => K,
+		private expirationSeconds?: number,
+		private invalidator?: (currentValue: K) => boolean,
+	) {}
 
 	/**
 	 * Returns the cached value, or fetches it if it's not cached.
@@ -34,8 +30,8 @@ export class CacheValue<K> {
 	 * @returns The cached value.
 	 */
 	public get() {
-		if (this.value !== undefined) return this.value;
-		return this.fetch();
+		if (this.isValid()) return this.value as K;
+		else return this.fetch();
 	}
 
 	/**
@@ -73,6 +69,17 @@ export class CacheValue<K> {
 		this.value = value;
 		this.startForgetting();
 		return value;
+	}
+
+	/**
+	 * Returns whether the current value is still
+	 * valid.
+	 *
+	 * @returns Whether the value is still valid.
+	 */
+	private isValid() {
+		if (this.value === undefined) return false;
+		return !!this.invalidator && this.invalidator(this.value);
 	}
 
 	/**
