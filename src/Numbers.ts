@@ -103,10 +103,31 @@ export namespace Numbers {
 	}
 
 	/**
-	 * Returns whether the given number is odd.
+	 * Rounds num up to the nearest multiple of n.
+	 *
+	 * @param num The number to round up.
+	 * @param n The multiple to round up to.
+	 * @returns The rounded number.
 	 */
-	export function isOdd(num: number) {
-		return num % 2 === 1;
+	export function roundUpMultiple(num: number, n: number) {
+		if (num % n === 0) return num;
+
+		const remainder = num % n;
+		return num - remainder + n;
+	}
+
+	/**
+	 * Rounds num down to the nearest multiple of n.
+	 *
+	 * @param num The number to round down.
+	 * @param n The multiple to round down to.
+	 * @returns The rounded number.
+	 */
+	export function roundToMultiple(num: number, n: number) {
+		if (num % n === 0) return num;
+
+		const remainder = num % n;
+		return num - remainder;
 	}
 
 	/**
