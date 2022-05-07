@@ -52,18 +52,6 @@ export = () => {
 		});
 	});
 
-	describe('isOdd', () => {
-		it('should return whether the given number is odd', () => {
-			expect(Numbers.isOdd(1)).to.equal(true);
-			expect(Numbers.isOdd(2)).to.equal(false);
-			expect(Numbers.isOdd(0)).to.equal(false);
-			expect(Numbers.isOdd(-1)).to.equal(true);
-			expect(Numbers.isOdd(-2)).to.equal(false);
-			expect(Numbers.isOdd(0.5)).to.equal(false);
-			expect(Numbers.isOdd(-0.5)).to.equal(false);
-		});
-	});
-
 	describe('truncate', () => {
 		it('should return the given number truncated to the given number of decimal places', () => {
 			expect(Numbers.truncate(1.2345, 2)).to.equal(1.23);
