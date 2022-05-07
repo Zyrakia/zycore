@@ -123,7 +123,7 @@ export namespace Numbers {
 	 * @param n The multiple to round down to.
 	 * @returns The rounded number.
 	 */
-	export function roundToMultiple(num: number, n: number) {
+	export function roundDownMultiple(num: number, n: number) {
 		if (num % n === 0) return num;
 
 		const remainder = num % n;
