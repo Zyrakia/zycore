@@ -11,12 +11,14 @@ export type NumericKeyPair<T> = T extends Record<infer K, infer V> ? [K & number
 
 /** Recursively returns all string keys in the given object in their capitalized form. */
 export type CapitalizeKeys<T> = {
-	[K in StringKeyof<T> as Capitalize<K>]: T[K] extends object ? CapitalizeKeys<T[K]> : T[K];
+	[K in StringKeyof<T> as Capitalize<K>]: T[K] extends Record<string, unknown> ? CapitalizeKeys<T[K]> : T[K];
 };
 
 /** Recursively returns all string keys in the given object in their uncapitalized form. */
 export type UncapitalizeKeys<T> = {
-	[K in StringKeyof<T> as Uncapitalize<K>]: T[K] extends object ? UncapitalizeKeys<T[K]> : T[K];
+	[K in StringKeyof<T> as Uncapitalize<K>]: T[K] extends Record<string, unknown>
+		? UncapitalizeKeys<T[K]>
+		: T[K];
 };
 
 /** Inverted object representation, supports arrays, maps and sets since those are all tables. */
