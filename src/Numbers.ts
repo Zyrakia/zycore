@@ -148,9 +148,26 @@ export namespace Numbers {
 	 * @param num The number to be used as the bound.
 	 * @returns A random float between negative num and num.
 	 */
-	export function randomOffset(num: number) {
+	export function randomOffset(num: number, r = new Random()) {
 		const n = math.abs(num);
-		return new Random().NextNumber(n * -1, n);
+		return r.NextNumber(n * -1, n);
+	}
+
+	/**
+	 * Returns a random float between:
+	 * (num - num / 2) and (num + num / 2)
+	 *
+	 * Example:
+	 * ```ts
+	 * randomRange(1) // returns float between 0.5 and 1.5
+	 * randomRange(10) // returns float between 5 and 15
+	 * ```
+	 *
+	 * @param num The number to be used as the bound.
+	 * @returns A random float between:
+	 */
+	export function randomRange(num: number, r = new Random()) {
+		return r.NextNumber(num - num / 2, num + num / 2);
 	}
 
 	/**
@@ -160,8 +177,8 @@ export namespace Numbers {
 	 * @param max The maximum number.
 	 * @returns A random number between min and max.
 	 */
-	export function random(min: number, max: number) {
-		return new Random().NextNumber(min, max);
+	export function random(min: number, max: number, r = new Random()) {
+		return r.NextNumber(min, max);
 	}
 
 	/**
