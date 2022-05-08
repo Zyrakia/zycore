@@ -81,7 +81,7 @@ export namespace Attributes {
 	export function getAll<T extends Record<string, t.check<AttrValue>>>(
 		instance: Instance,
 		guard?: T,
-	): { [K in keyof T]: T[K] extends t.check<infer U> ? U : never };
+	): { [K in keyof T]?: T[K] extends t.check<infer U> ? U : never };
 
 	export function getAll<T extends Record<string, t.check<AttrValue>>>(instance: Instance, guard?: T) {
 		const attributes = instance.GetAttributes() as Record<string, AttrValue>;
