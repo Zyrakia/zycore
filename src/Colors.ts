@@ -1,8 +1,15 @@
 export namespace Colors {
 	/**
 	 * Returns a color form the give RGB values.
+	 *
+	 * If only one value is provided it is used for
+	 * all R, G and B.
+	 *
+	 * @param r The 0-255 number representing red.
+	 * @param g The 0-255 number representing green, defaults to the r value.
+	 * @param b The 0-255 number representing blue, defaults to the r value.
 	 */
-	export function RGB(r: number, g: number, b: number) {
+	export function RGB(r: number, g = r, b = r) {
 		return Color3.fromRGB(r, g, b);
 	}
 
