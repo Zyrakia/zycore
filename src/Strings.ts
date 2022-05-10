@@ -34,7 +34,7 @@ export namespace Strings {
 	export function trim(str: string) {
 		const [from] = string.match(str, '^%s*()') as LuaTuple<[number]>;
 		const [trimmed] = (from > str.size() && '') || string.match(str, '.*%S', from);
-		return trimmed as string;
+		return trimmed === undefined ? '' : tostring(trimmed);
 	}
 
 	/**
