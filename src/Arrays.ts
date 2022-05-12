@@ -241,10 +241,10 @@ export namespace Arrays {
 	 * Returns an array with the same elements as the input array,
 	 * but an element containing the separator is inserted between
 	 * each element.
-	 * 
+	 *
 	 * This ensures that `"a b c".split(" ").join(" ")` is
 	 * equivalent to `unsplit("a b c".split(" "), " ").join("")`.
-	 * 
+	 *
 	 * @param array The array to insert separators into.
 	 * @param separator The separator to insert.
 	 * @returns The array with separators inserted.
@@ -259,5 +259,33 @@ export namespace Arrays {
 
 		return result;
 	}
-}
 
+	/**
+	 * Turns the specified set into an array.
+	 */
+	export function fromSet<T>(set: Set<T>) {
+		const result = [];
+		for (const item of set) result.push(item);
+		return result;
+	}
+
+	/**
+	 * Turns the given map into an array of
+	 * key-value tuple pairs.
+	 */
+	export function fromMap<K, V>(map: Map<K, V>) {
+		const result: [K, V][] = [];
+		for (const [key, value] of map) result.push([key, value]);
+		return result;
+	}
+
+	/**
+	 * Turns the given map into an array
+	 * of key-value pairs.
+	 */
+	export function fromMapO<K, V>(map: Map<K, V>) {
+		const result: { key: K; value: V }[] = [];
+		for (const [key, value] of map) result.push({ key, value });
+		return result;
+	}
+}
