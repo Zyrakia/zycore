@@ -25,6 +25,11 @@ export type Timeout = {
  * Note that the first run will happen after `interval` seconds, if this
  * behavior is desired, use `setIntervalNow` instead.
  *
+ * While a new thread is started for the initial interval loop, one is
+ * not started for each iteration, meaning the actual delay between
+ * iterations is `interval` seconds, plus any time the function
+ * takes to execute, including any yielding that occurs within it.
+ *
  * @param cb The function to run.
  * @param interval The interval in seconds.
  * @param args The arguments to pass to the function.
@@ -32,7 +37,7 @@ export type Timeout = {
  */
 export function setInterval<A extends unknown[]>(
 	cb: (...args: A) => void,
-	interval: number,
+	interval?: number,
 	...args: A
 ): Interval {
 	let timeout = interval;
@@ -40,7 +45,7 @@ export function setInterval<A extends unknown[]>(
 
 	task.spawn(() => {
 		while (running) {
-			task.wait(math.abs(timeout));
+			task.wait(timeout);
 			if (running) cb(...args);
 		}
 	});
@@ -48,7 +53,7 @@ export function setInterval<A extends unknown[]>(
 	return {
 		destroy: () => (running = false),
 		isDestroyed: () => !running,
-		adjustInterval: (interval: number) => (timeout = interval),
+		adjustInterval: (interval?: number) => (timeout = interval),
 	};
 }
 
@@ -63,7 +68,7 @@ export function setInterval<A extends unknown[]>(
  */
 export function setIntervalNow<A extends unknown[]>(
 	cb: (...args: A) => void,
-	interval: number,
+	interval?: number,
 	...args: A
 ): Interval {
 	task.spawn(() => cb(...args));
@@ -87,7 +92,7 @@ export function setTimeout<A extends unknown[]>(
 	let didRun = false;
 
 	task.spawn(() => {
-		task.wait(math.abs(timeout));
+		task.wait(timeout);
 		if (shouldRun) {
 			cb(...args);
 			didRun = true;
