@@ -3,6 +3,7 @@ import { Strings } from 'Strings';
 
 import { Bin } from '@rbxts/bin';
 import { ReplicatedStorage, ServerStorage, StarterPack, TweenService } from '@rbxts/services';
+import { Make } from '@rbxts/altmake';
 
 export namespace InstanceTree {
 	/**
@@ -109,8 +110,9 @@ export namespace InstanceTree {
 	 * @param instance The instance to start with.
 	 * @returns Whether or not the given UI element is visible.
 	 */
-	export function isUIVisible(instance: GuiObject) {
-		if (!instance.Visible) return false;
+	export function isUIVisible(instance: Instance) {
+		if (instance.IsA('GuiObject') && !instance.Visible) return false;
+
 		let parent = instance.Parent;
 
 		while (parent) {
@@ -425,5 +427,70 @@ export namespace InstanceTree {
 	export function register(instance: Instance, cb: (instance: Instance) => void, inclusive = false) {
 		walk(instance, cb, inclusive);
 		return instance.DescendantAdded.Connect(cb);
+	}
+
+	/**
+	 * Registers all children, now and in the future, with the specified callback.
+	 *
+	 * @param instance The instance to register all children of.
+	 * @param cb The callback to call with each child.
+	 * @param inclusive Whether to register the given instance aswell, defaults to false.
+	 * @returns The `ChildAdded` connection.
+	 */
+	export function registerNear(instance: Instance, cb: (instance: Instance) => void, inclusive = false) {
+		walkNear(instance, cb, inclusive);
+		return instance.ChildAdded.Connect(cb);
+	}
+
+	/**
+	 * Finds the first child which is of the given class, uses `isA()`.
+	 * If no child is found, creates a new one and returns it.
+	 *
+	 * @param instance The instance to find the child of.
+	 * @param className The class name to find.
+	 * @returns The found or created child.
+	 */
+	export function ensureChildWhichIsA<T extends keyof CreatableInstances>(instance: Instance, className: T) {
+		const child = instance.FindFirstChildWhichIsA(className);
+		return child ?? new Instance(className, instance);
+	}
+
+	/**
+	 * Registers all either children or descendants, with the specified callback, now and in the future.
+	 * If you only specificy the `childAdded` callback, it will only connect to the `ChildAdded` event,
+	 * and so on.
+	 *
+	 * @param inst The instances to register.
+	 * @param handlers The handlers to connect to.
+	 * @param inclusive Whether to register the given instance aswell, defaults to false.
+	 * @returns A bin that can be destroyed to clear all connections.
+	 */
+	export function watch(
+		inst: Instance,
+		handlers: {
+			childAdded?: (child: Instance) => void;
+			childRemoved?: (child: Instance) => void;
+			descendantAdded?: (descendant: Instance) => void;
+			descendantRemoving?: (descendant: Instance) => void;
+		},
+		inclusive = false,
+	) {
+		const bin = new Bin();
+
+		if (handlers.childAdded) {
+			bin.add(inst.ChildAdded.Connect(handlers.childAdded));
+			walkNear(inst, handlers.childAdded, inclusive);
+		}
+
+		if (handlers.childRemoved) bin.add(inst.ChildRemoved.Connect(handlers.childRemoved));
+
+		if (handlers.descendantAdded) {
+			bin.add(inst.DescendantAdded.Connect(handlers.descendantAdded));
+			walk(inst, handlers.descendantAdded, inclusive);
+		}
+
+		if (handlers.descendantRemoving) bin.add(inst.DescendantRemoving.Connect(handlers.descendantRemoving));
+
+		return bin;
 	}
 }
