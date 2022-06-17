@@ -56,7 +56,7 @@ export namespace Arrays {
 	 * @param second The second array to compare.
 	 * @returns A boolean indicating whether the arrays are equal.
 	 */
-	export function equals<T extends defined>(first: T[], second: T[]) {
+	export function equals<T extends defined>(first: ReadonlyArray<T>, second: ReadonlyArray<T>) {
 		if (first.size() !== second.size()) return false;
 
 		for (let i = 0; i < first.size(); i++) {
@@ -74,7 +74,7 @@ export namespace Arrays {
 	 * @param second The second array to compare.
 	 * @returns A boolean indicating whether the second array contains all elements of the first array.
 	 */
-	export function fuzzyEquals<T extends defined>(first: T[], second: T[]) {
+	export function fuzzyEquals<T extends defined>(first: ReadonlyArray<T>, second: ReadonlyArray<T>) {
 		if (first.size() !== second.size()) return false;
 
 		for (const value of first) {
@@ -204,7 +204,7 @@ export namespace Arrays {
 	 * @param callbacks The array of callbacks to run.
 	 * @param args The arguments to pass to each callback.
 	 */
-	export function run<T extends Callback>(callbacks: T[], ...args: Parameters<T>) {
+	export function run<T extends Callback>(callbacks: ReadonlyArray<T>, ...args: Parameters<T>) {
 		for (const cb of callbacks) task.spawn(cb, ...(args as unknown[]));
 	}
 
@@ -215,7 +215,7 @@ export namespace Arrays {
 	 * @param callbacks The array of callbacks to run.
 	 * @param args The arguments to pass to each callback.
 	 */
-	export function runSync<T extends Callback>(callbacks: T[], ...args: Parameters<T>) {
+	export function runSync<T extends Callback>(callbacks: ReadonlyArray<T>, ...args: Parameters<T>) {
 		for (const cb of callbacks) cb(...(args as unknown[]));
 	}
 
@@ -249,7 +249,7 @@ export namespace Arrays {
 	 * @param separator The separator to insert.
 	 * @returns The array with separators inserted.
 	 */
-	export function unsplit<T extends string>(array: T[], separator: string) {
+	export function unsplit<T extends string>(array: ReadonlyArray<T>, separator: string) {
 		const result = [];
 
 		for (let i = 0; i < array.size(); i++) {
@@ -286,6 +286,72 @@ export namespace Arrays {
 	export function fromMapO<K, V>(map: Map<K, V>) {
 		const result: { key: K; value: V }[] = [];
 		for (const [key, value] of map) result.push({ key, value });
+		return result;
+	}
+
+	/**
+	 * Creates a new array with the specified size, then fills each spot with the
+	 * result of the given callback at that index.
+	 *
+	 * @param size The size of the array to create.
+	 * @param filler The callback to run for each index.
+	 * @returns The new array.
+	 */
+	export function fConstruct<T extends defined>(size: number, filler: (i: number) => T) {
+		const result = new Array<T>(size);
+		for (let i = 0; i < size; i++) result[i] = filler(i);
+		return result;
+	}
+
+	/**
+	 * Pushes the specified value at every `n` index in the
+	 * array.
+	 *
+	 * @param arr The array to push the value into.
+	 * @param value The value to push.
+	 * @param n The index to push the value at.
+	 * @returns The input array.
+	 */
+	export function putEvery<T>(arr: ReadonlyArray<T>, n: number, value: T) {
+		const newArray = [];
+
+		for (let i = 0; i < arr.size(); i++) {
+			if (i === 0 ? n === 0 : i % n === 0) newArray.push(value);
+			newArray.push(arr[i]);
+		}
+
+		return newArray;
+	}
+
+	/**
+	 * Sections an array by the comparsing of values at the given comparator
+	 * key of each entry. The result of this function is an array of
+	 * arrays, where each sub-array contains all elements that
+	 * share equal values for the given key.
+	 *
+	 * This does not modify the input array.
+	 *
+	 * @param arr The array to section.
+	 * @param comparatorKey The comparator to use.
+	 * @param comparator The comparator to use, defaults to referential equality.
+	 * @returns The sectioned array.
+	 */
+	export function section<T extends {}, K extends keyof T>(
+		arr: ReadonlyArray<T>,
+		comparatorKey: K,
+		comparator: (a: T[K], b: T[K]) => boolean = (a, b) => a === b,
+	) {
+		const result: [comparatorValue: T[K], matchingEntries: T[]][] = [];
+
+		for (let i = 0; i < arr.size(); i++) {
+			const item = arr[i];
+			const comp = item[comparatorKey];
+
+			const entries = result.find(([value]) => comparator(value, comp));
+			if (entries) entries[1].push(item);
+			else result.push([comp, [item]]);
+		}
+
 		return result;
 	}
 }
