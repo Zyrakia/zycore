@@ -154,4 +154,28 @@ export namespace Objects {
 
 		return inverted;
 	}
+
+	/**
+	 * Returns an array that includes all keys in the given object.
+	 *
+	 * @param obj The object to get the keys from
+	 * @returns The list of keys in the object
+	 */
+	export function keys<T extends {}>(obj: T) {
+		const keys: (keyof T)[] = [];
+		for (const [k] of pairs(obj)) keys.push(k as keyof T);
+		return keys;
+	}
+
+	/**
+	 * Returns an array that includes all values in the given object.
+	 *
+	 * @param obj The object to get the values from
+	 * @returns The list of values in the object
+	 */
+	export function values<T extends {}>(obj: T) {
+		const values: T[keyof T][] = [];
+		for (const [, v] of pairs(obj)) values.push(v as T[keyof T]);
+		return values;
+	}
 }
