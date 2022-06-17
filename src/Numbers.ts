@@ -1,5 +1,6 @@
 import { Make } from '@rbxts/altmake';
 import { TweenService } from '@rbxts/services';
+import { Arrays } from 'Arrays';
 
 export namespace Numbers {
 	/**
@@ -203,6 +204,23 @@ export namespace Numbers {
 	 */
 	export function unmap(num: number, from: [number, number], to: [number, number]) {
 		return ((num - to[0]) * (from[1] - from[0])) / (to[1] - to[0]) + from[0];
+	}
+
+	/**
+	 * Returns a number formatted by separating
+	 * the thousands with commas.
+	 *
+	 * @param num The number to format.
+	 * @returns The formatted number.
+	 */
+	export function format(num: number) {
+		const [number, fraction] = tostring(num).gsub('-', '')[0].split('.');
+
+		return (
+			(num < 0 ? '-' : '') +
+			Arrays.putEvery(number.reverse().split(''), 3, ',').join('').reverse() +
+			(fraction ? '.' + fraction : '')
+		);
 	}
 
 	const generatedIds = new Set<number>();
